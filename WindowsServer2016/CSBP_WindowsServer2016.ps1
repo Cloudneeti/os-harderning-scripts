@@ -79,7 +79,7 @@ Configuration CSBP_WindowsServer2016 {
         # Configure 'Access this computer from the network'
         UserRightsAssignment Accessthiscomputerfromthenetwork {
             Policy       = 'Access_this_computer_from_the_network'
-            Identity     = 'Administrators, Authenticated Users'
+            Identity     = 'Administrators, Authenticated Users, Backup Operators'
         }
 
         # CceId: CCE-37072-6
@@ -1140,7 +1140,7 @@ Configuration CSBP_WindowsServer2016 {
             Ensure    = 'Present'
         }
 		
-		# Control no: AZ-WIN-00102
+		# Control no: AZ-WIN-00113
 		# DataSource: Audit Policy
 		# Audit Other Object Access Events
         AuditPolicySubcategory 'Audit Other Object Access Events (Success)'
@@ -1768,17 +1768,17 @@ Configuration CSBP_WindowsServer2016 {
            ValueType    = 'DWord'
            ValueData    = '0'
         }
-		
-		# CceId: CCE-38354-7
-		# DataSource: Registry Policy
-		# Ensure 'Allow Microsoft accounts to be optional' is set to 'Enabled'
-		Registry 'MSAOptional' {
-			Ensure     = 'Present'
-			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
-			ValueName  = 'MSAOptional'
-			ValueType  = 'DWord'
-			ValueData  = '1'
-		}
+
+        # CceId: CCE-38354-7
+        # DataSource: Registry Policy
+        # Ensure 'Allow Microsoft accounts to be optional' is set to 'Enabled'
+        Registry 'MSAOptional' {
+            Ensure     = 'Present'
+            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+            ValueName  = 'MSAOptional'
+            ValueType  = 'DWord'
+            ValueData  = '1'
+        }
 		
 		# CceId: CCE-38353-9
 		# DataSource: Registry Policy
@@ -2441,41 +2441,40 @@ Configuration CSBP_WindowsServer2016 {
 			ValueData    = '0'
 		}
 		
-		# CceId: CCE-36268-1
-		# DataSource: Registry Policy
-		# Ensure 'Windows Firewall: Public: Settings: Apply local connection security rules' is set to 'No'
-		Registry 'AllowLocalIPsecPolicyMerge' {
-			Ensure       = 'Present'
-			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
-			ValueName    = 'AllowLocalIPsecPolicyMerge'
-			ValueType    = 'DWord'
-			ValueData    = '0'
-		}
+        # CceId: CCE-36268-1
+        # DataSource: Registry Policy
+        # Ensure 'Windows Firewall: Public: Settings: Apply local connection security rules' is set to 'No'
+        Registry 'AllowLocalIPsecPolicyMerge' {
+        Ensure       = 'Present'
+            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
+            ValueName    = 'AllowLocalIPsecPolicyMerge'
+            ValueType    = 'DWord'
+            ValueData    = '0'
+        }
+
+        # CceId: CCE-37434-8
+        # DataSource: Registry Policy
+        # Ensure 'Windows Firewall: Public: Outbound connections' is set to 'Allow (default)'
+        Registry 'DefaultOutboundActionPublic' {
+        Ensure       = 'Present'
+            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
+            ValueName    = 'DefaultOutboundAction'
+            ValueType    = 'DWord'
+            ValueData    = '0'
+        }#>
+
+        # CceId: CCE-37862-0
+        # DataSource: Registry Policy
+        # Ensure 'Windows Firewall: Public: Firewall state' is set to 'On (recommended)'
+        Registry 'EnableFirewallPublic' {
+            Ensure       = 'Present'
+            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
+            ValueName    = 'EnableFirewall'
+            ValueType    = 'DWord'
+            ValueData    = '1'
+        }
 		
-		# CceId: CCE-37434-8
-		# DataSource: Registry Policy
-		# Ensure 'Windows Firewall: Public: Outbound connections' is set to 'Allow (default)'
-		Registry 'DefaultOutboundActionPublic' {
-			Ensure       = 'Present'
-			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
-			ValueName    = 'DefaultOutboundAction'
-			ValueType    = 'DWord'
-			ValueData    = '0'
-		}#>
-		
-		# CceId: CCE-37862-0
-		# DataSource: Registry Policy
-		# Ensure 'Windows Firewall: Public: Firewall state' is set to 'On (recommended)'
-		Registry 'EnableFirewallPublic' {
-			Ensure       = 'Present'
-			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
-			ValueName    = 'EnableFirewall'
-			ValueType    = 'DWord'
-			ValueData    = '1'
-		
-		}
-		
-		# Control no: CCE-37948-7
+        # CceId: CCE-37948-7
         # DataSource: Registry Policy
         # Ensure 'Application: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'
        Registry 'MaxSizeApplication' {
@@ -2486,7 +2485,7 @@ Configuration CSBP_WindowsServer2016 {
           ValueData  = '32768'
         }
 		
-		# Control no: AZ-WIN-00145
+        # Control no: AZ-WIN-00145
         # DataSource: Registry Policy
         # Ensure 'Turn off multicast name resolution' is set to 'Disabled'
        Registry 'EnableMulticast' {
@@ -2495,8 +2494,7 @@ Configuration CSBP_WindowsServer2016 {
           ValueName  = 'EnableMulticast'
           ValueType  = 'DWord'
           ValueData  = '1'
-        }
-		
+        }	
     }
  }
 
