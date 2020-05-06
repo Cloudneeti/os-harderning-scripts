@@ -79,7 +79,7 @@ Configuration CSBP_WindowsServer2016 {
         # Configure 'Access this computer from the network'
         UserRightsAssignment Accessthiscomputerfromthenetwork {
             Policy       = 'Access_this_computer_from_the_network'
-            Identity     = 'Administrators, Authenticated Users, Backup Operators'
+            Identity     = 'Administrators, Authenticated Users'
         }
 
         # CceId: CCE-37072-6
@@ -345,8 +345,8 @@ Configuration CSBP_WindowsServer2016 {
             Policy       = 'Take_ownership_of_files_or_other_objects'
             Identity     = 'Administrators'
          }
-         
-        # Control No: AZ-WIN-00184
+
+		# Control No: AZ-WIN-00184
         # DataSource: Security Policy
         # Bypass traverse checking
         UserRightsAssignment Bypasstraversechecking {
@@ -479,11 +479,11 @@ Configuration CSBP_WindowsServer2016 {
           # DataSource: Registry Policy
           # Ensure 'Network access: Sharing and security model for local accounts' is set to 'Classic - local users authenticate as themselves' 
           Network_access_Sharing_and_security_model_for_local_accounts = 'Classic - Local users authenticate as themselves'
-          
-          # Control no: AZ-WIN-00142
+		  
+		  # Control no: AZ-WIN-00142
           # DataSource: Registry Policy
-          # Ensure 'Network access: Restrict clients allowed to make remote calls to SAM' is set to 'Administrators: Remote Access: Allow'
-          # Network_access_Restrict_clients_allowed_to_make_remote_calls_to_SAM = 'Administrators: Remote Access: Allow'
+		  # Ensure 'Network access: Restrict clients allowed to make remote calls to SAM' is set to 'Administrators: Remote Access: Allow'
+		  # Network_access_Restrict_clients_allowed_to_make_remote_calls_to_SAM = 'Administrators: Remote Access: Allow'
 
           # CceId: CCE-37035-3
           # DataSource: Registry Policy
@@ -576,53 +576,53 @@ Configuration CSBP_WindowsServer2016 {
           User_Account_Control_Virtualize_file_and_registry_write_failures_to_per_user_locations = 'Enabled'
 
           # CceId: NOT_ASSIGNED
-          # Control no: AZ-WIN-00180
+		  # Control no: AZ-WIN-00180
           # DataSource: Registry Policy
           # Recovery console: Allow floppy copy and access to all drives and all folders
           Recovery_console_Allow_floppy_copy_and_access_to_all_drives_and_folders = 'Disabled'
-          
-          # CceId: CCE-38341-4
+		  
+		  # CceId: CCE-38341-4
           # DataSource: Registry Policy
-          # Ensure 'Network security: Allow Local System to use computer identity for NTLM' is set to 'Enabled' 
+		  # Ensure 'Network security: Allow Local System to use computer identity for NTLM' is set to 'Enabled' 
           Network_security_Allow_Local_System_to_use_computer_identity_for_NTLM = 'Enabled'
-          
-          # CceId: CCE-38095-6
+		  
+		  # CceId: CCE-38095-6
           # DataSource: Registry Policy
-          # Ensure 'Network access: Shares that can be accessed anonymously' is set to 'None' 
+		  # Ensure 'Network access: Shares that can be accessed anonymously' is set to 'None' 
           Network_access_Shares_that_can_be_accessed_anonymously = ''
-          
-          # CceId: CCE-37850-5
+		  
+		  # CceId: CCE-37850-5
           # DataSource: Registry Policy
-          # Ensure 'Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings' is set to 'Enabled'
-          Audit_Force_audit_policy_subcategory_settings_Windows_Vista_or_later_to_override_audit_policy_category_settings = 'Enabled'
-          
-          # CceId: CCE-37755-6
+		  # Ensure 'Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings' is set to 'Enabled'
+		  Audit_Force_audit_policy_subcategory_settings_Windows_Vista_or_later_to_override_audit_policy_category_settings = 'Enabled'
+		 
+		  # CceId: CCE-37755-6
           # DataSource: Registry Policy
-          # Ensure 'Network security: Configure encryption types allowed for Kerberos' is set to 'AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types' 
+		  # Ensure 'Network security: Configure encryption types allowed for Kerberos' is set to 'AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types' 
           Network_security_Configure_encryption_types_allowed_for_Kerberos = 'RC4_HMAC_MD5','AES128_HMAC_SHA1','AES256_HMAC_SHA1','FUTURE'
-          
-          # CceId: CCE-37194-8
+		 
+		  # CceId: CCE-37194-8
           # DataSource: Registry Policy
-          # Configure 'Network access: Remotely accessible registry paths' 
+		  # Configure 'Network access: Remotely accessible registry paths' 
           # BUG - https://github.com/PowerShell/SecurityPolicyDsc/issues/83
           # Network_access_Remotely_accessible_registry_paths = 'System\CurrentControlSet\Control\ProductOptions, System\CurrentControlSet\Control\Server Applications, SOFTWARE\Microsoft\Windows NT\CurrentVersion'
-          
-          # CceId: CCE-36173-3
+		
+		  # CceId: CCE-36173-3
           # DataSource: Registry Policy
-          # Ensure 'Network security: LAN Manager authentication level' is set to 'Send NTLMv2 response only. Refuse LM & NTLM'
+		  # Ensure 'Network security: LAN Manager authentication level' is set to 'Send NTLMv2 response only. Refuse LM & NTLM'
           Network_security_LAN_Manager_authentication_level = 'Send NTLMv2 responses only. Refuse LM & NTLM'
-          
-          # CceId: CCE-37701-0
+		  
+		  # CceId: CCE-37701-0
           # DataSource: Registry Policy
-          # Ensure 'Devices: Allowed to format and eject removable media' is set to 'Administrators'
-          Devices_Allowed_to_format_and_eject_removable_media = 'Administrators'
-          
-          # CceId: CCE-36347-3
+		  # Ensure 'Devices: Allowed to format and eject removable media' is set to 'Administrators'
+		  Devices_Allowed_to_format_and_eject_removable_media = 'Administrators'
+		  
+		  # CceId: CCE-36347-3
           # DataSource: Registry Policy
-          # Configure 'Network access: Remotely accessible registry paths and sub-paths' 
+		  # Configure 'Network access: Remotely accessible registry paths and sub-paths' 
           # BUG - https://github.com/PowerShell/SecurityPolicyDsc/issues/83
           #Network_access_Remotely_accessible_registry_paths_and_subpaths = 'System\CurrentControlSet\Control\Print\Printers, System\CurrentControlSet\Services\Eventlog, Software\Microsoft\OLAP Server, Software\Microsoft\Windows NT\CurrentVersion\Print, Software\Microsoft\Windows NT\CurrentVersion\Windows, System\CurrentControlSet\Control\ContentIndex, System\CurrentControlSet\Control\Terminal Server, System\CurrentControlSet\Control\Terminal Server\UserConfig, System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration, Software\Microsoft\Windows NT\CurrentVersion\Perflib, System\CurrentControlSet\Services\SysmonLog'
-          
+		 		  
           # CceId: CCE-37432-2
           # DataSource: Security Policy
           # Ensure 'Accounts: Guest account status' is set to 'Disabled'
@@ -862,39 +862,39 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # CceId: CCE-38327-3
-        # DataSource: Audit Policy
-        # Ensure 'Audit Authentication Policy Change' is set to 'Success'
-        AuditPolicySubcategory 'Audit Authentication Policy Change (Success)' {
+		
+		# CceId: CCE-38327-3
+		# DataSource: Audit Policy
+		# Ensure 'Audit Authentication Policy Change' is set to 'Success'
+		AuditPolicySubcategory 'Audit Authentication Policy Change (Success)' {
          Name      = 'Authentication Policy Change'
          Ensure    = 'Present'
          AuditFlag = 'Success'
-        }
-        
-        AuditPolicySubcategory 'Audit Authentication Policy Change (Failure)' {
+		}
+
+		AuditPolicySubcategory 'Audit Authentication Policy Change (Failure)' {
          Name      = 'Authentication Policy Change'
          Ensure    = 'Absent'
          AuditFlag = 'Failure'
-        }
-        
-        # CceId: CCE-38114-5
-        # DataSource: Audit Policy
-        # Ensure 'Audit Security State Change' is set to 'Success'
-        AuditPolicySubcategory 'Audit Security State Change (Success)' {
+		}
+		
+		# CceId: CCE-38114-5
+		# DataSource: Audit Policy
+		# Ensure 'Audit Security State Change' is set to 'Success'
+		AuditPolicySubcategory 'Audit Security State Change (Success)' {
          Name      = 'Security State Change'
          Ensure    = 'Present'
          AuditFlag = 'Success'
-        }
-        
-        AuditPolicySubcategory 'Audit Security State Change (Failure)' {
+		}
+
+		AuditPolicySubcategory 'Audit Security State Change (Failure)' {
          Name      = 'Security State Change'
          Ensure    = 'Absent'
          AuditFlag = 'Failure'
-        }
-        
-        # CceId: CCE-38028-7
-        # DataSource: Audit Policy
+		}
+		
+		# CceId: CCE-38028-7
+		# DataSource: Audit Policy
         # Ensure 'Audit Policy Change' is set to 'Success'
         AuditPolicySubcategory 'Audit Policy Change (Success)' 
         {
@@ -909,24 +909,24 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # CceId: CCE-37853-9
-        # DataSource: Audit Policy
-        # Ensure 'Audit IPsec Driver' is set to 'Success and Failure'
-        AuditPolicySubcategory 'Audit IPsec Driver (Failure)' {
+		
+		# CceId: CCE-37853-9
+		# DataSource: Audit Policy
+		# Ensure 'Audit IPsec Driver' is set to 'Success and Failure'
+		AuditPolicySubcategory 'Audit IPsec Driver (Failure)' {
          Name      = 'IPsec Driver'
          Ensure    = 'Present'
          AuditFlag = 'Failure'
-        }
-        
-        AuditPolicySubcategory 'Audit IPsec Driver (Success)' {
+		}
+
+		AuditPolicySubcategory 'Audit IPsec Driver (Success)' {
          Name      = 'IPsec Driver'
          Ensure    = 'Present'
          AuditFlag = 'Success'
-        }
-        
-        # CceId: CCE-38030-3
-        # DataSource: Audit Policy
+		}
+		
+		# CceId: CCE-38030-3
+		# DataSource: Audit Policy
         # Ensure 'Audit Other System Events' is set to 'Success and Failure'
         AuditPolicySubcategory 'Audit Other System Events (Failure)' 
         {
@@ -941,24 +941,24 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Success'
             Ensure    = 'Present'
         }
-        
-        # CceId: CCE-36322-6
-        # DataSource: Audit Policy
-        # Ensure 'Audit Other Logon/Logoff Events' is set to 'Success and Failure'
-        AuditPolicySubcategory 'Audit Other Logon/Logoff Events (Failure)' {
-            Name      = 'Other Logon/Logoff Events'
-            Ensure    = 'Present'
-            AuditFlag = 'Failure'
-        }
-        
-        AuditPolicySubcategory 'Audit Other Logon/Logoff Events (Success)' {
-            Name      = 'Other Logon/Logoff Events'
-            Ensure    = 'Present'
-            AuditFlag = 'Success'
-        }
-        
-        # CceId: CCE-36144-4
-        # DataSource: Audit Policy
+		
+		# CceId: CCE-36322-6
+		# DataSource: Audit Policy
+		# Ensure 'Audit Other Logon/Logoff Events' is set to 'Success and Failure'
+		AuditPolicySubcategory 'Audit Other Logon/Logoff Events (Failure)' {
+			Name      = 'Other Logon/Logoff Events'
+			Ensure    = 'Present'
+			AuditFlag = 'Failure'
+		}
+
+		AuditPolicySubcategory 'Audit Other Logon/Logoff Events (Success)' {
+			Name      = 'Other Logon/Logoff Events'
+			Ensure    = 'Present'
+			AuditFlag = 'Success'
+		}
+		
+		# CceId: CCE-36144-4
+		# DataSource: Audit Policy
         # Ensure 'Audit Security System Extension' is set to 'Success'
         AuditPolicySubcategory 'Audit Security System Extension (Success)' 
         {
@@ -966,40 +966,40 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Success'
             Ensure    = 'Present'
         }
+		
+		# CceId: CCE-37133-6
+		# DataSource: Audit Policy
+		# Ensure 'Audit Account Lockout' is set to 'Success and Failure'
+		AuditPolicySubcategory 'Audit Account Lockout (Success)' {
+			Name      = 'Account Lockout'
+			Ensure    = 'Present'
+			AuditFlag = 'Success'
+		}
 
-        # CceId: CCE-37133-6
-        # DataSource: Audit Policy
-        # Ensure 'Audit Account Lockout' is set to 'Success and Failure'
-        AuditPolicySubcategory 'Audit Account Lockout (Success)' {
-            Name      = 'Account Lockout'
-            Ensure    = 'Present'
-            AuditFlag = 'Success'
-        }
-        
-        AuditPolicySubcategory 'Audit Account Lockout (Failure)' {
-            Name      = 'Account Lockout'
-            Ensure    = 'Present'
-            AuditFlag = 'Failure'
-        }
-        
-        # CceId: CCE-36320-0
-        # DataSource: Audit Policy
-        # Ensure 'Audit Authorization Policy Change' is set to 'Success'
-        AuditPolicySubcategory 'Audit Authorization Policy Change (Success)' {
-            Name      = 'Authorization Policy Change'
-            Ensure    = 'Present'
-            AuditFlag = 'Success'
-        }
-        
-        AuditPolicySubcategory 'Audit Authorization Policy Change (Failure)' {
-            Name      = 'Authorization Policy Change'
-            Ensure    = 'Absent'
-            AuditFlag = 'Failure'
-        }
-        
-        # CceId: CCE-37132-8
-        # DataSource: Audit Policy
-        # Ensure 'Audit System Integrity' is set to 'Success'
+		AuditPolicySubcategory 'Audit Account Lockout (Failure)' {
+			Name      = 'Account Lockout'
+			Ensure    = 'Present'
+			AuditFlag = 'Failure'
+		}
+		
+		# CceId: CCE-36320-0
+		# DataSource: Audit Policy
+		# Ensure 'Audit Authorization Policy Change' is set to 'Success'
+		AuditPolicySubcategory 'Audit Authorization Policy Change (Success)' {
+			Name      = 'Authorization Policy Change'
+			Ensure    = 'Present'
+			AuditFlag = 'Success'
+		}
+
+		AuditPolicySubcategory 'Audit Authorization Policy Change (Failure)' {
+			Name      = 'Authorization Policy Change'
+			Ensure    = 'Absent'
+			AuditFlag = 'Failure'
+		}
+		
+		# CceId: CCE-37132-8
+		# DataSource: Audit Policy
+		# Ensure 'Audit System Integrity' is set to 'Success'
         AuditPolicySubcategory 'Audit System Integrity (Failure)' 
         {
             Name      = 'System Integrity'
@@ -1013,25 +1013,25 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Success'
             Ensure    = 'Present'
         }
-        
-        # CceId: CCE-36267-3
-        # DataSource: Audit Policy
-        # Ensure 'Audit Sensitive Privilege Use' is set to 'Success and Failure'
-        AuditPolicySubcategory 'Audit Sensitive Privilege Use (Failure)' {
-            Name      = 'Sensitive Privilege Use'
-            Ensure    = 'Present'
-            AuditFlag = 'Failure'
-        }
-        
-        AuditPolicySubcategory 'Audit Sensitive Privilege Use (Success)' {
-            Name      = 'Sensitive Privilege Use'
-            Ensure    = 'Present'
-            AuditFlag = 'Success'
-        }
-        
-        # Control no: AZ-WIN-00108
-        # DataSource: Audit Policy
-        # Audit IPsec Extended Mode
+		
+		# CceId: CCE-36267-3
+		# DataSource: Audit Policy
+		# Ensure 'Audit Sensitive Privilege Use' is set to 'Success and Failure'
+		AuditPolicySubcategory 'Audit Sensitive Privilege Use (Failure)' {
+			Name      = 'Sensitive Privilege Use'
+			Ensure    = 'Present'
+			AuditFlag = 'Failure'
+		}
+
+		AuditPolicySubcategory 'Audit Sensitive Privilege Use (Success)' {
+			Name      = 'Sensitive Privilege Use'
+			Ensure    = 'Present'
+			AuditFlag = 'Success'
+		}
+		
+		# Control no: AZ-WIN-00108
+		# DataSource: Audit Policy
+		# Audit IPsec Extended Mode
         AuditPolicySubcategory 'Audit IPsec Extended Mode (Success)'
         {
             Name      = 'IPsec Extended Mode'
@@ -1045,20 +1045,20 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00100
-        # DataSource: Audit Policy
-        # Audit Detailed File Share
+		
+		# Control no: AZ-WIN-00100
+		# DataSource: Audit Policy
+		# Audit Detailed File Share
         AuditPolicySubcategory 'Audit Detailed File Share (Success)'
         {
             Name      = 'Detailed File Share'
             AuditFlag = 'Success'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00105
-        # DataSource: Audit Policy
-        # Audit Filtering Platform Packet Drop
+		
+		# Control no: AZ-WIN-00105
+		# DataSource: Audit Policy
+		# Audit Filtering Platform Packet Drop
         AuditPolicySubcategory 'Audit Filtering Platform Packet Drop (Success)'
         {
             Name      = 'Filtering Platform Packet Drop'
@@ -1072,10 +1072,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00111
-        # DataSource: Audit Policy
-        # Audit MPSSVC Rule-Level Policy Change
+		
+		# Control no: AZ-WIN-00111
+		# DataSource: Audit Policy
+		# Audit MPSSVC Rule-Level Policy Change
         AuditPolicySubcategory 'Audit MPSSVC Rule-Level Policy Change (Success)'
         {
             Name      = 'MPSSVC Rule-Level Policy Change'
@@ -1089,10 +1089,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00110
-        # DataSource: Audit Policy
-        # Audit Kernel Object
+		
+		# Control no: AZ-WIN-00110
+		# DataSource: Audit Policy
+		# Audit Kernel Object
         AuditPolicySubcategory 'Audit Kernel Object (Success)'
         {
             Name      = 'Kernel Object'
@@ -1106,10 +1106,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00003
-        # DataSource: Audit Policy
-        # Audit IPsec Main Mode
+		
+		# Control no: AZ-WIN-00003
+		# DataSource: Audit Policy
+		# Audit IPsec Main Mode
         AuditPolicySubcategory 'Audit IPsec Main Mode (Success)'
         {
             Name      = 'IPsec Main Mode'
@@ -1122,10 +1122,10 @@ Configuration CSBP_WindowsServer2016 {
             Name      = 'IPsec Main Mode'
             AuditFlag = 'Failure'
         }
-        
-        # Control no: AZ-WIN-00102
-        # DataSource: Audit Policy
-        # Audit File Share
+		
+		# Control no: AZ-WIN-00102
+		# DataSource: Audit Policy
+		# Audit File Share
         AuditPolicySubcategory 'Audit File Share (Success)'
         {
             Name      = 'File Share'
@@ -1139,10 +1139,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00113
-        # DataSource: Audit Policy
-        # Audit Other Object Access Events
+		
+		# Control no: AZ-WIN-00102
+		# DataSource: Audit Policy
+		# Audit Other Object Access Events
         AuditPolicySubcategory 'Audit Other Object Access Events (Success)'
         {
             Name      = 'Other Object Access Events'
@@ -1156,10 +1156,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00109
-        # DataSource: Audit Policy
-        # Audit IPsec Quick Mode
+		
+		# Control no: AZ-WIN-00109
+		# DataSource: Audit Policy
+		# Audit IPsec Quick Mode
         AuditPolicySubcategory 'Audit IPsec Quick Mode (Success)'
         {
             Name      = 'IPsec Quick Mode'
@@ -1173,10 +1173,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00106
-        # DataSource: Audit Policy
-        # Audit Filtering Platform Policy Change
+		
+		# Control no: AZ-WIN-00106
+		# DataSource: Audit Policy
+		# Audit Filtering Platform Policy Change
         AuditPolicySubcategory 'Audit Filtering Platform Policy Change (Success)'
         {
             Name      = 'Filtering Platform Policy Change'
@@ -1190,10 +1190,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00107
-        # DataSource: Audit Policy
-        # Audit Handle Manipulation
+		
+		# Control no: AZ-WIN-00107
+		# DataSource: Audit Policy
+		# Audit Handle Manipulation
         AuditPolicySubcategory 'Audit Handle Manipulation (Success)'
         {
             Name      = 'Handle Manipulation'
@@ -1207,10 +1207,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00096
-        # DataSource: Audit Policy
-        # Audit Network Policy Server
+		
+		# Control no: AZ-WIN-00096
+		# DataSource: Audit Policy
+		# Audit Network Policy Server
         AuditPolicySubcategory 'Audit Network Policy Server (Success)'
         {
             Name      = 'Network Policy Server'
@@ -1224,10 +1224,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00006
-        # DataSource: Audit Policy
-        # Audit Other Account Logon Events
+		
+		# Control no: AZ-WIN-00006
+		# DataSource: Audit Policy
+		# Audit Other Account Logon Events
         AuditPolicySubcategory "Audit Other Account Logon Events (Success)"
         {
             Name      = 'Other Account Logon Events'
@@ -1241,10 +1241,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00104
-        # DataSource: Audit Policy
-        # Audit Filtering Platform Connection
+		
+		# Control no: AZ-WIN-00104
+		# DataSource: Audit Policy
+		# Audit Filtering Platform Connection
         AuditPolicySubcategory 'Audit Filtering Platform Connection (Success)'
         {
             Name      = 'Filtering Platform Connection'
@@ -1258,10 +1258,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00099
-        # DataSource: Audit Policy
-        # Audit Application Generated
+		
+		# Control no: AZ-WIN-00099
+		# DataSource: Audit Policy
+		# Audit Application Generated
         AuditPolicySubcategory 'Audit Application Generated (Success)'
         {
             Name      = 'Application Generated'
@@ -1275,10 +1275,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00101
-        # DataSource: Audit Policy
-        # Audit DPAPI Activity
+		
+		# Control no: AZ-WIN-00101
+		# DataSource: Audit Policy
+		# Audit DPAPI Activity
         AuditPolicySubcategory 'Audit DPAPI Activity (Success)'
 
         {
@@ -1293,10 +1293,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00103
-        # DataSource: Audit Policy
-        # Audit File System
+		
+		# Control no: AZ-WIN-00103
+		# DataSource: Audit Policy
+		# Audit File System
         AuditPolicySubcategory 'Audit File System (Success)'
         {
             Name      = 'File System'
@@ -1310,10 +1310,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00009
-        # DataSource: Audit Policy
-        # Audit Process Termination
+		
+		# Control no: AZ-WIN-00009
+		# DataSource: Audit Policy
+		# Audit Process Termination
         AuditPolicySubcategory 'Audit Process Termination (Success)'
         {
             Name      = 'Process Termination'
@@ -1327,10 +1327,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00117
-        # DataSource: Audit Policy
-        # Audit SAM
+		
+		# Control no: AZ-WIN-00117
+		# DataSource: Audit Policy
+		# Audit SAM
         AuditPolicySubcategory 'Audit SAM (Success)'
         {
             Name      = 'SAM'
@@ -1344,20 +1344,20 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00115
-        # DataSource: Audit Policy
-        # Audit Registry
+		
+		# Control no: AZ-WIN-00115
+		# DataSource: Audit Policy
+		# Audit Registry
         AuditPolicySubcategory 'Audit Registry (Success)'
         {
             Name      = 'Registry'
             AuditFlag = 'Success'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00114
-        # DataSource: Audit Policy
-        # Audit Other Policy Change Events
+		
+		# Control no: AZ-WIN-00114
+		# DataSource: Audit Policy
+		# Audit Other Policy Change Events
         AuditPolicySubcategory 'Audit Other Policy Change Events (Success)'
         {
             Name      = 'Other Policy Change Events'
@@ -1371,10 +1371,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00097
-        # DataSource: Audit Policy
-        # Audit Other Privilege Use Events
+		
+		# Control no: AZ-WIN-00097
+		# DataSource: Audit Policy
+		# Audit Other Privilege Use Events
         AuditPolicySubcategory 'Audit Other Privilege Use Events (Success)'
         {
             Name      = 'Other Privilege Use Events'
@@ -1388,10 +1388,10 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Absent'
         }
-        
-        # Control no: AZ-WIN-00116
-        # DataSource: Audit Policy
-        # Audit RPC Events
+		
+		# Control no: AZ-WIN-00116
+		# DataSource: Audit Policy
+		# Audit RPC Events
         AuditPolicySubcategory 'Audit RPC Events (Success)'
         {
             Name      = 'RPC Events'
@@ -1405,18 +1405,18 @@ Configuration CSBP_WindowsServer2016 {
             AuditFlag = 'Failure'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00026
-        # DataSource: Audit Policy
-        # Ensure 'Audit Group Membership' is set to 'Success'
+		
+		# Control no: AZ-WIN-00026
+		# DataSource: Audit Policy
+		# Ensure 'Audit Group Membership' is set to 'Success'
         AuditPolicySubcategory 'Audit Group Membership (Success)'
         {
             Name      = 'Group Membership'
             AuditFlag = 'Success'
             Ensure    = 'Present'
         }
-        
-        # Control no: AZ-WIN-00168
+		
+		# Control no: AZ-WIN-00168
         # DataSource: Registry Policy
         # Ensure 'Allow Input Personalization' is set to 'Disabled'
         Registry 'AllowInputPersonalization' {
@@ -1428,7 +1428,7 @@ Configuration CSBP_WindowsServer2016 {
         }
 
         # CceId: NOT_ASSIGNED
-        # Control no: AZ-WIN-00175
+		# Control no: AZ-WIN-00175
         # DataSource: Registry Policy
         # Disable SMB v1 server
 
@@ -1441,7 +1441,7 @@ Configuration CSBP_WindowsServer2016 {
         }
 
         # CceId: NOT_ASSIGNED
-        # Control no: AZ-WIN-00176
+		# Control no: AZ-WIN-00176
         # DataSource: Registry Policy
         # Disable Windows Search Service
 
@@ -1454,7 +1454,7 @@ Configuration CSBP_WindowsServer2016 {
        }
 
         # CceId: NOT_ASSIGNED
-        # Control no: AZ-WIN-00171
+		# Control no: AZ-WIN-00171
         # DataSource: Registry Policy
         # Ensure 'Enable insecure guest logons' is set to 'Disabled'
         Registry 'AllowInsecureGuestAuth' {
@@ -1464,8 +1464,8 @@ Configuration CSBP_WindowsServer2016 {
            ValueType    = 'DWord'
            ValueData    = '0'
         }
-        
-        # CceId: CCE-38002-2
+		
+		# CceId: CCE-38002-2
         # DataSource: Registry Policy
         # Ensure 'Prohibit installation and configuration of Network Bridge on your DNS domain network' is set to 'Enabled'
         Registry 'NC_AllowNetBridge_NLA' {
@@ -1477,7 +1477,7 @@ Configuration CSBP_WindowsServer2016 {
         }
 
         # CceId: NOT_ASSIGNED
-        # Control no: AZ-WIN-00172
+		# Control no: AZ-WIN-00172
         # DataSource: Registry Policy
         # Ensure 'Prohibit use of Internet Connection Sharing on your DNS domain network' is set to 'Enabled'
         Registry 'NC_PersonalFirewallConfig' {
@@ -1511,7 +1511,7 @@ Configuration CSBP_WindowsServer2016 {
         }
 
         # CceId: NOT_ASSIGNED
-        # Control no: AZ-WIN-00170
+		# Control no: AZ-WIN-00170
         # DataSource: Registry Policy
         # Ensure 'Continue experiences on this device' is set to 'Disabled'
         Registry 'EnableCdp' {
@@ -1589,7 +1589,7 @@ Configuration CSBP_WindowsServer2016 {
        }
 
         # CceId: NOT_ASSIGNED
-        # Control no: AZ-WIN-00181
+		# Control no: AZ-WIN-00181
         # DataSource: Registry Policy
         # Shutdown: Clear virtual memory pagefile
         Registry 'ClearPageFileAtShutdown' {
@@ -1612,7 +1612,7 @@ Configuration CSBP_WindowsServer2016 {
        }
 
         # CceId: NOT_ASSIGNED
-        # Control no: AZ-WIN-00169
+		# Control no: AZ-WIN-00169
         # DataSource: Registry Policy
         # Ensure 'Allow Telemetry' is set to 'Enabled: 0 - Security [Enterprise Only]'
        Registry 'AllowTelemetry' {
@@ -1671,81 +1671,81 @@ Configuration CSBP_WindowsServer2016 {
 		# Control no: AZ-WIN-00173
         # DataSource: Registry Policy
         # Disable 'Configure local setting override for reporting to Microsoft MAPS'
-        Registry 'LocalSettingOverrideSpynetReporting' {
+       Registry 'LocalSettingOverrideSpynetReporting' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\SpyNet'
           ValueName  = 'LocalSettingOverrideSpynetReporting'
           ValueType  = 'DWord'
           ValueData  = '0'
-        }
+       }
 
         # CceId: NOT_ASSIGNED
 		# Control no: AZ-WIN-00178
         # DataSource: Registry Policy
         # Enable 'Turn on behavior monitoring'
-        Registry 'DisableBehaviorMonitoring' {
+       Registry 'DisableBehaviorMonitoring' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection'
           ValueName  = 'DisableBehaviorMonitoring'
           ValueType  = 'DWord'
           ValueData  = '0'
-        }
+       }
 
         # CceId: NOT_ASSIGNED
 		# Control no: AZ-WIN-00177
         # DataSource: Registry Policy
         # Enable 'Scan removable drives' by setting DisableRemovableDriveScanning to 0
-        Registry 'DisableRemovableDriveScanning' {
+       Registry 'DisableRemovableDriveScanning' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Scan'
           ValueName  = 'DisableRemovableDriveScanning'
           ValueType  = 'DWord'
           ValueData  = '0'
-        }
+       }
 
         # CceId: CCE-36400-0
         # DataSource: Registry Policy
         # Ensure 'Allow user control over installs' is set to 'Disabled'
-        Registry 'EnableUserControl' {
+       Registry 'EnableUserControl' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Installer'
           ValueName  = 'EnableUserControl'
           ValueType  = 'DWord'
           ValueData  = '0'
-        }
+       }
 
         # CceId: CCE-36977-7
         # DataSource: Registry Policy
         # Ensure 'Sign-in last interactive user automatically after a system-initiated restart' is set to 'Disabled'
-        Registry 'DisableAutomaticRestartSignOn' {
+       Registry 'DisableAutomaticRestartSignOn' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
           ValueName  = 'DisableAutomaticRestartSignOn'
           ValueType  = 'DWord'
           ValueData  = '1'
-        }
+       }
 
         # CceId: CCE-36254-1
         # DataSource: Registry Policy
         # Ensure 'Allow Basic authentication' is set to 'Disabled'
-        Registry 'AllowBasic' {
+       Registry 'AllowBasic' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client'
           ValueName  = 'AllowBasic'
           ValueType  = 'DWord'
           ValueData  = '0'
-        } 
+       } 
 
         # CceId: CCE-38223-4
         # DataSource: Registry Policy
         # Ensure 'Allow unencrypted traffic' is set to 'Disabled'
-        Registry 'AllowUnencryptedTraffic' {
+       Registry 'AllowUnencryptedTraffic' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WinRM\Client'
           ValueName  = 'AllowUnencryptedTraffic'
           ValueType  = 'DWord'
           ValueData  = '0'
-        }
+       }
 
         # CceId: CCE-38318-2
         # DataSource: Registry Policy
@@ -1756,7 +1756,7 @@ Configuration CSBP_WindowsServer2016 {
           ValueName  = 'AllowDigest'
           ValueType  = 'DWord'
           ValueData  = '0'
-        }
+       }
 
         # CceId: CCE-37490-0
         # DataSource: Registry Policy
@@ -1768,721 +1768,735 @@ Configuration CSBP_WindowsServer2016 {
            ValueType    = 'DWord'
            ValueData    = '0'
         }
-
-        # CceId: CCE-38354-7
-        # DataSource: Registry Policy
-        # Ensure 'Allow Microsoft accounts to be optional' is set to 'Enabled'
-        Registry 'MSAOptional' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
-            ValueName  = 'MSAOptional'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-38353-9
-        # DataSource: Registry Policy
-        # Ensure 'Do not display network selection UI' is set to 'Enabled'
-        Registry 'DontDisplayNetworkSelectionUI' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System'
-            ValueName  = 'DontDisplayNetworkSelectionUI'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-38347-1
-        # DataSource: Registry Policy
-        # Ensure 'Prevent enabling lock screen camera' is set to 'Enabled' 
-        Registry 'NoLockScreenCamera' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization'
-            ValueName  = 'NoLockScreenCamera'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-35893-7
-        # DataSource: Registry Policy
-        # Ensure 'Turn off app notifications on the lock screen' is set to 'Enabled' 
-        Registry 'DisableLockScreenAppNotifications' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System'
-            ValueName  = 'DisableLockScreenAppNotifications'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-38348-9
-        # DataSource: Registry Policy
-        # Ensure 'Prevent enabling lock screen slide show' is set to 'Enabled'
-        Registry 'NoLockScreenSlideshow' {
-            Ensure       = 'Present'
-            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization'
-            ValueName    = 'NoLockScreenSlideshow'
-            ValueType    = 'DWord'
-            ValueData    = '1'
-        }
-        
-        # CceId: CCE-38338-0
-        # DataSource: Registry Policy
-        # Ensure 'Minimize the number of simultaneous connections to the Internet or a Windows Domain' is set to 'Enabled'
-        Registry 'fMinimizeConnections' {
-            Ensure    = 'Present'
-            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WcmSvc\GroupPolicy'
-            ValueName = 'fMinimizeConnections'
-            ValueType = 'DWord'
-            ValueData = '1'
-        }
-        
-        # CceId: CCE-38276-2
-        # DataSource: Registry Policy
-        # Ensure 'Setup: Control Event Log behavior when the log file reaches its maximum size' is set to 'Disabled'
-        Registry 'RetentionSetupLog' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup'
-            ValueName  = 'Retention'
-            ValueType  = 'String'
-            ValueData  = '0'
-        }
-        
-        # CceId: CCE-38217-6
-        # DataSource: Registry Policy
-        # Ensure 'Set the default behavior for AutoRun' is set to 'Enabled: Do not execute any autorun commands'
-        Registry 'NoAutorun' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
-            ValueName  = 'NoAutorun'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-38180-6
-        # DataSource: Registry Policy
-        # Ensure 'Do not use temporary folders per session' is set to 'Disabled'
-        Registry 'PerSessionTempDir' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
-            ValueName  = 'PerSessionTempDir'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37946-1
-        # DataSource: Registry Policy
-        # Ensure 'Do not delete temp folders upon exit' is set to 'Disabled'
-        Registry 'DeleteTempDirsOnExit' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
-            ValueName  = 'DeleteTempDirsOnExit'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37929-7
-        # DataSource: Registry Policy
-        # Ensure 'Always prompt for password upon connection' is set to 'Enabled'
-        Registry 'fPromptForPassword' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
-            ValueName  = 'fPromptForPassword'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37912-3
-        # DataSource: Registry Policy
-        # Ensure 'Boot-Start Driver Initialization Policy' is set to 'Enabled: Good, unknown and bad but critical'
-        Registry 'DriverLoadPolicy' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies\EarlyLaunch'
-            ValueName  = 'DriverLoadPolicy'
-            ValueType  = 'DWord'
-            ValueData  = '3'
-        }
-        
-        # CceId: CCE-37775-4
-        # DataSource: Registry Policy
-        # Ensure 'Application: Control Event Log behavior when the log file reaches its maximum size' is set to 'Disabled'
-        Registry 'RetentionApplicationLog' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application'
-            ValueName  = 'Retention'
-            ValueType  = 'String'
-            ValueData  = '0'
-        }
-        
-        # CceId: CCE-36925-6
-        # DataSource: Registry Policy
-        # Ensure 'Include command line in process creation events' is set to 'Disabled'
-        Registry 'ProcessCreationIncludeCmdLine_Enabled' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit'
-            ValueName  = 'ProcessCreationIncludeCmdLine_Enabled'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37636-8
-        # DataSource: Registry Policy
-        # Ensure 'Disallow Autoplay for non-volume devices' is set to 'Enabled'
-        Registry 'NoAutoplayfornonVolume' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer'
-            ValueName  = 'NoAutoplayfornonVolume'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-36000-8
-        # DataSource: Registry Policy
-        # Ensure 'Disallow WinRM from storing RunAs credentials' is set to 'Enabled'
-        Registry 'DisableRunAs' {
-            Ensure    = 'Present'
-            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WinRM\Service'
-            ValueName = 'DisableRunAs'
-            ValueType = 'DWord'
-            ValueData = '1'
-        }
-        
-        # CceId: CCE-35859-8
-        # DataSource: Registry Policy
-        # Ensure 'Configure Windows SmartScreen' is set to 'Enabled' 
-        Registry 'EnableSmartScreen' {
-            Ensure    = 'Present'
-            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System'
-            ValueName = 'EnableSmartScreen'
-            ValueType = 'DWord'
-            ValueData = '1'
-        }
-        
-        # CceId: CCE-36254-1
-        # DataSource: Registry Policy
-        # Ensure 'Allow Basic authentication' is set to 'Disabled' 
-        Registry 'AllowBasic1' {
-            Ensure    = 'Present'
-            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WinRM\Service'
-            ValueName = 'AllowBasic'
-            ValueType = 'DWord'
-            ValueData = '0'
-        }
-        
-        # CceId: CCE-37126-0
-        # DataSource: Registry Policy
-        # Ensure 'Prevent downloading of enclosures' is set to 'Enabled'
-        Registry 'DisableEnclosureDownload' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds'
-            ValueName  = 'DisableEnclosureDownload'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37534-5
-        # DataSource: Registry Policy
-        # Ensure 'Do not display the password reveal button' is set to 'Enabled'
-        Registry 'DisablePasswordReveal' {
-            Ensure      = 'Present'
-            Key         = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CredUI'
-            ValueName   = 'DisablePasswordReveal'
-            ValueType   = 'DWord'
-            ValueData   = '1'
-        }
-        
-        # CceId: CCE-36223-6
-        # DataSource: Registry Policy
-        # Ensure 'Do not allow passwords to be saved' is set to 'Enabled'
-        Registry 'DisablePasswordSaving' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
-            ValueName  = 'DisablePasswordSaving'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37567-5
-        # DataSource: Registry Policy
-        # Ensure 'Require secure RPC communication' is set to 'Enabled'
-        Registry 'fEncryptRPCTraffic' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
-            ValueName  = 'fEncryptRPCTraffic'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-36625-2
-        # DataSource: Registry Policy
-        # Ensure 'Turn off downloading of print drivers over HTTP' is set to 'Enabled'
-        Registry 'DisableWebPnPDownload' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsNT\Printers'
-            ValueName  = 'DisableWebPnPDownload'
-            ValueType  = 'DWord'
-            ValueData  = '0'
-        }
-        
-        # CceId: CCE-36160-0
-        # DataSource: Registry Policy
-        # Ensure 'System: Control Event Log behavior when the log file reaches its maximum size' is set to 'Disabled'
-        Registry 'RetentionSystemLog' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\System'
-            ValueName  = 'Retention'
-            ValueType  = 'String'
-            ValueData  = '0'
-        }
-        
-        # CceId: CCE-36627-8
-        # DataSource: Registry Policy
-        # Ensure 'Set client connection encryption level' is set to 'Enabled: High Level'
-        Registry 'MinEncryptionLevel' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
-            ValueName  = 'MinEncryptionLevel'
-            ValueType  = 'DWord'
-            ValueData  = '3'
-        }
-        
-        # CceId: CCE-37695-4
-        # DataSource: Registry Policy
-        # Ensure 'Security: Specify the maximum log file size (KB)' is set to 'Enabled: 196,608 or greater'
-        Registry 'MaxSizeSecurityLog' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security'
-            ValueName  = 'MaxSize'
-            ValueType  = 'DWord'
-            ValueData  = '196608'
-        }
-        
-        # CceId: CCE-37621-0
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Private: Settings: Display a notification' is set to 'No'
-        Registry 'DisableNotificationsPrivate' {
-            Ensure       = 'Present'
-            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
-            ValueName    = 'DisableNotifications'
-            ValueType    = 'DWord'
-            ValueData    = '1'
-        }
-        
-        # CceId: CCE-36092-5
-        # DataSource: Registry Policy
-        # Ensure 'System Minimum session security for NTLM SSP based (including secure RPC) clients: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'
-        Registry 'MaxSizeSystemLog' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\System'
-            ValueName  = 'MaxSize'
-            ValueType  = 'DWord'
-            ValueData  = '32768'
-        }
-        
-        # CceId: CCE-37526-1
-        # DataSource: Registry Policy
-        # Ensure 'Setup: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'
-        Registry 'MaxSizeSetupLog' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup'
-            ValueName  = 'MaxSize'
-            ValueType  = 'DWord'
-            ValueData  = '32768'
-        }
-        
-        # CceId: CCE-37145-0
-        # DataSource: Registry Policy
-        # Ensure 'Security: Control Event Log behavior when the log file reaches its maximum size' is set to 'Disabled'
-        Registry 'RetentionSecurityLog' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security'
-            ValueName  = 'Retention'
-            ValueType  = 'String'
-            ValueData  = '0'
-        }
-        
-        # CceId: CCE-36875-3
-        # DataSource: Registry Policy
-        # Ensure 'Turn off Autoplay' is set to 'Enabled: All drives'
-        Registry 'NoDriveTypeAutoRun' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
-            ValueName  = 'NoDriveTypeAutoRun'
-            ValueType  = 'DWord'
-            ValueData  = '255'
-        }
-        
-        # CceId: CCE-37346-4
-        # DataSource: Registry Policy
-        # Ensure 'Enable RPC Endpoint Mapper Client Authentication' is set to 'Enabled' (MS only)
-        Registry 'EnableAuthEpResolution' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Rpc'
-            ValueName  = 'EnableAuthEpResolution'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00152
-        # DataSource: Registry Policy
-        # Specify the interval to check for definition updates
-        Registry 'SignatureUpdateInterval' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Signature Updates'
-            ValueName  = 'SignatureUpdateInterval'
-            ValueType  = 'DWord'
-            ValueData  = '8'
-        }
-        
-        # Control no: AZ-WIN-00133
-        # DataSource: Registry Policy
-        # Ensure 'Allow search and Cortana to use location' is set to 'Disabled'
-        Registry 'AllowSearchToUseLocation' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
-            ValueName  = 'AllowSearchToUseLocation'
-            ValueType  = 'DWord'
-            ValueData  = '0'
-        }
-        
-        # Control no: AZ-WIN-00130
-        # DataSource: Registry Policy
-        # Ensure 'Allow Cortana above lock screen' is set to 'Disabled'
-        Registry 'AllowCortanaAboveLock' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
-            ValueName  = 'AllowCortanaAboveLock'
-            ValueType  = 'DWord'
-            ValueData  = '0'
-        }
-        
-        # Control no: AZ-WIN-00131
-        # DataSource: Registry Policy
-        # Ensure 'Allow Cortana' is set to 'Disabled'
-        Registry 'AllowCortana' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
-            ValueName  = 'AllowCortana'
-            ValueType  = 'DWord'
-            ValueData  = '0'
-        }
-        
-        # Control no: AZ-WIN-00140
-        # DataSource: Registry Policy
-        # Ensure 'Do not show feedback notifications' is set to 'Enabled'
-        Registry 'DoNotShowFeedbackNotifications' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
-            ValueName  = 'DoNotShowFeedbackNotifications'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37843-0
-        # DataSource: Registry Policy
-        # Ensure 'Enable Windows NTP Client' is set to 'Enabled'
-        Registry 'NTPClientEnabled' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\W32Time\TimeProviders\NtpClient'
-            ValueName  = 'Enabled'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00126
-        # DataSource: Registry Policy
-        # Enable 'Send file samples when further analysis is required' for 'Send Safe Samples'
-        Registry 'SubmitSamplesConsent' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\SpyNet'
-            ValueName  = 'SubmitSamplesConsent'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00138
-        # DataSource: Registry Policy
-        # Ensure 'Block user from showing account details on sign-in' is set to 'Enabled'
-        Registry 'BlockUserFromShowingAccountDetailsOnSignin' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System'
-            ValueName  = 'BlockUserFromShowingAccountDetailsOnSignin'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00120
-        # DataSource: Registry Policy
-        # Devices: Allow undock without having to log on
-        Registry 'UndockWithoutLogon' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System'
-            ValueName  = 'UndockWithoutLogon'
-            ValueType  = 'DWord'
-            ValueData  = '0'
-        }
-        
-        # Control no: AZ-WIN-00156
-        # DataSource: Registry Policy
-        # Detect change from default RDP port
-        Registry 'PortNumber' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp'
-            ValueName  = 'PortNumber'
-            ValueType  = 'DWord'
-            ValueData  = '3389'
-        }
-        
-        # CceId: CCE-37860-4
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Domain: Settings: Apply local firewall rules' is set to 'Yes (default)'
-        Registry 'AllowLocalPolicyMergeDomain' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
-            ValueName  = 'AllowLocalPolicyMerge'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37438-9
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Private: Settings: Apply local firewall rules' is set to 'Yes (default)'
-        Registry 'AllowLocalPolicyMergePrivate' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
-            ValueName  = 'AllowLocalPolicyMerge'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00090
-        # DataSource: Registry Policy
-        # Windows Firewall: Public: Allow unicast response
-        Registry 'DisableUnicastResponsesToMulticastBroadcastPublic' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PublicProfile'
-            ValueName  = 'DisableUnicastResponsesToMulticastBroadcast'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00144
-        # DataSource: Registry Policy
-        # Ensure 'Turn off Microsoft consumer experiences' is set to 'Enabled'
-        Registry 'DisableWindowsConsumerFeatures' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent'
-            ValueName  = 'DisableWindowsConsumerFeatures'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-37163-3
-        # DataSource: Registry Policy
-        # Ensure 'Turn off Internet Connection Wizard if URL connection is referring to Microsoft.com' is set to 'Enabled'
-        Registry 'ExitOnMSICW' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Internet Connection Wizard'
-            ValueName  = 'ExitOnMSICW'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00149
-        # DataSource: Registry Policy
-        # Require user authentication for remote connections by using Network Level Authentication
-        Registry 'UserAuthentication' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
-            ValueName  = 'UserAuthentication'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00155
-        # DataSource: Registry Policy
-        # System settings: Use Certificate Rules on Windows Executables for Software Restriction Policies
-        Registry 'AuthenticodeEnabled' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Safer\CodeIdentifiers'
-            ValueName  = 'AuthenticodeEnabled'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId:  CCE-38043-6
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Public: Settings: Display a notification' is set to 'Yes'
-        Registry 'DisableNotificationsPublic' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PublicProfile'
-            ValueName  = 'DisableNotifications'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # CceId: CCE-38041-0
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Domain: Settings: Display a notification' is set to 'No'
-        Registry 'DisableNotificationsDomain' {
-            Ensure      = 'Present'
-            Key         = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
-            ValueName   = 'DisableNotifications'
-            ValueType   = 'DWord'
-            ValueData   = '1'
-        }
-        
-        # CceId: CCE-36062-8
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Domain: Firewall state' is set to 'On (recommended)'
-        Registry 'EnableFirewallDomain' {
-            Ensure      = 'Present'
-            Key         = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
-            ValueName   = 'EnableFirewall'
-            ValueType   = 'DWord'
-            ValueData   = '1'
-        }
-        
-        # CceId: CCE-36146-9
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Domain: Outbound connections' is set to 'Allow (default)'
-        Registry 'DefaultOutboundActionDomain' {
-            Ensure      = 'Present'
-            Key         = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
-            ValueName   = 'DefaultOutboundAction'
-            ValueType   = 'DWord'
-            ValueData   = '0'
-        }
-        
-        # CceId: CCE-38040-2
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Domain: Settings: Apply local connection security rules' is set to 'Yes (default)'
-        Registry 'AllowLocalIPsecPolicyMergeDomain' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
-            ValueName  = 'AllowLocalIPsecPolicyMerge'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00088
-        # DataSource: Registry Policy
-        # Windows Firewall: Domain: Allow unicast response
-        Registry 'DisableUnicastResponsesToMulticastBroadcastDomain' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\DomainProfile'
-            ValueName  = 'DisableUnicastResponsesToMulticastBroadcast'
-            ValueType  = 'DWord'
-            ValueData  = '0'
-        }
-        
-        # CceId: CCE-38332-3
-        # DataSource: Registry Policy	
-        # Ensure 'Windows Firewall: Private: Outbound connections' is set to 'Allow (default)'
-        Registry 'DefaultOutboundActionPrivate' {
-            Ensure       = 'Present'
-            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
-            ValueName    = 'DefaultOutboundAction'
-            ValueType    = 'DWord'
-            ValueData    = '0'
-        }
-        
-        # CceId: CCE-38239-0
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Private: Firewall state' is set to 'On (recommended)'
-        Registry 'EnableFirewallPrivate' {
-            Ensure       = 'Present'
-            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
-            ValueName    = 'EnableFirewall'
-            ValueType    = 'DWord'
-            ValueData    = '1'
-        }
-        
-        # CceId: CCE-36063-6
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Private: Settings: Apply local connection security rules' is set to 'Yes (default)'
-        Registry 'AllowLocalIPsecPolicyMergePrivate' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
-            ValueName  = 'AllowLocalIPsecPolicyMerge'
-            ValueType  = 'DWord'
-            ValueData  = '1'
-        }
-        
-        # Control no: AZ-WIN-00089
-        # DataSource: Registry Policy
-        # Windows Firewall: Private: Allow unicast response
-        Registry 'DisableUnicastResponsesToMulticastBroadcastPrivate' {
-            Ensure     = 'Present'
-            Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PrivateProfile'
-            ValueName  = 'DisableUnicastResponsesToMulticastBroadcast'
-            ValueType  = 'DWord'
-            ValueData  = '0'
-        }
-        
-        <# CceId: CCE-37861-2
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Public: Settings: Apply local firewall rules' is set to 'No'
-        Registry 'AllowLocalPolicyMerge' {
-            Ensure       = 'Present'
-            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
-            ValueName    = 'AllowLocalPolicyMerge'
-            ValueType    = 'DWord'
-            ValueData    = '0'
-        }
-        
-        # CceId: CCE-36268-1
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Public: Settings: Apply local connection security rules' is set to 'No'
-        Registry 'AllowLocalIPsecPolicyMerge' {
-            Ensure       = 'Present'
-            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
-            ValueName    = 'AllowLocalIPsecPolicyMerge'
-            ValueType    = 'DWord'
-            ValueData    = '0'
-        }
-
-        # CceId: CCE-37434-8
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Public: Outbound connections' is set to 'Allow (default)'
-        Registry 'DefaultOutboundActionPublic' {
-            Ensure       = 'Present'
-            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
-            ValueName    = 'DefaultOutboundAction'
-            ValueType    = 'DWord'
-            ValueData    = '0'
-        }#>
-
-        # CceId: CCE-37862-0
-        # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Public: Firewall state' is set to 'On (recommended)'
-        Registry 'EnableFirewallPublic' {
-            Ensure       = 'Present'
-            Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
-            ValueName    = 'EnableFirewall'
-            ValueType    = 'DWord'
-            ValueData    = '1'
-        }
 		
-        # CceId: CCE-37948-7
+		# CceId: CCE-38354-7
+		# DataSource: Registry Policy
+		# Ensure 'Allow Microsoft accounts to be optional' is set to 'Enabled'
+		Registry 'MSAOptional' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+			ValueName  = 'MSAOptional'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-38353-9
+		# DataSource: Registry Policy
+		# Ensure 'Do not display network selection UI' is set to 'Enabled'
+		Registry 'DontDisplayNetworkSelectionUI' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System'
+			ValueName  = 'DontDisplayNetworkSelectionUI'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-38347-1
+		# DataSource: Registry Policy
+		# Ensure 'Prevent enabling lock screen camera' is set to 'Enabled' 
+		Registry 'NoLockScreenCamera' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization'
+			ValueName  = 'NoLockScreenCamera'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-35893-7
+		# DataSource: Registry Policy
+		# Ensure 'Turn off app notifications on the lock screen' is set to 'Enabled' 
+		Registry 'DisableLockScreenAppNotifications' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System'
+			ValueName  = 'DisableLockScreenAppNotifications'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		
+		# CceId: CCE-38348-9
+		# DataSource: Registry Policy
+		# Ensure 'Prevent enabling lock screen slide show' is set to 'Enabled'
+		Registry 'NoLockScreenSlideshow' {
+			Ensure       = 'Present'
+			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization'
+			ValueName    = 'NoLockScreenSlideshow'
+			ValueType    = 'DWord'
+			ValueData    = '1'
+		}
+		
+		# CceId: CCE-38338-0
+		# DataSource: Registry Policy
+		# Ensure 'Minimize the number of simultaneous connections to the Internet or a Windows Domain' is set to 'Enabled'
+		Registry 'fMinimizeConnections' {
+			Ensure    = 'Present'
+			Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WcmSvc\GroupPolicy'
+			ValueName = 'fMinimizeConnections'
+			ValueType = 'DWord'
+			ValueData = '1'
+		}
+		
+		
+		# CceId: CCE-38276-2
+		# DataSource: Registry Policy
+		# Ensure 'Setup: Control Event Log behavior when the log file reaches its maximum size' is set to 'Disabled'
+		Registry 'RetentionSetupLog' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup'
+			ValueName  = 'Retention'
+			ValueType  = 'String'
+			ValueData  = '0'
+		}
+		
+		
+		
+		# CceId: CCE-38217-6
+		# DataSource: Registry Policy
+		# Ensure 'Set the default behavior for AutoRun' is set to 'Enabled: Do not execute any autorun commands'
+		Registry 'NoAutorun' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+			ValueName  = 'NoAutorun'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-38180-6
+		# DataSource: Registry Policy
+		# Ensure 'Do not use temporary folders per session' is set to 'Disabled'
+		Registry 'PerSessionTempDir' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+			ValueName  = 'PerSessionTempDir'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+
+		# CceId: CCE-37946-1
+		# DataSource: Registry Policy
+		# Ensure 'Do not delete temp folders upon exit' is set to 'Disabled'
+		Registry 'DeleteTempDirsOnExit' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+			ValueName  = 'DeleteTempDirsOnExit'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-37929-7
+		# DataSource: Registry Policy
+		# Ensure 'Always prompt for password upon connection' is set to 'Enabled'
+		Registry 'fPromptForPassword' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+			ValueName  = 'fPromptForPassword'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-37912-3
+		# DataSource: Registry Policy
+		# Ensure 'Boot-Start Driver Initialization Policy' is set to 'Enabled: Good, unknown and bad but critical'
+		Registry 'DriverLoadPolicy' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies\EarlyLaunch'
+			ValueName  = 'DriverLoadPolicy'
+			ValueType  = 'DWord'
+			ValueData  = '3'
+		}
+		
+
+		# CceId: CCE-37775-4
+		# DataSource: Registry Policy
+		# Ensure 'Application: Control Event Log behavior when the log file reaches its maximum size' is set to 'Disabled'
+		Registry 'RetentionApplicationLog' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application'
+			ValueName  = 'Retention'
+			ValueType  = 'String'
+			ValueData  = '0'
+		}
+		
+		# CceId: CCE-36925-6
+		# DataSource: Registry Policy
+		# Ensure 'Include command line in process creation events' is set to 'Disabled'
+		Registry 'ProcessCreationIncludeCmdLine_Enabled' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit'
+			ValueName  = 'ProcessCreationIncludeCmdLine_Enabled'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-37636-8
+		# DataSource: Registry Policy
+		# Ensure 'Disallow Autoplay for non-volume devices' is set to 'Enabled'
+		Registry 'NoAutoplayfornonVolume' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer'
+			ValueName  = 'NoAutoplayfornonVolume'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-36000-8
+		# DataSource: Registry Policy
+		# Ensure 'Disallow WinRM from storing RunAs credentials' is set to 'Enabled'
+		Registry 'DisableRunAs' {
+			Ensure    = 'Present'
+			Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WinRM\Service'
+			ValueName = 'DisableRunAs'
+			ValueType = 'DWord'
+			ValueData = '1'
+		}
+		# CceId: CCE-35859-8
+		# DataSource: Registry Policy
+		# Ensure 'Configure Windows SmartScreen' is set to 'Enabled' 
+		Registry 'EnableSmartScreen' {
+			Ensure    = 'Present'
+			Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System'
+			ValueName = 'EnableSmartScreen'
+			ValueType = 'DWord'
+			ValueData = '1'
+		}
+		
+		# CceId: CCE-36254-1
+		# DataSource: Registry Policy
+		# Ensure 'Allow Basic authentication' is set to 'Disabled' 
+		Registry 'AllowBasic1' {
+			Ensure    = 'Present'
+			Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WinRM\Service'
+			ValueName = 'AllowBasic'
+			ValueType = 'DWord'
+			ValueData = '0'
+		}
+		
+		# CceId: CCE-37126-0
+		# DataSource: Registry Policy
+		# Ensure 'Prevent downloading of enclosures' is set to 'Enabled'
+		Registry 'DisableEnclosureDownload' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds'
+			ValueName  = 'DisableEnclosureDownload'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-37534-5
+		# DataSource: Registry Policy
+		# Ensure 'Do not display the password reveal button' is set to 'Enabled'
+		Registry 'DisablePasswordReveal' {
+			Ensure      = 'Present'
+			Key         = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CredUI'
+			ValueName   = 'DisablePasswordReveal'
+			ValueType   = 'DWord'
+			ValueData   = '1'
+		}
+		
+		# CceId: CCE-36223-6
+		# DataSource: Registry Policy
+		# Ensure 'Do not allow passwords to be saved' is set to 'Enabled'
+		Registry 'DisablePasswordSaving' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+			ValueName  = 'DisablePasswordSaving'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-37567-5
+		# DataSource: Registry Policy
+		# Ensure 'Require secure RPC communication' is set to 'Enabled'
+		Registry 'fEncryptRPCTraffic' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+			ValueName  = 'fEncryptRPCTraffic'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-36625-2
+		# DataSource: Registry Policy
+		# Ensure 'Turn off downloading of print drivers over HTTP' is set to 'Enabled'
+		Registry 'DisableWebPnPDownload' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsNT\Printers'
+			ValueName  = 'DisableWebPnPDownload'
+			ValueType  = 'DWord'
+			ValueData  = '0'
+		}
+		
+		# CceId: CCE-36160-0
+		# DataSource: Registry Policy
+		# Ensure 'System: Control Event Log behavior when the log file reaches its maximum size' is set to 'Disabled'
+		Registry 'RetentionSystemLog' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\System'
+			ValueName  = 'Retention'
+			ValueType  = 'String'
+			ValueData  = '0'
+		}
+		
+		# CceId: CCE-36627-8
+		# DataSource: Registry Policy
+		# Ensure 'Set client connection encryption level' is set to 'Enabled: High Level'
+		Registry 'MinEncryptionLevel' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+			ValueName  = 'MinEncryptionLevel'
+			ValueType  = 'DWord'
+			ValueData  = '3'
+		}
+		
+		
+		# CceId: CCE-37695-4
+		# DataSource: Registry Policy
+		# Ensure 'Security: Specify the maximum log file size (KB)' is set to 'Enabled: 196,608 or greater'
+		Registry 'MaxSizeSecurityLog' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security'
+			ValueName  = 'MaxSize'
+			ValueType  = 'DWord'
+			ValueData  = '196608'
+		}
+		
+		
+		# CceId: CCE-37621-0
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Private: Settings: Display a notification' is set to 'No'
+		Registry 'DisableNotificationsPrivate' {
+			Ensure       = 'Present'
+			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
+			ValueName    = 'DisableNotifications'
+			ValueType    = 'DWord'
+			ValueData    = '1'
+		}
+		
+		# CceId: CCE-36092-5
+		# DataSource: Registry Policy
+		# Ensure 'System Minimum session security for NTLM SSP based (including secure RPC) clients: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'
+		Registry 'MaxSizeSystemLog' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\System'
+			ValueName  = 'MaxSize'
+			ValueType  = 'DWord'
+			ValueData  = '32768'
+		}
+		
+		# CceId: CCE-37526-1
+		# DataSource: Registry Policy
+		# Ensure 'Setup: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'
+		Registry 'MaxSizeSetupLog' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup'
+			ValueName  = 'MaxSize'
+			ValueType  = 'DWord'
+			ValueData  = '32768'
+		}
+		
+
+		# CceId: CCE-37145-0
+		# DataSource: Registry Policy
+		# Ensure 'Security: Control Event Log behavior when the log file reaches its maximum size' is set to 'Disabled'
+		Registry 'RetentionSecurityLog' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security'
+			ValueName  = 'Retention'
+			ValueType  = 'String'
+			ValueData  = '0'
+		}
+		
+		# CceId: CCE-36875-3
+		# DataSource: Registry Policy
+		# Ensure 'Turn off Autoplay' is set to 'Enabled: All drives'
+		Registry 'NoDriveTypeAutoRun' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+			ValueName  = 'NoDriveTypeAutoRun'
+			ValueType  = 'DWord'
+			ValueData  = '255'
+		}
+		
+		# CceId: CCE-37346-4
+		# DataSource: Registry Policy
+		# Ensure 'Enable RPC Endpoint Mapper Client Authentication' is set to 'Enabled' (MS only)
+		Registry 'EnableAuthEpResolution' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Rpc'
+			ValueName  = 'EnableAuthEpResolution'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# Control no: AZ-WIN-00152
+		# DataSource: Registry Policy
+		# Specify the interval to check for definition updates
+		Registry 'SignatureUpdateInterval' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Signature Updates'
+			ValueName  = 'SignatureUpdateInterval'
+			ValueType  = 'DWord'
+			ValueData  = '8'
+		}
+		
+		# Control no: AZ-WIN-00133
+		# DataSource: Registry Policy
+		# Ensure 'Allow search and Cortana to use location' is set to 'Disabled'
+		Registry 'AllowSearchToUseLocation' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
+			ValueName  = 'AllowSearchToUseLocation'
+			ValueType  = 'DWord'
+			ValueData  = '0'
+		}
+		
+		# Control no: AZ-WIN-00130
+		# DataSource: Registry Policy
+		# Ensure 'Allow Cortana above lock screen' is set to 'Disabled'
+		Registry 'AllowCortanaAboveLock' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
+			ValueName  = 'AllowCortanaAboveLock'
+			ValueType  = 'DWord'
+			ValueData  = '0'
+		}
+		
+		# Control no: AZ-WIN-00131
+		# DataSource: Registry Policy
+		# Ensure 'Allow Cortana' is set to 'Disabled'
+		Registry 'AllowCortana' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
+			ValueName  = 'AllowCortana'
+			ValueType  = 'DWord'
+			ValueData  = '0'
+		}
+		
+		# Control no: AZ-WIN-00140
+		# DataSource: Registry Policy
+		# Ensure 'Do not show feedback notifications' is set to 'Enabled'
+		Registry 'DoNotShowFeedbackNotifications' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
+			ValueName  = 'DoNotShowFeedbackNotifications'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-37843-0
+		# DataSource: Registry Policy
+		# Ensure 'Enable Windows NTP Client' is set to 'Enabled'
+		Registry 'NTPClientEnabled' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\W32Time\TimeProviders\NtpClient'
+			ValueName  = 'Enabled'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		
+		# Control no: AZ-WIN-00126
+		# DataSource: Registry Policy
+		# Enable 'Send file samples when further analysis is required' for 'Send Safe Samples'
+		Registry 'SubmitSamplesConsent' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\SpyNet'
+			ValueName  = 'SubmitSamplesConsent'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# Control no: AZ-WIN-00138
+		# DataSource: Registry Policy
+		# Ensure 'Block user from showing account details on sign-in' is set to 'Enabled'
+		Registry 'BlockUserFromShowingAccountDetailsOnSignin' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System'
+			ValueName  = 'BlockUserFromShowingAccountDetailsOnSignin'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# Control no: AZ-WIN-00120
+		# DataSource: Registry Policy
+		# Devices: Allow undock without having to log on
+		Registry 'UndockWithoutLogon' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System'
+			ValueName  = 'UndockWithoutLogon'
+			ValueType  = 'DWord'
+			ValueData  = '0'
+		}
+		
+		# Control no: AZ-WIN-00156
+		# DataSource: Registry Policy
+		# Detect change from default RDP port
+		Registry 'PortNumber' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp'
+			ValueName  = 'PortNumber'
+			ValueType  = 'DWord'
+			ValueData  = '3389'
+		}
+		
+		
+		# CceId: CCE-37860-4
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Domain: Settings: Apply local firewall rules' is set to 'Yes (default)'
+		Registry 'AllowLocalPolicyMergeDomain' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
+			ValueName  = 'AllowLocalPolicyMerge'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-37438-9
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Private: Settings: Apply local firewall rules' is set to 'Yes (default)'
+		Registry 'AllowLocalPolicyMergePrivate' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
+			ValueName  = 'AllowLocalPolicyMerge'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# Control no: AZ-WIN-00090
+		# DataSource: Registry Policy
+		# Windows Firewall: Public: Allow unicast response
+		Registry 'DisableUnicastResponsesToMulticastBroadcastPublic' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PublicProfile'
+			ValueName  = 'DisableUnicastResponsesToMulticastBroadcast'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# Control no: AZ-WIN-00144
+		# DataSource: Registry Policy
+		# Ensure 'Turn off Microsoft consumer experiences' is set to 'Enabled'
+		Registry 'DisableWindowsConsumerFeatures' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent'
+			ValueName  = 'DisableWindowsConsumerFeatures'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		
+		# CceId: CCE-37163-3
+		# DataSource: Registry Policy
+		# Ensure 'Turn off Internet Connection Wizard if URL connection is referring to Microsoft.com' is set to 'Enabled'
+		Registry 'ExitOnMSICW' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Internet Connection Wizard'
+			ValueName  = 'ExitOnMSICW'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		
+		# Control no: AZ-WIN-00149
+		# DataSource: Registry Policy
+		# Require user authentication for remote connections by using Network Level Authentication
+		Registry 'UserAuthentication' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+			ValueName  = 'UserAuthentication'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# Control no: AZ-WIN-00155
+		# DataSource: Registry Policy
+		# System settings: Use Certificate Rules on Windows Executables for Software Restriction Policies
+		Registry 'AuthenticodeEnabled' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Safer\CodeIdentifiers'
+			ValueName  = 'AuthenticodeEnabled'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId:  CCE-38043-6
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Public: Settings: Display a notification' is set to 'Yes'
+		Registry 'DisableNotificationsPublic' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PublicProfile'
+			ValueName  = 'DisableNotifications'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# CceId: CCE-38041-0
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Domain: Settings: Display a notification' is set to 'No'
+		Registry 'DisableNotificationsDomain' {
+			Ensure      = 'Present'
+			Key         = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
+			ValueName   = 'DisableNotifications'
+			ValueType   = 'DWord'
+			ValueData   = '1'
+		}
+		
+		# CceId: CCE-36062-8
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Domain: Firewall state' is set to 'On (recommended)'
+		Registry 'EnableFirewallDomain' {
+			Ensure      = 'Present'
+			Key         = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
+			ValueName   = 'EnableFirewall'
+			ValueType   = 'DWord'
+			ValueData   = '1'
+		}
+		
+		# CceId: CCE-36146-9
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Domain: Outbound connections' is set to 'Allow (default)'
+		Registry 'DefaultOutboundActionDomain' {
+			Ensure      = 'Present'
+			Key         = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
+			ValueName   = 'DefaultOutboundAction'
+			ValueType   = 'DWord'
+			ValueData   = '0'
+		}
+		
+		# CceId: CCE-38040-2
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Domain: Settings: Apply local connection security rules' is set to 'Yes (default)'
+		Registry 'AllowLocalIPsecPolicyMergeDomain' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile'
+			ValueName  = 'AllowLocalIPsecPolicyMerge'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# Control no: AZ-WIN-00088
+		# DataSource: Registry Policy
+		# Windows Firewall: Domain: Allow unicast response
+		Registry 'DisableUnicastResponsesToMulticastBroadcastDomain' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\DomainProfile'
+			ValueName  = 'DisableUnicastResponsesToMulticastBroadcast'
+			ValueType  = 'DWord'
+			ValueData  = '0'
+		}		
+		
+		# CceId: CCE-38332-3
+		# DataSource: Registry Policy	
+		# Ensure 'Windows Firewall: Private: Outbound connections' is set to 'Allow (default)'
+		Registry 'DefaultOutboundActionPrivate' {
+			Ensure       = 'Present'
+			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
+			ValueName    = 'DefaultOutboundAction'
+			ValueType    = 'DWord'
+			ValueData    = '0'
+		}
+		
+		# CceId: CCE-38239-0
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Private: Firewall state' is set to 'On (recommended)'
+		Registry 'EnableFirewallPrivate' {
+			Ensure       = 'Present'
+			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
+			ValueName    = 'EnableFirewall'
+			ValueType    = 'DWord'
+			ValueData    = '1'
+		}
+		
+		# CceId: CCE-36063-6
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Private: Settings: Apply local connection security rules' is set to 'Yes (default)'
+		Registry 'AllowLocalIPsecPolicyMergePrivate' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile'
+			ValueName  = 'AllowLocalIPsecPolicyMerge'
+			ValueType  = 'DWord'
+			ValueData  = '1'
+		}
+		
+		# Control no: AZ-WIN-00089
+		# DataSource: Registry Policy
+		# Windows Firewall: Private: Allow unicast response
+		Registry 'DisableUnicastResponsesToMulticastBroadcastPrivate' {
+			Ensure     = 'Present'
+			Key        = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PrivateProfile'
+			ValueName  = 'DisableUnicastResponsesToMulticastBroadcast'
+			ValueType  = 'DWord'
+			ValueData  = '0'
+		}
+		
+		<# CceId: CCE-37861-2
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Public: Settings: Apply local firewall rules' is set to 'No'
+		Registry 'AllowLocalPolicyMerge' {
+			Ensure       = 'Present'
+			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
+			ValueName    = 'AllowLocalPolicyMerge'
+			ValueType    = 'DWord'
+			ValueData    = '0'
+		}
+		
+		# CceId: CCE-36268-1
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Public: Settings: Apply local connection security rules' is set to 'No'
+		Registry 'AllowLocalIPsecPolicyMerge' {
+			Ensure       = 'Present'
+			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
+			ValueName    = 'AllowLocalIPsecPolicyMerge'
+			ValueType    = 'DWord'
+			ValueData    = '0'
+		}
+		
+		# CceId: CCE-37434-8
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Public: Outbound connections' is set to 'Allow (default)'
+		Registry 'DefaultOutboundActionPublic' {
+			Ensure       = 'Present'
+			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
+			ValueName    = 'DefaultOutboundAction'
+			ValueType    = 'DWord'
+			ValueData    = '0'
+		}#>
+		
+		# CceId: CCE-37862-0
+		# DataSource: Registry Policy
+		# Ensure 'Windows Firewall: Public: Firewall state' is set to 'On (recommended)'
+		Registry 'EnableFirewallPublic' {
+			Ensure       = 'Present'
+			Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
+			ValueName    = 'EnableFirewall'
+			ValueType    = 'DWord'
+			ValueData    = '1'
+		
+		}
+		
+		# Control no: CCE-37948-7
         # DataSource: Registry Policy
         # Ensure 'Application: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'
-        Registry 'MaxSizeApplication' {
+       Registry 'MaxSizeApplication' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application'
           ValueName  = 'MaxSize'
           ValueType  = 'DWord'
           ValueData  = '32768'
         }
-
-        # Control no: AZ-WIN-00145
+		
+		# Control no: AZ-WIN-00145
         # DataSource: Registry Policy
         # Ensure 'Turn off multicast name resolution' is set to 'Disabled'
-        Registry 'EnableMulticast' {
+       Registry 'EnableMulticast' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient'
           ValueName  = 'EnableMulticast'
           ValueType  = 'DWord'
           ValueData  = '1'
-        }	
+        }
+		
     }
  }
 
