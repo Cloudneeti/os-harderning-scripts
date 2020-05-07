@@ -2478,7 +2478,7 @@ Configuration CSBP_WindowsServer2016 {
 		# Control no: CCE-37948-7
         # DataSource: Registry Policy
         # Ensure 'Application: Specify the maximum log file size (KB)' is set to 'Enabled: 32,768 or greater'
-       Registry 'MaxSizeApplication' {
+        Registry 'MaxSizeApplication' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application'
           ValueName  = 'MaxSize'
@@ -2489,7 +2489,7 @@ Configuration CSBP_WindowsServer2016 {
 		# Control no: AZ-WIN-00145
         # DataSource: Registry Policy
         # Ensure 'Turn off multicast name resolution' is set to 'Disabled'
-       Registry 'EnableMulticast' {
+        Registry 'EnableMulticast' {
           Ensure     = 'Present'
           Key        = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient'
           ValueName  = 'EnableMulticast'
