@@ -19,7 +19,7 @@
 
 .EXAMPLE
     Ensure that you are logged in as root user. Use su command for the same.
-    Command to execute : bash Azure_CSBP_CentOS_Linux7_Remediaton.sh
+    Command to execute : bash Azure_CSBP_CentOS_Linux7_Remediation.sh
 .INPUTS
 
 .OUTPUTS

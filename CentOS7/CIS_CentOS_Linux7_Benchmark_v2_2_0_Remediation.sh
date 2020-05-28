@@ -18,7 +18,7 @@
  
 .EXAMPLE
     Ensure that you are logged in as root user. Use su command for the same.
-    Command to execute : bash CIS_CentOS_Linux7_Benchmark_v2_2_0_Remediaton.sh
+    Command to execute : bash CIS_CentOS_Linux7_Benchmark_v2_2_0_Remediation.sh
 .INPUTS
  
 .OUTPUTS
