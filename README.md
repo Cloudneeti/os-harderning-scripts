@@ -28,7 +28,7 @@ This repository contains a collection of scripts that will help to harden operat
     ````powershell
     Install-Module -Name <ModuleName>
     ````
-
+    
 ## How to Use
 
 ### For Windows Servers
@@ -48,6 +48,17 @@ Example 1: CIS Benchmark Windows Server 2016 v1.0.0
 
     ````powershell
     Start-DscConfiguration -Path .\CIS_Benchmark_WindowsServer2016_v1_0_0  -Force -Verbose -Wait
+    ````
+### For Linux machines
+
+Example 1: CIS CentOS Linux7 Benchmark v2.2.0
+
+1. Login to VM/EC2 Instance using SSH
+2. Download/copy bash script to VM/EC2 Instance
+3. Run bash script to apply baseline configuration
+
+    ````bash
+    bash CIS_CentOS_Linux7_Benchmark_v2_2_0_Remediation.sh
     ````
 
 ## Caution
