@@ -130,7 +130,7 @@ fi
 #Ensure telnet client is not installed
 echo
 echo -e "${RED}2.3.4${NC} Ensure telnet client is not installed"
-yum remove telnet
+yum -y remove telnet
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure telnet client is not installed"

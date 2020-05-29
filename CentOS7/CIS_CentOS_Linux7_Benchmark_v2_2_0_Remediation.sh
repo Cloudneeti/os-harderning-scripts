@@ -795,7 +795,7 @@ fi
 #Ensure telnet client is not installed
 echo
 echo -e "${RED}2.3.4${NC} Ensure telnet client is not installed"
-yum remove telnet
+yum -y remove telnet
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure telnet client is not installed"
@@ -1185,23 +1185,22 @@ echo -e "${GREEN}Remediated:${NC} Ensure events that modify the system's network
 #Ensure events that modify the system's Mandatory Access Controls are collected
 echo
 echo -e "${RED}4.1.7${NC} Ensure events that modify the system's Mandatory Access Controls are collected"
-grep "-w /etc/selinux/ -p wa -k MAC-policy" /etc/audit/audit.rules || echo "-w /etc/selinux/ -p wa -k MAC-policy" >> /etc/audit/audit.rules
-grep "-w /usr/share/selinux/ -p wa -k MAC-policy" /etc/audit/audit.rules || echo "-w /usr/share/selinux/ -p wa -k MAC-policy" >> /etc/audit/audit.rules
+egrep "^-w\s+/etc/selinux/\s+-p\s+wa\s+-k\s+MAC-policy\s*$" /etc/audit/rules.d/audit.rules || echo "-w /etc/selinux/ -p wa -k MAC-policy" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure events that modify the system's Mandatory Access Controls are collected"
 
 #Ensure login and logout events are collected
 echo
 echo -e "${RED}4.1.8${NC} Ensure login and logout events are collected"
-grep "-w /var/log/lastlog -p wa -k logins" /etc/audit/audit.rules || echo "-w /var/log/lastlog -p wa -k logins" >> /etc/audit/audit.rules
-grep "-w /var/run/faillock/ -p wa -k logins" /etc/audit/audit.rules || echo "-w /var/run/faillock/ -p wa -k logins" >> /etc/audit/audit.rules
+egrep "^-w\s+/var/run/faillock/\s+-p\s+wa\s+-k\s+logins\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/run/faillock/ -p wa -k logins" >> /etc/audit/rules.d/audit.rules
+egrep "^-w\s+/var/log/lastlog\s+-p\s+wa\s+-k\s+logins\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/log/lastlog -p wa -k logins" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure login and logout events are collected"
 
 #Ensure session initiation information is collected
 echo
 echo -e "${RED}4.1.9${NC} Ensure session initiation information is collected"
-grep "-w /var/run/utmp -p wa -k session" /etc/audit/audit.rules || echo "-w /var/run/utmp -p wa -k session" >> /etc/audit/audit.rules
-grep "-w /var/log/wtmp -p wa -k logins" /etc/audit/audit.rules || echo "-w /var/log/wtmp -p wa -k logins" >> /etc/audit/audit.rules
-grep "-w /var/log/btmp -p wa -k logins" /etc/audit/audit.rules || echo "-w /var/log/btmp -p wa -k logins" >> /etc/audit/audit.rules
+egrep "^-w\s+/var/run/utmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/run/utmp -p wa -k session" >> /etc/audit/rules.d/audit.rules
+egrep "^-w\s+/var/log/wtmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/log/wtmp -p wa -k session" >> /etc/audit/rules.d/audit.rules
+egrep "^-w\s+/var/log/btmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/log/btmp -p wa -k session" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure session initiation information is collected"
 
 #Ensure discretionary access control permission modification events are collected
@@ -1254,14 +1253,14 @@ echo -e "${GREEN}Remediated:${NC} Ensure file deletion events by users are colle
 #Ensure changes to system administration scope (sudoers) is collected
 echo
 echo -e "${RED}4.1.15${NC} Ensure changes to system administration scope (sudoers) is collected"
-grep "-w /etc/sudoers -p wa -k scope" /etc/audit/audit.rules || echo "-w /etc/sudoers -p wa -k scope" >> /etc/audit/audit.rules
-grep "-w /etc/sudoers.d/ -p wa -k scope" /etc/audit/audit.rules || echo "-w /etc/sudoers.d/ -p wa -k scope" >> /etc/audit/audit.rules
+egrep "^-w\s+/etc/sudoers\s+-p\s+wa\s+-k\s+scope\s*$" /etc/audit/rules.d/audit.rules || echo "-w /etc/sudoers -p wa -k scope" >> /etc/audit/rules.d/audit.rules
+egrep "^-w\s+/etc/sudoers.d\s+-p\s+wa\s+-k\s+scope\s*$" /etc/audit/rules.d/audit.rules || echo "-w /etc/sudoers.d -p wa -k scope" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure changes to system administration scope (sudoers) is collected"
 
 #Ensure system administrator actions (sudolog) are collected
 echo
 echo -e "${RED}4.1.16${NC} Ensure system administrator actions (sudolog) are collected"
-grep "-w /var/log/sudo.log -p wa -k actions" /etc/audit/audit.rules || echo "-w /var/log/sudo.log -p wa -k actions" >> /etc/audit/audit.rules
+egrep "^-w\s+/var/log/sudo.log\s+-p\s+wa\s+-k\s+actions\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/log/sudo.log -p wa -k actions" >> /etc/audit/rules.d/audit.rules
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure system administrator actions (sudolog) are collected"
