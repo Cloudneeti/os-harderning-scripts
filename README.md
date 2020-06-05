@@ -49,6 +49,18 @@ Example 1: CIS Benchmark Windows Server 2016 v1.0.0
     ````powershell
     Start-DscConfiguration -Path .\CIS_Benchmark_WindowsServer2016_v1_0_0  -Force -Verbose -Wait
     ````
+### For Linux machines
+
+Example 1: CIS CentOS Linux7 Benchmark v2.2.0
+
+1. Login to VM/EC2 Instance using SSH
+2. Switch user(su) to root.
+3. Download/copy bash script to VM/EC2 Instance
+4. Run bash script to apply baseline configuration
+
+    ````bash
+    bash CIS_CentOS_Linux7_Benchmark_v2_2_0_Remediation.sh
+    ````
 
 ## Caution
 The scripts are designed to harden the operating system baseline configurations, Please test it on the test/staging system before applying to the production system.
