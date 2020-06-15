@@ -32,6 +32,11 @@ YELLOW='\033[1;33m'
 BLUE='\033[1;35m'
 NC='\033[0m'
 
+success=0
+fail=0
+
+yum update -y && yum install wget -y
+
 ###########################################################################################################################
 
 ##Category 1.5 Initial Setup - Additional Process Hardening
@@ -45,8 +50,10 @@ egrep -q "^(\s*)kernel.randomize_va_space\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.co
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure address space layout randomization (ASLR) is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure address space layout randomization (ASLR) is enabled"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -62,8 +69,10 @@ systemctl disable avahi-daemon
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure Avahi Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure Avahi Server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure CUPS is not enabled
@@ -73,8 +82,10 @@ systemctl disable cups
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure CUPS is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure CUPS is not enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure DHCP Server is not enabled
@@ -84,8 +95,10 @@ systemctl disable dhcpd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure DHCP Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure DHCP Server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure rsh server is not enabled
@@ -95,8 +108,10 @@ systemctl disable rsh.socket.service && systemctl disable rlogin.socket.service 
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsh server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsh server is not enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure telnet server is not enabled
@@ -106,8 +121,10 @@ systemctl disable telnet.socket.service
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure telnet server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure telnet server is not enabled"
+  fail=$((fail + 1))
 fi
 
 ###########################################################################################################################
@@ -123,8 +140,10 @@ yum remove rsh
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsh client is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsh client is not installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure telnet client is not installed
@@ -134,8 +153,10 @@ yum -y remove telnet
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure telnet client is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure telnet client is not installed"
+  fail=$((fail + 1))
 fi
 
 ###########################################################################################################################
@@ -151,8 +172,10 @@ egrep -q "^(\s*)net.ipv4.ip_forward\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && 
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure IP forwarding is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure IP forwarding is disabled"
+  fail=$((fail + 1))
 fi
 
 ###########################################################################################################################
@@ -166,6 +189,7 @@ echo
 echo -e "${RED}3.2.1${NC} Ensure source routed packets are not accepted"
 egrep -q "^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
 egrep -q "^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.accept_source_route = 0" >> /etc/sysctl.conf
+success=$((success + 1))
 echo -e "${GREEN}Remediated:${NC} Ensure source routed packets are not accepted"
 
 #Ensure broadcast ICMP requests are ignored
@@ -174,6 +198,7 @@ echo -e "${RED}3.2.5${NC} Ensure broadcast ICMP requests are ignored"
 egrep -q "^(\s*)net.ipv4.icmp_echo_ignore_broadcasts\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.icmp_echo_ignore_broadcasts\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.icmp_echo_ignore_broadcasts = 1\2/" /etc/sysctl.conf || echo "net.ipv4.icmp_echo_ignore_broadcasts = 1" >> /etc/sysctl.conf
 sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
 sysctl -w net.ipv4.route.flush=1
+success=$((success + 1))
 echo -e "${GREEN}Remediated:${NC} Ensure broadcast ICMP requests are ignored"
  
 #Ensure bogus ICMP responses are ignored
@@ -182,6 +207,7 @@ echo -e "${RED}3.2.6${NC} Ensure bogus ICMP responses are ignored"
 egrep -q "^(\s*)net.ipv4.icmp_ignore_bogus_error_responses\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.icmp_ignore_bogus_error_responses\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.icmp_ignore_bogus_error_responses = 1\2/" /etc/sysctl.conf || echo "net.ipv4.icmp_ignore_bogus_error_responses = 1" >> /etc/sysctl.conf
 sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1
 sysctl -w net.ipv4.route.flush=1
+success=$((success + 1))
 echo -e "${GREEN}Remediated:${NC} Ensure bogus ICMP responses are ignored"
  
 #Ensure Reverse Path Filtering is enabled
@@ -192,6 +218,7 @@ egrep -q "^(\s*)net.ipv4.conf.default.rp_filter\s*=\s*\S+(\s*#.*)?\s*$" /etc/sys
 sysctl -w net.ipv4.conf.all.rp_filter=1
 sysctl -w net.ipv4.conf.default.rp_filter=1
 sysctl -w net.ipv4.route.flush=1
+success=$((success + 1))
 echo -e "${GREEN}Remediated:${NC} Ensure Reverse Path Filtering is enabled"
  
 #Ensure TCP SYN Cookies is enabled
@@ -200,6 +227,7 @@ echo -e "${RED}3.2.8${NC} Ensure TCP SYN Cookies is enabled"
 egrep -q "^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.tcp_syncookies = 1\2/" /etc/sysctl.conf || echo "net.ipv4.tcp_syncookies = 1" >> /etc/sysctl.conf
 sysctl -w net.ipv4.tcp_syncookies=1
 sysctl -w net.ipv4.route.flush=1
+success=$((success + 1))
 echo -e "${GREEN}Remediated:${NC} Ensure TCP SYN Cookies is enabled"
 
 ###########################################################################################################################
@@ -217,8 +245,10 @@ lsmod | egrep "^rds\s" && rmmod rds
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure RDS is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure RDS is disabled"
+  fail=$((fail + 1))
 fi
 
 ###########################################################################################################################
@@ -234,8 +264,10 @@ systemctl enable rsyslog
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsyslog Service is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog Service is enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure rsyslog default file permissions configured
@@ -243,6 +275,7 @@ echo
 echo -e "${RED}4.2.1.3${NC} Ensure rsyslog default file permissions configured"
 grep "$FileCreateMode 0640" /etc/rsyslog.conf || echo "$""FileCreateMode 0640" >> /etc/rsyslog.conf
 grep "$FileCreateMode 0640" /etc/rsyslog.d/*.conf || echo "$""FileCreateMode 0640" >> /etc/rsyslog.d/*.conf
+success=$((success + 1))
 echo -e "${GREEN}Remediated:${NC} Ensure rsyslog default file permissions configured"
  
 #Ensure remote rsyslog messages are only accepted on designated log hosts
@@ -253,6 +286,7 @@ grep "$ModLoad imtcp" /etc/rsyslog.conf || echo "$""ModLoad imtcp" >> /etc/rsysl
 sed -i -e 's/#$InputTCPServerRun 514/$InputTCPServerRun 514/g' /etc/rsyslog.conf
 grep "$InputTCPServerRun 514" /etc/rsyslog.conf || echo "$""InputTCPServerRun 514" >> /etc/rsyslog.conf
 pkill -HUP rsyslogd
+success=$((success + 1))
 echo -e "${GREEN}Remediated:${NC} Ensure remote rsyslog messages are only accepted on designated log hosts"
 
 #Ensure rsyslog or syslog-ng is installed
@@ -262,8 +296,10 @@ yum install rsyslog && yum install syslog-ng
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsyslog or syslog-ng is installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog or syslog-ng is installed"
+  fail=$((fail + 1))
 fi
 
 ###########################################################################################################################
@@ -279,8 +315,10 @@ systemctl enable crond
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure cron daemon is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure cron daemon is enabled"
+  fail=$((fail + 1))
 fi
 
 ###########################################################################################################################
@@ -296,8 +334,10 @@ egrep -q "^(\s*)Protocol\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH Protocol is set to 2"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH Protocol is set to 2"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH IgnoreRhosts is enabled
@@ -307,8 +347,10 @@ egrep -q "^(\s*)IgnoreRhosts\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH IgnoreRhosts is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH IgnoreRhosts is enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure SSH HostbasedAuthentication is disabled
@@ -318,8 +360,10 @@ egrep -q "^(\s*)HostbasedAuthentication\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH HostbasedAuthentication is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH HostbasedAuthentication is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH PermitEmptyPasswords is disabled
@@ -329,8 +373,10 @@ egrep -q "^(\s*)PermitEmptyPasswords\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config &&
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH PermitEmptyPasswords is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH PermitEmptyPasswords is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH PermitUserEnvironment is disabled
@@ -340,8 +386,10 @@ egrep -q "^(\s*)PermitUserEnvironment\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config &
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH PermitUserEnvironment is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH PermitUserEnvironment is disabled"
+  fail=$((fail + 1))
 fi
 
 ###########################################################################################################################
@@ -357,8 +405,10 @@ chown root:root /etc/passwd && chmod 644 /etc/passwd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/passwd are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/passwd are configured"
+  fail=$((fail + 1))
 fi
  
 #Ensure permissions on /etc/group are configured
@@ -368,8 +418,19 @@ chown root:root /etc/group && chmod 644 /etc/group
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/group are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/group are configured"
+  fail=$((fail + 1))
 fi
+
+###########################################################################################################################
+
+echo
+echo -e "${GREEN}Remediation script for Azure CentOS Linux 7 executed successfully!!${NC}"
+echo
+echo -e "${YELLOW}Summary:${NC}"
+echo -e "${YELLOW}Remediation Passed:${NC} $success" 
+echo -e "${YELLOW}Remediation Failed:${NC} $fail"
 
 ###########################################################################################################################

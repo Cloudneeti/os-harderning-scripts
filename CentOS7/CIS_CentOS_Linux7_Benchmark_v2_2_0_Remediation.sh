@@ -31,6 +31,11 @@ YELLOW='\033[1;33m'
 BLUE='\033[1;35m'
 NC='\033[0m'
 
+success=0
+fail=0
+
+yum update -y && yum install wget -y
+
 ###########################################################################################################################
 
 ##Category 1.1 Initial Setup - Filesystem Configuration
@@ -45,8 +50,10 @@ policystatus=$?
 lsmod | egrep "^cramfs\s" && rmmod cramfs
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of cramfs filesystems is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure mounting of cramfs filesystems is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure mounting of freevxfs filesystems is disabled
@@ -57,8 +64,10 @@ policystatus=$?
 lsmod | egrep "^freevxfs\s" && rmmod freevxfs
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of freevxfs filesystems is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure mounting of freevxfs filesystems is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure mounting of jffs2 filesystems is disabled
@@ -69,8 +78,10 @@ policystatus=$?
 lsmod | egrep "^jffs2\s" && rmmod jffs2
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of jffs2 filesystems is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure mounting of jffs2 filesystems is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure mounting of hfs filesystems is disabled
@@ -81,8 +92,10 @@ policystatus=$?
 lsmod | egrep "^hfs\s" && rmmod hfs
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of hfs filesystems is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure mounting of hfs filesystems is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure mounting of hfsplus filesystems is disabled
@@ -93,8 +106,10 @@ policystatus=$?
 lsmod | egrep "^hfsplus\s" && rmmod hfsplus
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of hfsplus filesystems is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure mounting of hfsplus filesystems is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure mounting of squashfs filesystems is disabled
@@ -105,8 +120,10 @@ policystatus=$?
 lsmod | egrep "^squashfs\s" && rmmod squashfs
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of squashfs filesystems is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure mounting of squashfs filesystems is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure mounting of udf filesystems is disabled
@@ -117,8 +134,10 @@ policystatus=$?
 lsmod | egrep "^udf\s" && rmmod udf
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of udf filesystems is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure mounting of udf filesystems is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure mounting of FAT filesystems is disabled
@@ -129,8 +148,10 @@ policystatus=$?
 lsmod | egrep "^vfat\s" && rmmod vfat
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of FAT filesystems is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure mounting of FAT filesystems is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure sticky bit is set on all world-writable directories
@@ -140,8 +161,10 @@ df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -typ
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure sticky bit is set on all world-writable directories"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure sticky bit is set on all world-writable directories"
+  fail=$((fail + 1))
 fi
 
 #Disable Automounting
@@ -151,8 +174,10 @@ systemctl disable autofs.service
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Disable Automounting"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Disable Automounting"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -171,8 +196,10 @@ done
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure gpgcheck is globally activated"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure gpgcheck is globally activated"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -188,8 +215,10 @@ yum -y install aide && aide --init && mv /var/lib/aide/aide.db.new.gz /var/lib/a
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure AIDE is installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure AIDE is installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure filesystem integrity is regularly checked
@@ -199,8 +228,10 @@ echo -e "${RED}1.3.2${NC} Ensure filesystem integrity is regularly checked"
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure filesystem integrity is regularly checked"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure filesystem integrity is regularly checked"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -216,8 +247,10 @@ chown root:root /boot/grub2/grub.cfg && chmod og-rwx /boot/grub2/grub.cfg && cho
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on bootloader config are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on bootloader config are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure authentication required for single user mode
@@ -226,6 +259,7 @@ echo -e "${RED}1.4.3${NC} Ensure authentication required for single user mode"
 egrep -q "^\s*ExecStart" /usr/lib/systemd/system/rescue.service && sed -ri "s/(^[[:space:]]*ExecStart[[:space:]]*=[[:space:]]*).*$/\1-\/bin\/sh -c \"\/sbin\/sulogin; \/usr\/bin\/systemctl --fail --no-block default\"/" /usr/lib/systemd/system/rescue.service || echo "ExecStart=-/bin/sh -c \"/sbin/sulogin; /usr/bin/systemctl --fail --no-block default\"" >> /usr/lib/systemd/system/rescue.service
 egrep -q "^\s*ExecStart" /usr/lib/systemd/system/emergency.service && sed -ri "s/(^[[:space:]]*ExecStart[[:space:]]*=[[:space:]]*).*$/\1-\/bin\/sh -c \"\/sbin\/sulogin; \/usr\/bin\/systemctl --fail --no-block default\"/" /usr/lib/systemd/system/emergency.service || echo "ExecStart=-/bin/sh -c \"/sbin/sulogin; /usr/bin/systemctl --fail --no-block default\"" >> /usr/lib/systemd/system/emergency.service
 echo -e "${GREEN}Remediated:${NC} Ensure authentication required for single user mode"
+success=$((success + 1))
 
 ############################################################################################################################
 
@@ -239,6 +273,7 @@ echo -e "${RED}1.5.1${NC} Ensure core dumps are restricted"
 egrep -q "^(\s*)\*\s+hard\s+core\s+\S+(\s*#.*)?\s*$" /etc/security/limits.conf && sed -ri "s/^(\s*)\*\s+hard\s+core\s+\S+(\s*#.*)?\s*$/\1* hard core 0\2/" /etc/security/limits.conf || echo "* hard core 0" >> /etc/security/limits.conf
 egrep -q "^(\s*)fs.suid_dumpable\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)fs.suid_dumpable\s*=\s*\S+(\s*#.*)?\s*$/\1fs.suid_dumpable = 0\2/" /etc/sysctl.conf || echo "fs.suid_dumpable = 0" >> /etc/sysctl.conf
 echo -e "${GREEN}Remediated:${NC} Ensure core dumps are restricted"
+success=$((success + 1))
  
 #Ensure address space layout randomization (ASLR) is enabled
 echo
@@ -247,8 +282,10 @@ egrep -q "^(\s*)kernel.randomize_va_space\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.co
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure address space layout randomization (ASLR) is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure address space layout randomization (ASLR) is enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure prelink is disabled
@@ -258,8 +295,10 @@ prelink -ua && yum remove prelink
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure prelink is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure prelink is disabled"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -275,6 +314,7 @@ sed -ri "s/^(\s*)GRUB_CMDLINE_LINUX=\"selinux=0\"\s*=\s*\S+(\s*#.*)?\s*$/\1GRUB_
 sed -ri "s/^(\s*)GRUB_CMDLINE_LINUX=\"enforcing=0\"\s*=\s*\S+(\s*#.*)?\s*$/\1GRUB_CMDLINE_LINUX=\"\"\2/" /etc/default/grub
 grub2-mkconfig -o /boot/grub2/grub.cfg
 echo -e "${GREEN}Remediated:${NC} Ensure SELinux is not disabled in bootloader configuration"
+success=$((success + 1))
 
 #Ensure the SELinux state is enforcing
 echo
@@ -283,8 +323,10 @@ egrep -q "^(\s*)SELINUX\s*=\s*\S+(\s*#.*)?\s*$" /etc/selinux/config && sed -ri "
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure the SELinux state is enforcing"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure the SELinux state is enforcing"
+  fail=$((fail + 1))
 fi
 
 #Ensure SELinux policy is configured
@@ -294,8 +336,10 @@ egrep -q "^(\s*)SELINUXTYPE\s*=\s*\S+(\s*#.*)?\s*$" /etc/selinux/config && sed -
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SELinux policy is configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SELinux policy is configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure SETroubleshoot is not installed
@@ -305,8 +349,10 @@ yum remove setroubleshoot
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SETroubleshoot is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SETroubleshoot is not installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure the MCS Translation Service (mcstrans) is not installed
@@ -316,8 +362,10 @@ yum remove mcstrans
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure the MCS Translation Service (mcstrans) is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure the MCS Translation Service (mcstrans) is not installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure SELinux is installed
@@ -327,8 +375,10 @@ rpm -q libselinux || yum -y install libselinux
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SELinux is installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SELinux is installed"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -344,8 +394,10 @@ sed -ri 's/(\\v|\\r|\\m|\\s)//g' /etc/motd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure message of the day is configured properly"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure message of the day is configured properly"
+  fail=$((fail + 1))
 fi
 
 #Ensure local login warning banner is configured properly
@@ -355,8 +407,10 @@ echo "Authorized uses only. All activity may be monitored and reported." > /etc/
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure local login warning banner is configured properly"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure local login warning banner is configured properly"
+  fail=$((fail + 1))
 fi
 
 #Ensure remote login warning banner is configured properly
@@ -366,8 +420,10 @@ echo "Authorized uses only. All activity may be monitored and reported." > /etc/
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure remote login warning banner is configured properly"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure remote login warning banner is configured properly"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/motd are configured
@@ -377,8 +433,10 @@ chown root:root /etc/motd && chmod 644 /etc/motd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/motd are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/motd are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/issue are configured
@@ -388,8 +446,10 @@ chown root:root /etc/issue && chmod 644 /etc/issue
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/issue are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/issue are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/issue.net are configured
@@ -399,8 +459,10 @@ chown root:root /etc/issue.net && chmod 644 /etc/issue.net
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/issue.net are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/issue.net are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure updates, patches, and additional security software are installed
@@ -410,8 +472,10 @@ yum update --security
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure updates, patches, and additional security software are installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure updates, patches, and additional security software are installed"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -427,8 +491,10 @@ chkconfig chargen-dgram off && chkconfig chargen-stream off
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure chargen services are not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure chargen services are not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure daytime services are not enabled
@@ -438,8 +504,10 @@ chkconfig daytime-dgram off && chkconfig daytime-stream off
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure daytime services are not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure daytime services are not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure discard services are not enabled
@@ -449,8 +517,10 @@ chkconfig discard-dgram off && chkconfig discard-stream off
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure discard services are not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure discard services are not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure echo services are not enabled
@@ -460,8 +530,10 @@ chkconfig echo-dgram off && chkconfig echo-stream off
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure echo services are not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure echo services are not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure time services are not enabled
@@ -471,8 +543,10 @@ chkconfig time-dgram off && chkconfig time-stream off
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure time services are not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure time services are not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure tftp server is not enabled
@@ -482,8 +556,10 @@ chkconfig tftp off
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure tftp server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure tftp server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure xinetd is not enabled
@@ -493,8 +569,10 @@ systemctl disable xinetd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure xinetd is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure xinetd is not enabled"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -510,8 +588,10 @@ rpm -q ntp || rpm -q chrony || yum -y install chrony
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure time synchronization is in use"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure time synchronization is in use"
+  fail=$((fail + 1))
 fi
 
 #Ensure ntp is configured
@@ -523,6 +603,7 @@ if rpm -q ntp >/dev/null; then
     egrep -q "^(\s*)OPTIONS\s*=\s*\"(([^\"]+)?-u\s[^[:space:]\"]+([^\"]+)?|([^\"]+))\"(\s*#.*)?\s*$" /etc/sysconfig/ntpd && sed -ri '/^(\s*)OPTIONS\s*=\s*\"([^\"]*)\"(\s*#.*)?\s*$/ {/^(\s*)OPTIONS\s*=\s*\"[^\"]*-u\s+\S+[^\"]*\"(\s*#.*)?\s*$/! s/^(\s*)OPTIONS\s*=\s*\"([^\"]*)\"(\s*#.*)?\s*$/\1OPTIONS=\"\2 -u ntp:ntp\"\3/ }' /etc/sysconfig/ntpd && sed -ri "s/^(\s*)OPTIONS\s*=\s*\"([^\"]+\s+)?-u\s[^[:space:]\"]+(\s+[^\"]+)?\"(\s*#.*)?\s*$/\1OPTIONS=\"\2\-u ntp:ntp\3\"\4/" /etc/sysconfig/ntpd || echo "OPTIONS=\"-u ntp:ntp\"" >> /etc/sysconfig/ntpd
 fi
 echo -e "${GREEN}Remediated:${NC} Ensure ntp is configured"
+success=$((success + 1))
 
 #Ensure chrony is configured
 echo
@@ -533,8 +614,10 @@ fi
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure chrony is configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure chrony is configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure X Window System is not installed
@@ -544,8 +627,10 @@ yum remove xorg-x11*
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure X Window System is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure X Window System is not installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure Avahi Server is not enabled
@@ -555,8 +640,10 @@ systemctl disable avahi-daemon
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure Avahi Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure Avahi Server is not enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure CUPS is not enabled
@@ -566,8 +653,10 @@ systemctl disable cups
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure CUPS is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure CUPS is not enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure DHCP Server is not enabled
@@ -577,8 +666,10 @@ systemctl disable dhcpd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure DHCP Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure DHCP Server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure LDAP server is not enabled
@@ -588,8 +679,10 @@ systemctl disable slapd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure LDAP server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure LDAP server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure NFS and RPC are not enabled
@@ -599,8 +692,10 @@ systemctl disable nfs && systemctl disable nfs-server && systemctl disable rpcbi
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure NFS and RPC are not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure NFS and RPC are not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure DNS Server is not enabled
@@ -610,8 +705,10 @@ systemctl disable named
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure DNS Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure DNS Server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure FTP Server is not enabled
@@ -621,8 +718,10 @@ systemctl disable vsftpd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure FTP Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure FTP Server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure HTTP server is not enabled
@@ -632,8 +731,10 @@ systemctl disable httpd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure HTTP server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure HTTP server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure IMAP and POP3 server is not enabled
@@ -643,8 +744,10 @@ systemctl disable dovecot
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure IMAP and POP3 server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure IMAP and POP3 server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure Samba is not enabled
@@ -654,8 +757,10 @@ systemctl disable smb
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure Samba is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure Samba is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure HTTP Proxy Server is not enabled
@@ -665,8 +770,10 @@ systemctl disable squid
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure HTTP Proxy Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure HTTP Proxy Server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure SNMP Server is not enabled
@@ -676,8 +783,10 @@ systemctl disable snmpd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SNMP Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SNMP Server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure mail transfer agent is configured for local-only mode
@@ -686,6 +795,7 @@ echo -e "${RED}2.2.15${NC} Ensure mail transfer agent is configured for local-on
 egrep -q "^(\s*)inet_interfaces\s*=\s*\S+(\s*#.*)?\s*$" /etc/postfix/main.cf && sed -ri "s/^(\s*)inet_interfaces\s*=\s*\S+(\s*#.*)?\s*$/\1inet_interfaces = loopback-only\2/" /etc/postfix/main.cf || echo "inet_interfaces = loopback-only" >> /etc/postfix/main.cf
 systemctl restart postfix
 echo -e "${GREEN}Remediated:${NC} Ensure mail transfer agent is configured for local-only mode"
+success=$((success + 1))
 
 #Ensure NIS Server is not enabled
 echo
@@ -694,8 +804,10 @@ systemctl disable ypserv
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure NIS Server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure NIS Server is not enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure rsh server is not enabled
@@ -705,8 +817,10 @@ systemctl disable rsh.socket.service && systemctl disable rlogin.socket.service 
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsh server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsh server is not enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure telnet server is not enabled
@@ -716,8 +830,10 @@ systemctl disable telnet.socket.service
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure telnet server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure telnet server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure tftp server is not enabled
@@ -727,8 +843,10 @@ systemctl disable tftp.socket
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure tftp server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure tftp server is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure rsync service is not enabled
@@ -738,8 +856,10 @@ systemctl disable rsyncd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsync service is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsync service is not enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure talk server is not enabled
@@ -749,8 +869,10 @@ systemctl disable ntalk
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure talk server is not enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure talk server is not enabled"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -766,8 +888,10 @@ yum remove ypbind
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure NIS Client is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure NIS Client is not installed"
+  fail=$((fail + 1))
 fi
  
 #Ensure rsh client is not installed
@@ -777,8 +901,10 @@ yum remove rsh
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsh client is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsh client is not installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure talk client is not installed
@@ -788,8 +914,10 @@ yum remove talk
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure talk client is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure talk client is not installed"
+  fail=$((fail + 1))
 fi
  
 #Ensure telnet client is not installed
@@ -799,8 +927,10 @@ yum -y remove telnet
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure telnet client is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure telnet client is not installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure LDAP client is not installed
@@ -810,8 +940,10 @@ yum remove openldap-clients
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure LDAP client is not installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure LDAP client is not installed"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -827,8 +959,10 @@ egrep -q "^(\s*)net.ipv4.ip_forward\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && 
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure IP forwarding is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure IP forwarding is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure packet redirect sending is disabled
@@ -840,6 +974,7 @@ sysctl -w net.ipv4.conf.all.send_redirects=0
 sysctl -w net.ipv4.conf.default.send_redirects=0
 sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure packet redirect sending is disabled"
+success=$((success + 1))
 
 ############################################################################################################################
 
@@ -853,6 +988,7 @@ echo -e "${RED}3.2.1${NC} Ensure source routed packets are not accepted"
 egrep -q "^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.all.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.all.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
 egrep -q "^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf && sed -ri "s/^(\s*)net.ipv4.conf.default.accept_source_route\s*=\s*\S+(\s*#.*)?\s*$/\1net.ipv4.conf.default.accept_source_route = 0\2/" /etc/sysctl.conf || echo "net.ipv4.conf.default.accept_source_route = 0" >> /etc/sysctl.conf
 echo -e "${GREEN}Remediated:${NC} Ensure source routed packets are not accepted"
+success=$((success + 1))
 
 #Ensure ICMP redirects are not accepted
 echo
@@ -863,6 +999,7 @@ sysctl -w net.ipv4.conf.all.accept_redirects=0
 sysctl -w net.ipv4.conf.default.accept_redirects=0
 sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure ICMP redirects are not accepted"
+success=$((success + 1))
 
 #Ensure secure ICMP redirects are not accepted
 echo
@@ -873,6 +1010,7 @@ sysctl -w net.ipv4.conf.all.secure_redirects=0
 sysctl -w net.ipv4.conf.default.secure_redirects=0
 sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure secure ICMP redirects are not accepted"
+success=$((success + 1))
 
 #Ensure suspicious packets are logged
 echo
@@ -883,6 +1021,7 @@ sysctl -w net.ipv4.conf.all.log_martians=1
 sysctl -w net.ipv4.conf.default.log_martians=1
 sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure suspicious packets are logged"
+success=$((success + 1))
 
 #Ensure broadcast ICMP requests are ignored
 echo
@@ -891,6 +1030,7 @@ egrep -q "^(\s*)net.ipv4.icmp_echo_ignore_broadcasts\s*=\s*\S+(\s*#.*)?\s*$" /et
 sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
 sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure broadcast ICMP requests are ignored"
+success=$((success + 1))
  
 #Ensure bogus ICMP responses are ignored
 echo
@@ -899,6 +1039,7 @@ egrep -q "^(\s*)net.ipv4.icmp_ignore_bogus_error_responses\s*=\s*\S+(\s*#.*)?\s*
 sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1
 sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure bogus ICMP responses are ignored"
+success=$((success + 1))
  
 #Ensure Reverse Path Filtering is enabled
 echo
@@ -909,6 +1050,7 @@ sysctl -w net.ipv4.conf.all.rp_filter=1
 sysctl -w net.ipv4.conf.default.rp_filter=1
 sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure Reverse Path Filtering is enabled"
+success=$((success + 1))
  
 #Ensure TCP SYN Cookies is enabled
 echo
@@ -917,6 +1059,7 @@ egrep -q "^(\s*)net.ipv4.tcp_syncookies\s*=\s*\S+(\s*#.*)?\s*$" /etc/sysctl.conf
 sysctl -w net.ipv4.tcp_syncookies=1
 sysctl -w net.ipv4.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure TCP SYN Cookies is enabled"
+success=$((success + 1))
 
 ############################################################################################################################
 
@@ -933,6 +1076,7 @@ sysctl -w net.ipv6.conf.all.accept_ra=0
 sysctl -w net.ipv6.conf.default.accept_ra=0
 sysctl -w net.ipv6.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure IPv6 router advertisements are not accepted"
+success=$((success + 1))
 
 #Ensure IPv6 redirects are not accepted
 echo
@@ -943,6 +1087,7 @@ sysctl -w net.ipv6.conf.all.accept_redirects=0
 sysctl -w net.ipv6.conf.default.accept_redirects=0
 sysctl -w net.ipv6.route.flush=1
 echo -e "${GREEN}Remediated:${NC} Ensure IPv6 redirects are not accepted"
+success=$((success + 1))
 
 #Ensure IPv6 is disabled
 echo
@@ -950,6 +1095,7 @@ echo -e "${RED}3.3.3${NC} Ensure IPv6 is disabled"
 egrep -q "^(\s*)GRUB_CMDLINE_LINUX\s*=\s*\S+(\s*#.*)?\s*$" /etc/default/grub && sed -ri "s/^(\s*)GRUB_CMDLINE_LINUX\s*=\s*\S+(\s*#.*)?\s*$/\1GRUB_CMDLINE_LINUX=\"ipv6.disable=1\"\2/" /etc/default/grub || echo "GRUB_CMDLINE_LINUX=\"ipv6.disable=1\"" >> /etc/default/grub
 grub2-mkconfig > /boot/grub2/grub.cfg
 echo -e "${GREEN}Remediated:${NC} Ensure IPv6 is disabled"
+success=$((success + 1))
 
 ############################################################################################################################
 
@@ -964,8 +1110,10 @@ yum install tcp_wrappers
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure TCP Wrappers is installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure TCP Wrappers is installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure /etc/hosts.deny is configured
@@ -975,8 +1123,10 @@ echo "ALL: ALL" >> /etc/hosts.deny
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure /etc/hosts.deny is configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure /etc/hosts.deny is configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/hosts.allow are configured
@@ -986,8 +1136,10 @@ chown root:root /etc/hosts.allow && chmod 644 /etc/hosts.allow
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/hosts.allow are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/hosts.allow are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/hosts.deny are configured
@@ -997,8 +1149,10 @@ chown root:root /etc/hosts.deny && chmod 644 /etc/hosts.deny
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/hosts.deny are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/hosts.deny are configured"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -1016,8 +1170,10 @@ lsmod | egrep "^dccp\s" && rmmod dccp
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure DCCP is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure DCCP is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure SCTP is disabled
@@ -1029,8 +1185,10 @@ lsmod | egrep "^sctp\s" && rmmod sctp
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SCTP is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SCTP is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure RDS is disabled
@@ -1042,8 +1200,10 @@ lsmod | egrep "^rds\s" && rmmod rds
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure RDS is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure RDS is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure TIPC is disabled
@@ -1054,8 +1214,10 @@ policystatus=$?
 lsmod | egrep "^tipc\s" && rmmod tipc
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure TIPC is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure TIPC is disabled"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -1071,8 +1233,10 @@ yum install iptables && policystatus=$?
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure iptables is installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure iptables is installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure default deny firewall policy
@@ -1082,8 +1246,10 @@ iptables -P INPUT DROP && iptables -P OUTPUT DROP && iptables -P FORWARD DROP
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure default deny firewall policy"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure default deny firewall policy"
+  fail=$((fail + 1))
 fi
 
 #Ensure loopback traffic is configured
@@ -1093,8 +1259,10 @@ iptables -A INPUT -i lo -j ACCEPT && iptables -A OUTPUT -o lo -j ACCEPT && iptab
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure loopback traffic is configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure loopback traffic is configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure outbound and established connections are configured
@@ -1121,6 +1289,7 @@ egrep -q "^(\s*)space_left_action\s*=\s*\S+(\s*#.*)?\s*$" /etc/audit/auditd.conf
 egrep -q "^(\s*)action_mail_acct\s*=\s*\S+(\s*#.*)?\s*$" /etc/audit/auditd.conf && sed -ri "s/^(\s*)action_mail_acct\s*=\s*\S+(\s*#.*)?\s*$/\1action_mail_acct = root\2/" /etc/audit/auditd.conf || echo "action_mail_acct = root" >> /etc/audit/auditd.conf
 egrep -q "^(\s*)admin_space_left_action\s*=\s*\S+(\s*#.*)?\s*$" /etc/audit/auditd.conf && sed -ri "s/^(\s*)admin_space_left_action\s*=\s*\S+(\s*#.*)?\s*$/\1admin_space_left_action = halt\2/" /etc/audit/auditd.conf || echo "admin_space_left_action = halt" >> /etc/audit/auditd.conf
 echo -e "${GREEN}Remediated:${NC} Ensure system is disabled when audit logs are full"
+success=$((success + 1))
 
 #Ensure audit logs are not automatically deleted
 echo
@@ -1129,8 +1298,10 @@ egrep -q "^(\s*)max_log_file_action\s*=\s*\S+(\s*#.*)?\s*$" /etc/audit/auditd.co
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure audit logs are not automatically deleted"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure audit logs are not automatically deleted"
+  fail=$((fail + 1))
 fi
 
 #Ensure auditd service is enabled
@@ -1140,8 +1311,10 @@ systemctl enable auditd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure auditd service is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure auditd service is enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure auditing for processes that start prior to auditd is enabled
@@ -1170,6 +1343,7 @@ egrep "^-w\s+/etc/gshadow\s+-p\s+wa\s+-k\s+identity\s*$" /etc/audit/rules.d/audi
 egrep "^-w\s+/etc/shadow\s+-p\s+wa\s+-k\s+identity\s*$" /etc/audit/rules.d/audit.rules || echo "-w /etc/shadow -p wa -k identity" >> /etc/audit/rules.d/audit.rules
 egrep "^-w\s+/etc/security/opasswd\s+-p\s+wa\s+-k\s+identity\s*$" /etc/audit/rules.d/audit.rules || echo "-w /etc/security/opasswd -p wa -k identity" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure events that modify user/group information are collected"
+success=$((success + 1))
 
 #Ensure events that modify the system's network environment are collected
 echo
@@ -1187,6 +1361,7 @@ echo
 echo -e "${RED}4.1.7${NC} Ensure events that modify the system's Mandatory Access Controls are collected"
 egrep "^-w\s+/etc/selinux/\s+-p\s+wa\s+-k\s+MAC-policy\s*$" /etc/audit/rules.d/audit.rules || echo "-w /etc/selinux/ -p wa -k MAC-policy" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure events that modify the system's Mandatory Access Controls are collected"
+success=$((success + 1))
 
 #Ensure login and logout events are collected
 echo
@@ -1194,6 +1369,7 @@ echo -e "${RED}4.1.8${NC} Ensure login and logout events are collected"
 egrep "^-w\s+/var/run/faillock/\s+-p\s+wa\s+-k\s+logins\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/run/faillock/ -p wa -k logins" >> /etc/audit/rules.d/audit.rules
 egrep "^-w\s+/var/log/lastlog\s+-p\s+wa\s+-k\s+logins\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/log/lastlog -p wa -k logins" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure login and logout events are collected"
+success=$((success + 1))
 
 #Ensure session initiation information is collected
 echo
@@ -1202,6 +1378,7 @@ egrep "^-w\s+/var/run/utmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/rules.d/audi
 egrep "^-w\s+/var/log/wtmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/log/wtmp -p wa -k session" >> /etc/audit/rules.d/audit.rules
 egrep "^-w\s+/var/log/btmp\s+-p\s+wa\s+-k\s+session\s*$" /etc/audit/rules.d/audit.rules || echo "-w /var/log/btmp -p wa -k session" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure session initiation information is collected"
+success=$((success + 1))
 
 #Ensure discretionary access control permission modification events are collected
 echo
@@ -1232,8 +1409,10 @@ done
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure use of privileged commands is collected"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure use of privileged commands is collected"
+  fail=$((fail + 1))
 fi
 
 #Ensure successful file system mounts are collected
@@ -1242,6 +1421,7 @@ echo -e "${RED}4.1.13${NC} Ensure successful file system mounts are collected"
 egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+-S\s+mount\s+-F\s+auid>=1000\s+-F\s+auid!=4294967295\s+-k\s+mounts\s*$" /etc/audit/rules.d/audit.rules || echo "-a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts" >> /etc/audit/rules.d/audit.rules
 uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+mount\s+-F\s+auid>=1000\s+-F\s+auid!=4294967295\s+-k\s+mounts\s*$" /etc/audit/rules.d/audit.rules || echo "-a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure successful file system mounts are collected"
+success=$((success + 1))
 
 #Ensure file deletion events by users are collected
 echo
@@ -1249,6 +1429,7 @@ echo -e "${RED}4.1.14${NC} Ensure file deletion events by users are collected"
 egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b32\s+-S\s+unlink\s+-S\s+unlinkat\s+-S\s+rename\s+-S\s+renameat\s+-F\s+auid>=1000\s+-F\s+auid!=4294967295\s+-k\s+delete\s*$" /etc/audit/rules.d/audit.rules || echo "-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete" >> /etc/audit/rules.d/audit.rules
 uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+-F\s+arch=b64\s+-S\s+unlink\s+-S\s+unlinkat\s+-S\s+rename\s+-S\s+renameat\s+-F\s+auid>=1000\s+-F\s+auid!=4294967295\s+-k\s+delete\s*$" /etc/audit/rules.d/audit.rules || echo "-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure file deletion events by users are collected"
+success=$((success + 1))
 
 #Ensure changes to system administration scope (sudoers) is collected
 echo
@@ -1256,6 +1437,7 @@ echo -e "${RED}4.1.15${NC} Ensure changes to system administration scope (sudoer
 egrep "^-w\s+/etc/sudoers\s+-p\s+wa\s+-k\s+scope\s*$" /etc/audit/rules.d/audit.rules || echo "-w /etc/sudoers -p wa -k scope" >> /etc/audit/rules.d/audit.rules
 egrep "^-w\s+/etc/sudoers.d\s+-p\s+wa\s+-k\s+scope\s*$" /etc/audit/rules.d/audit.rules || echo "-w /etc/sudoers.d -p wa -k scope" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure changes to system administration scope (sudoers) is collected"
+success=$((success + 1))
 
 #Ensure system administrator actions (sudolog) are collected
 echo
@@ -1264,8 +1446,10 @@ egrep "^-w\s+/var/log/sudo.log\s+-p\s+wa\s+-k\s+actions\s*$" /etc/audit/rules.d/
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure system administrator actions (sudolog) are collected"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure system administrator actions (sudolog) are collected"
+  fail=$((fail + 1))
 fi
 
 #Ensure kernel module loading and unloading is collected
@@ -1277,6 +1461,7 @@ egrep "^-w\s+/sbin/modprobe\s+-p\s+x\s+-k\s+modules\s*$" /etc/audit/rules.d/audi
 uname -p | grep -q 'x86_64' || egrep "^-a\s+(always,exit|exit,always)\s+arch=b32\s+-S\s+init_module\s+-S\s+delete_module\s+-k\s+modules\s*$" /etc/audit/rules.d/audit.rules || echo "-a always,exit arch=b32 -S init_module -S delete_module -k modules" >> /etc/audit/rules.d/audit.rules
 uname -p | grep -q 'x86_64' && egrep "^-a\s+(always,exit|exit,always)\s+arch=b64\s+-S\s+init_module\s+-S\s+delete_module\s+-k\s+modules\s*$" /etc/audit/rules.d/audit.rules || echo "-a always,exit arch=b64 -S init_module -S delete_module -k modules" >> /etc/audit/rules.d/audit.rules
 echo -e "${GREEN}Remediated:${NC} Ensure kernel module loading and unloading is collected"
+success=$((success + 1))
 
 #Ensure the audit configuration is immutable
 echo
@@ -1285,8 +1470,10 @@ grep "-e 2" /etc/audit/audit.rules || echo "-e 2" >> /etc/audit/audit.rules
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure the audit configuration is immutable"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure the audit configuration is immutable"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -1302,8 +1489,10 @@ systemctl enable rsyslog
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsyslog Service is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog Service is enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure rsyslog default file permissions configured
@@ -1330,8 +1519,10 @@ yum install syslog-ng && systemctl enable syslog-ng
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure syslog-ng service is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure syslog-ng service is enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure rsyslog or syslog-ng is installed
@@ -1341,8 +1532,10 @@ yum install rsyslog && yum install syslog-ng
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsyslog or syslog-ng is installed"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog or syslog-ng is installed"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on all logfiles are configured
@@ -1352,8 +1545,10 @@ find /var/log -type f -exec chmod g-wx,o-rwx {} +
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on all logfiles are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on all logfiles are configured"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -1369,8 +1564,10 @@ systemctl enable crond
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure cron daemon is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure cron daemon is enabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/crontab are configured
@@ -1380,8 +1577,10 @@ chown root:root /etc/crontab && chmod og-rwx /etc/crontab
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/crontab are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/crontab are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/cron.hourly are configured
@@ -1391,8 +1590,10 @@ chown root:root /etc/cron.hourly && chmod og-rwx /etc/cron.hourly
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/cron.hourly are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/cron.hourly are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/cron.daily are configured
@@ -1402,8 +1603,10 @@ chown root:root /etc/cron.daily && chmod og-rwx /etc/cron.daily
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/cron.daily are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/cron.daily are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/cron.weekly are configured
@@ -1413,8 +1616,10 @@ chown root:root /etc/cron.weekly && chmod og-rwx /etc/cron.weekly
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/cron.weekly are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/cron.weekly are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/cron.monthly are configured
@@ -1424,8 +1629,10 @@ chown root:root /etc/cron.monthly && chmod og-rwx /etc/cron.monthly
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/cron.monthly are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/cron.monthly are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/cron.d are configured
@@ -1435,8 +1642,10 @@ chown root:root /etc/cron.d && chmod og-rwx /etc/cron.d
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/cron.d are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/cron.d are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure at/cron is restricted to authorized users
@@ -1451,6 +1660,7 @@ chmod og-rwx /etc/at.allow
 chown root:root /etc/cron.allow
 chown root:root /etc/at.allow
 echo -e "${GREEN}Remediated:${NC} Ensure at/cron is restricted to authorized users"
+success=$((success + 1))
 
 ############################################################################################################################
 
@@ -1465,8 +1675,10 @@ chown root:root /etc/ssh/sshd_config && chmod og-rwx /etc/ssh/sshd_config
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/ssh/sshd_config are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/ssh/sshd_config are configured"
+  fail=$((fail + 1))
 fi
  
 #Ensure SSH Protocol is set to 2
@@ -1476,8 +1688,10 @@ egrep -q "^(\s*)Protocol\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH Protocol is set to 2"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH Protocol is set to 2"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH LogLevel is set to INFO
@@ -1487,8 +1701,10 @@ egrep -q "^(\s*)LogLevel\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH LogLevel is set to INFO"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH LogLevel is set to INFO"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH X11 forwarding is disabled
@@ -1498,8 +1714,10 @@ egrep -q "^(\s*)X11Forwarding\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -r
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH X11 forwarding is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH X11 forwarding is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH MaxAuthTries is set to 4 or less
@@ -1509,8 +1727,10 @@ egrep -q "^(\s*)MaxAuthTries\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH MaxAuthTries is set to 4 or less"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH MaxAuthTries is set to 4 or less"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH IgnoreRhosts is enabled
@@ -1520,8 +1740,10 @@ egrep -q "^(\s*)IgnoreRhosts\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH IgnoreRhosts is enabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH IgnoreRhosts is enabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure SSH HostbasedAuthentication is disabled
@@ -1531,8 +1753,10 @@ egrep -q "^(\s*)HostbasedAuthentication\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH HostbasedAuthentication is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH HostbasedAuthentication is disabled"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH root login is disabled
@@ -1542,8 +1766,10 @@ egrep -q "^(\s*)PermitRootLogin\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed 
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH root login is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH root login is disabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure SSH PermitEmptyPasswords is disabled
@@ -1553,8 +1779,10 @@ egrep -q "^(\s*)PermitEmptyPasswords\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config &&
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH PermitEmptyPasswords is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH PermitEmptyPasswords is disabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure SSH PermitUserEnvironment is disabled
@@ -1564,8 +1792,10 @@ egrep -q "^(\s*)PermitUserEnvironment\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config &
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH PermitUserEnvironment is disabled"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH PermitUserEnvironment is disabled"
+  fail=$((fail + 1))
 fi
  
 #Ensure only approved MAC algorithms are used
@@ -1575,8 +1805,10 @@ egrep -q "^(\s*)MACs\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure only approved MAC algorithms are used"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure only approved MAC algorithms are used"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH Idle Timeout Interval is configured
@@ -1585,6 +1817,7 @@ echo -e "${RED}5.2.12${NC} Ensure SSH Idle Timeout Interval is configured"
 egrep -q "^(\s*)ClientAliveInterval\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)ClientAliveInterval\s+\S+(\s*#.*)?\s*$/\1ClientAliveInterval 300\2/" /etc/ssh/sshd_config || echo "ClientAliveInterval 300" >> /etc/ssh/sshd_config
 egrep -q "^(\s*)ClientAliveCountMax\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)ClientAliveCountMax\s+\S+(\s*#.*)?\s*$/\1ClientAliveCountMax 0\2/" /etc/ssh/sshd_config || echo "ClientAliveCountMax 0" >> /etc/ssh/sshd_config
 echo -e "${GREEN}Remediated:${NC} Ensure SSH Idle Timeout Interval is configured"
+success=$((success + 1))
 
 #Ensure SSH LoginGraceTime is set to one minute or less
 echo
@@ -1593,8 +1826,10 @@ egrep -q "^(\s*)LoginGraceTime\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH LoginGraceTime is set to one minute or less"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH LoginGraceTime is set to one minute or less"
+  fail=$((fail + 1))
 fi
 
 #Ensure SSH warning banner is configured
@@ -1604,8 +1839,10 @@ egrep -q "^(\s*)Banner\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure SSH warning banner is configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH warning banner is configured"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -1625,6 +1862,7 @@ egrep -q "^(\s*)ucredit\s*=\s*\S+(\s*#.*)?\s*$" /etc/security/pwquality.conf && 
 egrep -q "^(\s*)ocredit\s*=\s*\S+(\s*#.*)?\s*$" /etc/security/pwquality.conf && sed -ri "s/^(\s*)ocredit\s*=\s*\S+(\s*#.*)?\s*$/\ocredit=-1\2/" /etc/security/pwquality.conf || echo "ocredit=-1" >> /etc/security/pwquality.conf
 egrep -q "^(\s*)lcredit\s*=\s*\S+(\s*#.*)?\s*$" /etc/security/pwquality.conf && sed -ri "s/^(\s*)lcredit\s*=\s*\S+(\s*#.*)?\s*$/\lcredit=-1\2/" /etc/security/pwquality.conf || echo "lcredit=-1" >> /etc/security/pwquality.conf
 echo -e "${GREEN}Remediated:${NC} Ensure password creation requirements are configured"
+success=$((success + 1))
 
 #Ensure password reuse is limited
 echo
@@ -1632,6 +1870,7 @@ echo -e "${RED}5.3.3${NC} Ensure password reuse is limited"
 egrep -q "^\s*password\s+sufficient\s+pam_unix.so(\s+.*)$" /etc/pam.d/password-auth && sed -ri '/^\s*password\s+sufficient\s+pam_unix.so\s+/ { /^\s*password\s+sufficient\s+pam_unix.so(\s+\S+)*(\s+remember=[0-9]+)(\s+.*)?$/! s/^(\s*password\s+sufficient\s+pam_unix.so\s+)(.*)$/\1remember=5 \2/ }' /etc/pam.d/password-auth && sed -ri 's/(^\s*password\s+sufficient\s+pam_unix.so(\s+\S+)*\s+)remember=[0-9]+(\s+.*)?$/\1remember=5\3/' /etc/pam.d/password-auth || echo "password sufficient pam_unix.so remember=5" >> /etc/pam.d/password-auth
 egrep -q "^\s*password\s+sufficient\s+pam_unix.so(\s+.*)$" /etc/pam.d/system-auth && sed -ri '/^\s*password\s+sufficient\s+pam_unix.so\s+/ { /^\s*password\s+sufficient\s+pam_unix.so(\s+\S+)*(\s+remember=[0-9]+)(\s+.*)?$/! s/^(\s*password\s+sufficient\s+pam_unix.so\s+)(.*)$/\1remember=5 \2/ }' /etc/pam.d/system-auth && sed -ri 's/(^\s*password\s+sufficient\s+pam_unix.so(\s+\S+)*\s+)remember=[0-9]+(\s+.*)?$/\1remember=5\3/' /etc/pam.d/system-auth || echo "password sufficient pam_unix.so remember=5" >> /etc/pam.d/system-auth
 echo -e "${GREEN}Remediated:${NC} Ensure password reuse is limited"
+success=$((success + 1))
 
 #Ensure password hashing algorithm is SHA-512
 echo
@@ -1639,6 +1878,7 @@ echo -e "${RED}5.3.4${NC} Ensure password hashing algorithm is SHA-512"
 egrep -q "^\s*password\s+sufficient\s+pam_unix.so\s+" /etc/pam.d/password-auth && sed -ri '/^\s*password\s+sufficient\s+pam_unix.so\s+/ { /^\s*password\s+sufficient\s+pam_unix.so(\s+\S+)*(\s+sha512)(\s+.*)?$/! s/^(\s*password\s+sufficient\s+pam_unix.so\s+)(.*)$/\1sha512 \2/ }' /etc/pam.d/password-auth || echo "password sufficient pam_unix.so sha512" >> /etc/pam.d/password-auth
 egrep -q "^\s*password\s+sufficient\s+pam_unix.so\s+" /etc/pam.d/system-auth && sed -ri '/^\s*password\s+sufficient\s+pam_unix.so\s+/ { /^\s*password\s+sufficient\s+pam_unix.so(\s+\S+)*(\s+sha512)(\s+.*)?$/! s/^(\s*password\s+sufficient\s+pam_unix.so\s+)(.*)$/\1sha512 \2/ }' /etc/pam.d/system-auth || echo "password sufficient pam_unix.so sha512" >> /etc/pam.d/system-auth
 echo -e "${GREEN}Remediated:${NC} Ensure password hashing algorithm is SHA-512"
+success=$((success + 1))
 
 ############################################################################################################################
 
@@ -1652,6 +1892,7 @@ echo -e "${RED}5.4.1.1${NC} Ensure password expiration is 365 days or less"
 egrep -q "^(\s*)PASS_MAX_DAYS\s+\S+(\s*#.*)?\s*$" /etc/login.defs && sed -ri "s/^(\s*)PASS_MAX_DAYS\s+\S+(\s*#.*)?\s*$/\PASS_MAX_DAYS 90\2/" /etc/login.defs || echo "PASS_MAX_DAYS 90" >> /etc/login.defs
 getent passwd | cut -f1 -d ":" | xargs -n1 chage --maxdays 90
 echo -e "${GREEN}Remediated:${NC} Ensure password expiration is 365 days or less"
+success=$((success + 1))
 
 #Ensure minimum days between password changes is 7 or more
 echo
@@ -1659,6 +1900,7 @@ echo -e "${RED}5.4.1.2${NC} Ensure minimum days between password changes is 7 or
 egrep -q "^(\s*)PASS_MIN_DAYS\s+\S+(\s*#.*)?\s*$" /etc/login.defs && sed -ri "s/^(\s*)PASS_MIN_DAYS\s+\S+(\s*#.*)?\s*$/\PASS_MIN_DAYS 7\2/" /etc/login.defs || echo "PASS_MIN_DAYS 7" >> /etc/login.defs
 getent passwd | cut -f1 -d ":" | xargs -n1 chage --mindays 7
 echo -e "${GREEN}Remediated:${NC} Ensure minimum days between password changes is 7 or more"
+success=$((success + 1))
 
 #Ensure password expiration warning days is 7 or more
 echo
@@ -1666,6 +1908,7 @@ echo -e "${RED}5.4.1.3${NC} Ensure password expiration warning days is 7 or more
 egrep -q "^(\s*)PASS_WARN_AGE\s+\S+(\s*#.*)?\s*$" /etc/login.defs && sed -ri "s/^(\s*)PASS_WARN_AGE\s+\S+(\s*#.*)?\s*$/\PASS_WARN_AGE 7\2/" /etc/login.defs || echo "PASS_WARN_AGE 7" >> /etc/login.defs
 getent passwd | cut -f1 -d ":" | xargs -n1 chage --warndays 7
 echo -e "${GREEN}Remediated:${NC} Ensure password expiration warning days is 7 or more"
+success=$((success + 1))
 
 #Ensure inactive password lock is 30 days or less
 echo
@@ -1674,8 +1917,10 @@ useradd -D -f 30 && getent passwd | cut -f1 -d ":" | xargs -n1 chage --inactive 
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure inactive password lock is 30 days or less"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure inactive password lock is 30 days or less"
+  fail=$((fail + 1))
 fi
 
 #Ensure system accounts are non-login
@@ -1692,8 +1937,10 @@ done
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure system accounts are non-login"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure system accounts are non-login"
+  fail=$((fail + 1))
 fi
 
 #Ensure default group for the root account is GID 0
@@ -1703,8 +1950,10 @@ usermod -g 0 root
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure default group for the root account is GID 0"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure default group for the root account is GID 0"
+  fail=$((fail + 1))
 fi
 
 #Ensure default user umask is 027 or more restrictive
@@ -1730,8 +1979,10 @@ egrep -q "^\s*auth\s+required\s+pam_wheel.so(\s+.*)?$" /etc/pam.d/su && sed -ri 
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure access to the su command is restricted"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure access to the su command is restricted"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -1747,8 +1998,10 @@ chown root:root /etc/passwd && chmod 644 /etc/passwd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/passwd are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/passwd are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/shadow are configured
@@ -1758,8 +2011,10 @@ chown root:root /etc/shadow && chmod 000 /etc/shadow
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/shadow are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/shadow are configured"
+  fail=$((fail + 1))
 fi
  
 #Ensure permissions on /etc/group are configured
@@ -1769,8 +2024,10 @@ chown root:root /etc/group && chmod 644 /etc/group
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/group are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/group are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/gshadow are configured
@@ -1780,8 +2037,10 @@ chown root:root /etc/gshadow && chmod 000 /etc/gshadow
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/gshadow are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/gshadow are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/passwd- are configured
@@ -1791,8 +2050,10 @@ chown root:root /etc/passwd- && chmod u-x,go-wx /etc/passwd-
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/passwd- are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/passwd- are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/shadow- are configured
@@ -1802,8 +2063,10 @@ chown root:root /etc/shadow- && chmod 000 /etc/shadow-
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/shadow- are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/shadow- are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/group- are configured
@@ -1813,8 +2076,10 @@ chown root:root /etc/group- && chmod u-x,go-wx /etc/group-
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/group- are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/group- are configured"
+  fail=$((fail + 1))
 fi
 
 #Ensure permissions on /etc/gshadow- are configured
@@ -1824,8 +2089,10 @@ chown root:root /etc/gshadow- && chmod 000 /etc/gshadow-
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure permissions on /etc/gshadow- are configured"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/gshadow- are configured"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
@@ -1841,8 +2108,10 @@ sed -ri '/^\+:.*$/ d' /etc/passwd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure no legacy '+' entries exist in /etc/passwd"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure no legacy '+' entries exist in /etc/passwd"
+  fail=$((fail + 1))
 fi
 
 #Ensure no legacy '+' entries exist in /etc/shadow
@@ -1852,8 +2121,10 @@ sed -ri '/^\+:.*$/ d' /etc/shadow
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure no legacy '+' entries exist in /etc/shadow"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure no legacy '+' entries exist in /etc/shadow"
+  fail=$((fail + 1))
 fi
 
 #Ensure no legacy '+' entries exist in /etc/group
@@ -1863,8 +2134,19 @@ sed -ri '/^\+:.*$/ d' /etc/group
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure no legacy '+' entries exist in /etc/group"
+  success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure no legacy '+' entries exist in /etc/group"
+  fail=$((fail + 1))
 fi
 
 ############################################################################################################################
+
+echo
+echo -e "${GREEN}Remediation script for Azure CentOS Linux 7 executed successfully!!${NC}"
+echo
+echo -e "${YELLOW}Summary:${NC}"
+echo -e "${YELLOW}Remediation Passed:${NC} $success" 
+echo -e "${YELLOW}Remediation Failed:${NC} $fail"
+
+###########################################################################################################################
