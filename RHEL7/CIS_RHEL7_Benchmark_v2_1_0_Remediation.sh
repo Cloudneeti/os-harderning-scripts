@@ -2248,7 +2248,7 @@ fi
 ###########################################################################################################################
 
 echo
-echo -e "${GREEN}Remediation script for Azure CentOS Linux 7 executed successfully!!${NC}"
+echo -e "${GREEN}Remediation script for Red Hat Enterprise Linux 7 executed successfully!!${NC}"
 echo
 echo -e "${YELLOW}Summary:${NC}"
 echo -e "${YELLOW}Remediation Passed:${NC} $success" 
