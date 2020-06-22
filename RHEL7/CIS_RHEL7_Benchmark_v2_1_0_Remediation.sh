@@ -35,9 +35,11 @@ fail=0
 
 yum update -y && yum install wget -y
 
+###########################################################################################################################
+
 ##Category 1.1 Initial Setup - Filesystem Configuration
 echo
-echo -e "${BLUE}1. Initial Setup - Filesystem Configuration${NC}"
+echo -e "${BLUE}1.1 Initial Setup - Filesystem Configuration${NC}"
 
 #Ensure mounting of cramfs filesystems is disabled
 echo
@@ -177,6 +179,12 @@ else
   fail=$((fail + 1))
 fi
 
+############################################################################################################################
+
+##Category 1.2 Initial Setup - Configure Software Updates
+echo
+echo -e "${BLUE}1.2 Initial Setup - Configure Software Updates${NC}"
+
 # Ensure gpgcheck is globally activated
 echo
 echo -e "${RED}1.2.2${NC} Ensure gpgcheck is globally activated"
@@ -198,6 +206,12 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure gpgcheck is globally activated"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 1.3 Initial Setup - Filesystem Integrity Checking
+echo
+echo -e "${BLUE}1.3 Initial Setup - Filesystem Integrity Checking${NC}"
 
 # Ensure AIDE is installed
 echo
@@ -238,6 +252,25 @@ else
   fail=$((fail + 1))
 fi
 
+############################################################################################################################
+
+##Category 1.4 Initial Setup - Secure Boot Settings
+echo
+echo -e "${BLUE}1.4 Initial Setup - Secure Boot Settings${NC}"
+
+#Ensure permissions on bootloader config are configured
+echo
+echo -e "${RED}1.4.1${NC} Ensure permissions on bootloader config are configured"
+rhel_1_4_1="$(chown root:root /boot/grub2/grub.cfg && chmod og-rwx /boot/grub2/grub.cfg && chown root:root /boot/grub2/user.cfg && chmod og-rwx /boot/grub2/user.cfg)"
+rhel_1_4_1=$?
+if [[ "$rhel_1_4_1" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure permissions on bootloader config are configured"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on bootloader config are configured"
+  fail=$((fail + 1))
+fi
+
 # Ensure authentication required for single user mode
 echo
 echo -e "${RED}1.4.3${NC} Ensure authentication required for single user mode"
@@ -252,6 +285,12 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure authentication required for single user mode"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 1.5 Initial Setup - Additional Process Hardening
+echo
+echo -e "${BLUE}1.5 Initial Setup - Additional Process Hardening${NC}"
 
 # Ensure core dumps are restricted
 echo
@@ -303,6 +342,57 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure prelink is disabled"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 1.6 Initial Setup - Mandatory Access Control
+echo
+echo -e "${BLUE}1.6 Initial Setup - Mandatory Access Control${NC}"
+
+# Ensure SELinux is installed
+echo
+echo -e "${RED}1.6.2${NC} Ensure SELinux is installed"
+rhel_1_6_2="$(rpm -q libselinux || yum -y install libselinux)"
+rhel_1_6_2=$?
+if [[ "$rhel_1_6_2" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure SELinux is installed"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure SELinux is installed"
+  fail=$((fail + 1))
+fi
+
+# Ensure SETroubleshoot is not installed
+echo
+echo -e "${RED}1.6.1.4${NC} Ensure SETroubleshoot is not installed"
+rhel_1_6_1_4="$(rpm -q setroubleshoot && yum -y remove setroubleshoot)"
+rhel_1_6_1_4=$?
+if [[ "$rhel_1_6_1_4" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure SETroubleshoot is not installed"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure SETroubleshoot is not installed"
+  fail=$((fail + 1))
+fi
+
+# Ensure the MCS Translation Service (mcstrans) is not installed
+echo
+echo -e "${RED}1.6.1.5${NC} Ensure the MCS Translation Service (mcstrans) is not installed"
+rhel_1_6_1_5="$(rpm -q mcstrans && yum -y remove mcstrans)"
+rhel_1_6_1_5=$?
+if [[ "$rhel_1_6_1_5" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure the MCS Translation Service (mcstrans) is not installed"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure the MCS Translation Service (mcstrans) is not installed"
+  fail=$((fail + 1))
+fi
+
+############################################################################################################################
+
+##Category 1.7 Initial Setup - Warning Banners
+echo
+echo -e "${BLUE}1.7 Initial Setup - Warning Banners${NC}"
 
 # Ensure message of the day is configured properly
 echo
@@ -382,46 +472,11 @@ else
   fail=$((fail + 1))
 fi
 
-# Ensure SELinux is installed
-echo
-echo -e "${RED}1.6.2${NC} Ensure SELinux is installed"
-rhel_1_6_2="$(rpm -q libselinux || yum -y install libselinux)"
-rhel_1_6_2=$?
-if [[ "$rhel_1_6_2" -eq 0 ]]; then
-  echo -e "${GREEN}Remediated:${NC} Ensure SELinux is installed"
-  success=$((success + 1))
-else
-  echo -e "${RED}UnableToRemediate:${NC} Ensure SELinux is installed"
-  fail=$((fail + 1))
-fi
+############################################################################################################################
 
-# Ensure SETroubleshoot is not installed
+##Category 2.1 Services - inetd Services
 echo
-echo -e "${RED}1.6.1.4${NC} Ensure SETroubleshoot is not installed"
-rhel_1_6_1_4="$(rpm -q setroubleshoot && yum -y remove setroubleshoot)"
-rhel_1_6_1_4=$?
-if [[ "$rhel_1_6_1_4" -eq 0 ]]; then
-  echo -e "${GREEN}Remediated:${NC} Ensure SETroubleshoot is not installed"
-  success=$((success + 1))
-else
-  echo -e "${RED}UnableToRemediate:${NC} Ensure SETroubleshoot is not installed"
-  fail=$((fail + 1))
-fi
-
-# Ensure the MCS Translation Service (mcstrans) is not installed
-echo
-echo -e "${RED}1.6.1.5${NC} Ensure the MCS Translation Service (mcstrans) is not installed"
-rhel_1_6_1_5="$(rpm -q mcstrans && yum -y remove mcstrans)"
-rhel_1_6_1_5=$?
-if [[ "$rhel_1_6_1_5" -eq 0 ]]; then
-  echo -e "${GREEN}Remediated:${NC} Ensure the MCS Translation Service (mcstrans) is not installed"
-  success=$((success + 1))
-else
-  echo -e "${RED}UnableToRemediate:${NC} Ensure the MCS Translation Service (mcstrans) is not installed"
-  fail=$((fail + 1))
-fi
-
-echo -e "${BLUE}2. RHEL 7 - Services ${NC}"
+echo -e "${BLUE}2.1 Services - inetd Services${NC}"
 
 # Ensure chargen services are not enabled
 echo
@@ -514,6 +569,12 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure xinetd is not enabled"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 2.2 Services - Special Purpose Services
+echo
+echo -e "${BLUE}2.2 Services - Special Purpose Services${NC}"
 
 # Ensure time synchronization is in use
 echo
@@ -826,6 +887,12 @@ else
   fail=$((fail + 1))
 fi
 
+############################################################################################################################
+
+##Category 2.3 Services - Service Clients
+echo
+echo -e "${BLUE}2.3 Services - Service Clients${NC}"
+
 # Ensure NIS Client is not installed
 echo
 echo -e "${RED}2.3.1${NC} Ensure NIS Client is not installed"
@@ -891,7 +958,11 @@ else
   fail=$((fail + 1))
 fi
 
-echo -e "${BLUE}3. RHEL 7 - Network Configuration ${NC}"
+############################################################################################################################
+
+##Category 3.1 Network Configuration - Network Parameters (Host Only)
+echo
+echo -e "${BLUE}3.1 Network Configuration - Network Parameters (Host Only)${NC}"
 
 # Ensure IP forwarding is disabled
 echo
@@ -932,6 +1003,12 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure packet redirect sending is disabled"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 3.2 Network Configuration - Network Parameters (Host and Router)
+echo
+echo -e "${BLUE}3.2 Network Configuration - Network Parameters (Host and Router)${NC}"
 
 # Ensure source routed packets are not accepted
 echo
@@ -1089,6 +1166,12 @@ else
   fail=$((fail + 1))
 fi
 
+############################################################################################################################
+
+##Category 3.3 Network Configuration - IPv6
+echo
+echo -e "${BLUE}3.3 Network Configuration - IPv6${NC}"
+
 # Ensure IPv6 router advertisements are not accepted
 echo
 echo -e "${RED}3.3.1${NC} Ensure IPv6 router advertisements are not accepted"
@@ -1131,6 +1214,12 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure IPv6 redirects are not accepted"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 3.4 Network Configuration - TCP Wrappers
+echo
+echo -e "${BLUE}3.4 Network Configuration - TCP Wrappers${NC}"
 
 # Ensure TCP Wrappers is installed
 echo
@@ -1199,6 +1288,12 @@ else
   fail=$((fail + 1))
 fi
 
+############################################################################################################################
+
+##Category 3.5 Network Configuration - Uncommon Network Protocols
+echo
+echo -e "${BLUE}3.5 Network Configuration - Uncommon Network Protocols${NC}"
+
 # Ensure DCCP is disabled
 echo
 echo -e "${RED}3.5.1${NC} Ensure DCCP is disabled"
@@ -1255,6 +1350,12 @@ else
   fail=$((fail + 1))
 fi
 
+############################################################################################################################
+
+##Category 3.6 Network Configuration - Firewall Configuration
+echo
+echo -e "${BLUE}3.6 Network Configuration - Firewall Configuration${NC}"
+
 # Ensure iptables is installed
 echo
 echo -e "${RED}3.6.1${NC} Ensure iptables is installed"
@@ -1268,59 +1369,11 @@ else
   fail=$((fail + 1))
 fi
 
-echo -e "${BLUE}4. RHEL 7 - Logging and Auditing ${NC}"
+############################################################################################################################
 
-# Ensure rsyslog Service is enabled
+##Category 4.1 Logging and Auditing - Configure System Accounting (auditd)
 echo
-echo -e "${RED}4.2.1.1${NC} Ensure rsyslog Service is enabled"
-rhel_4_2_1_1="$(rpm -q rsyslog && yum install rsyslog -y && systemctl enable rsyslog.service)"
-rhel_4_2_1_1=$?
-if [[ "$rhel_4_2_1_1" -eq 0 ]]; then
-  echo -e "${GREEN}Remediated:${NC} Ensure rsyslog Service is enabled"
-  success=$((success + 1))
-else
-  echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog Service is enabled"
-  fail=$((fail + 1))
-fi
-
-# Ensure syslog-ng service is enabled
-echo
-echo -e "${RED}4.2.2.1${NC} Ensure syslog-ng service is enabled"
-rhel_4_2_2_1="$(rpm -q syslog-ng && systemctl enable syslog-ng.service)"
-rhel_4_2_2_1=$?
-if [[ "$rhel_4_2_2_1" -eq 0 ]]; then
-  echo -e "${GREEN}Remediated:${NC} Ensure syslog-ng service is enabled"
-  success=$((success + 1))
-else
-  echo -e "${RED}UnableToRemediate:${NC} Ensure syslog-ng service is enabled"
-  fail=$((fail + 1))
-fi
-
-# Ensure rsyslog or syslog-ng is installed
-echo
-echo -e "${RED}4.2.3${NC} Ensure rsyslog or syslog-ng is installed"
-rhel_4_2_3="$(rpm -q rsyslog || rpm -q syslog-ng || yum -y install rsyslog)"
-rhel_4_2_3=$?
-if [[ "$rhel_4_2_3" -eq 0 ]]; then
-  echo -e "${GREEN}Remediated:${NC} Ensure rsyslog or syslog-ng is installed"
-  success=$((success + 1))
-else
-  echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog or syslog-ng is installed"
-  fail=$((fail + 1))
-fi
-
-# Ensure permissions on all logfiles are configured
-echo
-echo -e "${RED}4.2.4${NC} Ensure permissions on all logfiles are configured"
-rhel_4_2_4="$(chmod -R g-w-x,o-r-w-x /var/log/*)"
-rhel_4_2_4=$?
-if [[ "$rhel_4_2_4" -eq 0 ]]; then
-  echo -e "${GREEN}Remediated:${NC} Ensure permissions on all logfiles are configured"
-  success=$((success + 1))
-else
-  echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on all logfiles are configuredd"
-  fail=$((fail + 1))
-fi
+echo -e "${BLUE}4.1 Logging and Auditing - Configure System Accounting (auditd)${NC}"
 
 # Ensure system is disabled when audit logs are full
 echo
@@ -1627,6 +1680,7 @@ echo
 echo -e "${RED}4.1.18${NC} Ensure the audit configuration is immutable"
 rhel_4_1_18="$(egrep "^-e\s+2\s*$" /etc/audit/rules.d/audit.rules || echo "-e 2" >> /etc/audit/rules.d/audit.rules)"
 rhel_4_1_18=$?
+augenrules --load
 if [[ "$rhel_4_1_18" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure the audit configuration is immutable"
   success=$((success + 1))
@@ -1635,7 +1689,69 @@ else
   fail=$((fail + 1))
 fi
 
-echo -e "${BLUE}5. RHEL 7 - Access, Authentication and Authorization ${NC}"
+############################################################################################################################
+
+##Category 4.2 Logging and Auditing - Configure rsyslog
+echo
+echo -e "${BLUE}4.2 Logging and Auditing - Configure rsyslog${NC}"
+
+# Ensure rsyslog Service is enabled
+echo
+echo -e "${RED}4.2.1.1${NC} Ensure rsyslog Service is enabled"
+rhel_4_2_1_1="$(rpm -q rsyslog && yum install rsyslog -y && systemctl enable rsyslog.service)"
+rhel_4_2_1_1=$?
+if [[ "$rhel_4_2_1_1" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure rsyslog Service is enabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog Service is enabled"
+  fail=$((fail + 1))
+fi
+
+# Ensure syslog-ng service is enabled
+echo
+echo -e "${RED}4.2.2.1${NC} Ensure syslog-ng service is enabled"
+rhel_4_2_2_1="$(rpm -q syslog-ng && systemctl enable syslog-ng.service)"
+rhel_4_2_2_1=$?
+if [[ "$rhel_4_2_2_1" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure syslog-ng service is enabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure syslog-ng service is enabled"
+  fail=$((fail + 1))
+fi
+
+# Ensure rsyslog or syslog-ng is installed
+echo
+echo -e "${RED}4.2.3${NC} Ensure rsyslog or syslog-ng is installed"
+rhel_4_2_3="$(rpm -q rsyslog || rpm -q syslog-ng || yum -y install rsyslog)"
+rhel_4_2_3=$?
+if [[ "$rhel_4_2_3" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure rsyslog or syslog-ng is installed"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure rsyslog or syslog-ng is installed"
+  fail=$((fail + 1))
+fi
+
+# Ensure permissions on all logfiles are configured
+echo
+echo -e "${RED}4.2.4${NC} Ensure permissions on all logfiles are configured"
+rhel_4_2_4="$(chmod -R g-w-x,o-r-w-x /var/log/*)"
+rhel_4_2_4=$?
+if [[ "$rhel_4_2_4" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure permissions on all logfiles are configured"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on all logfiles are configuredd"
+  fail=$((fail + 1))
+fi
+
+############################################################################################################################
+
+##Category 5.1 Access, Authentication and Authorization - Configure cron
+echo
+echo -e "${BLUE}5.1 Access, Authentication and Authorization - Configure cron${NC}"
 
 # Ensure cron daemon is enabled
 echo
@@ -1746,6 +1862,12 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure at/cron is restricted to authorized users"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 5.2 Access, Authentication and Authorization - SSH Server Configuration
+echo
+echo -e "${BLUE}5.2 Access, Authentication and Authorization - SSH Server Configuration${NC}"
 
 # Ensure permissions on /etc/ssh/sshd_config are configured
 echo
@@ -1932,6 +2054,12 @@ else
   fail=$((fail + 1))
 fi
 
+############################################################################################################################
+
+##Category 5.3 Access, Authentication and Authorization - Configure PAM
+echo
+echo -e "${BLUE}5.3 Access, Authentication and Authorization - Configure PAM${NC}"
+
 # Ensure password creation requirements are configured
 echo
 echo -e "${RED}5.3.1${NC} Ensure password creation requirements are configured"
@@ -1986,6 +2114,12 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure password hashing algorithm is SHA-512"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 5.4 Access, Authentication and Authorization - User Accounts and Environment
+echo
+echo -e "${BLUE}5.4 Access, Authentication and Authorization - User Accounts and Environment${NC}"
 
 # Ensure password expiration is 90 days or less
 echo
@@ -2100,7 +2234,11 @@ else
   fail=$((fail + 1))
 fi
 
-echo -e "${BLUE}6. RHEL 7 - System Maintenance ${NC}"
+############################################################################################################################
+
+##Category 6.1 System Maintenance - System File Permissions
+echo
+echo -e "${BLUE}6.1 System Maintenance - System File Permissions${NC}"
 
 # Ensure permissions on /etc/passwd are configured
 echo
@@ -2205,6 +2343,12 @@ else
   echo -e "${RED}UnableToRemediate:${NC} Ensure permissions on /etc/gshadow- are configured"
   fail=$((fail + 1))
 fi
+
+############################################################################################################################
+
+##Category 6.2 System Maintenance - User and Group Settings
+echo
+echo -e "${BLUE}6.2 System Maintenance - User and Group Settings${NC}"
 
 # Ensure no legacy &quot;+&quot; entries exist in /etc/passwd
 echo
