@@ -17,7 +17,7 @@
     # PREREQUISITE
  
 .EXAMPLE
-    Command to execute : bash CIS_RHEL7_Benchmark_v2_1_0_Remediation.sh
+    Command to execute : bash CIS_RHEL7_Benchmark_v2_2_0_Remediation.sh
 .INPUTS
  
 .OUTPUTS
