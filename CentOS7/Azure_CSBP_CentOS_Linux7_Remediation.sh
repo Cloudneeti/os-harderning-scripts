@@ -4,8 +4,8 @@
 #SYNOPSIS
     Quick win script for remediation of CentOS Linux 7 baseline misconfigurations.
 .DESCRIPTION
-    This script will remediation 40 OS baseline misconfigurations for CentOS Linux 7 based Virtual machines on Azure.
-    **Total policies supported: 27
+    This script will remediate OS baseline misconfigurations for CentOS Linux 7 based Virtual machines on Azure.
+    **Total policies supported: 51
 
 .NOTES
 
@@ -36,6 +36,174 @@ success=0
 fail=0
 
 yum update -y && yum install wget -y
+
+############################################################################################################################
+
+##Category Azure (ASC) Services - Special Purpose Services
+echo
+echo -e "${BLUE}Azure (ASC) Services - Special Purpose Services${NC}"
+
+#The rpcidmapd service should be disabled
+echo
+echo -e "${RED}CCE-3568-3${NC} The rpcidmapd service should be disabled"
+chkconfig rpcidmapd off
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The rpcidmapd service should be disabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The rpcidmapd service should be disabled"
+  fail=$((fail + 1))
+fi
+
+#Zeroconf networking should be disabled
+echo
+echo -e "${RED}CCE-14054-1${NC} Zeroconf networking should be disabled"
+systemctl disable avahi-daemon
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Zeroconf networking should be disabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Zeroconf networking should be disabled"
+  fail=$((fail + 1))
+fi
+
+#Ensure auditd package is installed
+echo
+echo -e "${RED}CCE-4240-1${NC} Ensure auditd package is installed"
+systemctl disable avahi-daemon
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure auditd package is installed"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure auditd package is installed"
+  fail=$((fail + 1))
+fi
+
+#The isc-dhcp-server package should be uninstalled
+echo
+echo -e "${RED}CCE-4464-4${NC} The isc-dhcp-server package should be uninstalled"
+yum -y remove isc-dhcp-server
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The isc-dhcp-server package should be uninstalled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The isc-dhcp-server package should be uninstalled"
+  fail=$((fail + 1))
+fi
+
+#The rpcgssd service should be disabled
+echo
+echo -e "${RED}CCE-3535-2${NC} The rpcgssd service should be disabled"
+chkconfig rpcgssd off
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The rpcgssd service should be disabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The rpcgssd service should be disabled"
+  fail=$((fail + 1))
+fi
+
+#The bluetooth/hidd service should be disabled
+echo
+echo -e "${RED}CCE-4355-4${NC} The bluetooth/hidd service should be disabled"
+chkconfig bluetooth off && chkconfig hidd off
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The bluetooth/hidd service should be disabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The bluetooth/hidd service should be disabled"
+  fail=$((fail + 1))
+fi
+
+#The rpcsvcgssd service should be disabled
+echo
+echo -e "${RED}CCE-4491-7${NC} The rpcsvcgssd service should be disabled"
+chkconfig rpcsvcgssd off
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The rpcsvcgssd service should be disabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The rpcsvcgssd service should be disabled"
+  fail=$((fail + 1))
+fi
+
+#The portmap service should be disabled
+echo
+echo -e "${RED}CCE-4550-0${NC} The portmap service should be disabled"
+chkconfig portmap off
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The portmap service should be disabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The portmap service should be disabled"
+  fail=$((fail + 1))
+fi
+
+#The readahead-fedora package should be uninstalled
+echo
+echo -e "${RED}CCE-4421-4${NC} The readahead-fedora package should be uninstalled"
+yum -y remove readahead-fedora
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The readahead-fedora package should be uninstalled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The readahead-fedora package should be uninstalled"
+  fail=$((fail + 1))
+fi
+
+#The rlogin service should be disabled
+echo
+echo -e "${RED}CCE-3537-8${NC} The rlogin service should be disabled"
+systemctl disable rsh.socket.service && systemctl disable rlogin.socket.service && systemctl disable rexec.socket.service
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The rlogin service should be disabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The rlogin service should be disabled"
+  fail=$((fail + 1))
+fi
+
+#The rsh-server package should be uninstalled
+echo
+echo -e "${RED}CCE-4308-3${NC} The rsh-server package should be uninstalled"
+yum -y remove rsh
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} The rsh-server package should be uninstalled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} The rsh-server package should be uninstalled"
+  fail=$((fail + 1))
+fi
+
+###########################################################################################################################
+
+##Category Azure (ASC) System Maintenance - System File Permissions
+echo
+echo -e "${BLUE}Azure (ASC) System Maintenance - System File Permissions${NC}"
+
+#File permissions for /etc/anacrontab should be set to root:root 600
+echo
+echo -e "${RED}CCE-4304-2${NC} File permissions for /etc/anacrontab should be set to root:root 600"
+chown root:root /etc/anacrontab && chmod 600 /etc/anacrontab
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} File permissions for /etc/anacrontab should be set to root:root 600"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} File permissions for /etc/anacrontab should be set to root:root 600"
+  fail=$((fail + 1))
+fi
 
 ###########################################################################################################################
 
@@ -101,6 +269,45 @@ else
   fail=$((fail + 1))
 fi
 
+#Ensure Samba is not enabled
+echo
+echo -e "${RED}2.2.12${NC} Ensure Samba is not enabled"
+systemctl disable smb
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure Samba is not enabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure Samba is not enabled"
+  fail=$((fail + 1))
+fi
+
+#Ensure SNMP Server is not enabled
+echo
+echo -e "${RED}2.2.14${NC} Ensure SNMP Server is not enabled"
+systemctl disable snmpd
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure SNMP Server is not enabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure SNMP Server is not enabled"
+  fail=$((fail + 1))
+fi
+
+#Ensure NIS Server is not enabled
+echo
+echo -e "${RED}2.2.16${NC} Ensure NIS Server is not enabled"
+systemctl disable ypserv
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure NIS Server is not enabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure NIS Server is not enabled"
+  fail=$((fail + 1))
+fi
+
 #Ensure rsh server is not enabled
 echo
 echo -e "${RED}2.2.17${NC} Ensure rsh server is not enabled"
@@ -127,6 +334,19 @@ else
   fail=$((fail + 1))
 fi
 
+#Ensure rsync service is not enabled
+echo
+echo -e "${RED}2.2.20${NC} Ensure rsync service is not enabled"
+systemctl disable rsyncd
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure rsync service is not enabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure rsync service is not enabled"
+  fail=$((fail + 1))
+fi
+
 ###########################################################################################################################
 
 ##Category 2.3 Services - Service Clients
@@ -136,7 +356,7 @@ echo -e "${BLUE}2.3 Services - Service Clients${NC}"
 #Ensure rsh client is not installed
 echo
 echo -e "${RED}2.3.2${NC} Ensure rsh client is not installed"
-yum remove rsh
+yum -y remove rsh
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure rsh client is not installed"
@@ -251,6 +471,25 @@ else
   fail=$((fail + 1))
 fi
 
+############################################################################################################################
+
+##Category 4.1 Logging and Auditing - Configure System Accounting (auditd)
+echo
+echo -e "${BLUE}4.1 Logging and Auditing - Configure System Accounting (auditd)${NC}"
+
+#Ensure auditd service is enabled
+echo
+echo -e "${RED}4.1.2${NC} Ensure auditd service is enabled"
+systemctl start auditd && systemctl enable auditd
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure auditd service is enabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure auditd service is enabled"
+  fail=$((fail + 1))
+fi
+
 ###########################################################################################################################
 
 ##Category 4.2 Logging and Auditing - Configure rsyslog
@@ -288,6 +527,19 @@ grep "$InputTCPServerRun 514" /etc/rsyslog.conf || echo "$""InputTCPServerRun 51
 pkill -HUP rsyslogd
 success=$((success + 1))
 echo -e "${GREEN}Remediated:${NC} Ensure remote rsyslog messages are only accepted on designated log hosts"
+
+#Ensure syslog-ng service is enabled
+echo
+echo -e "${RED}4.2.2.1${NC} Ensure syslog-ng service is enabled"
+yum install syslog-ng && systemctl enable syslog-ng
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure syslog-ng service is enabled"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure syslog-ng service is enabled"
+  fail=$((fail + 1))
+fi
 
 #Ensure rsyslog or syslog-ng is installed
 echo
@@ -340,6 +592,33 @@ else
   fail=$((fail + 1))
 fi
 
+#Ensure SSH LogLevel is set to INFO
+echo
+echo -e "${RED}5.2.3${NC} Ensure SSH LogLevel is set to INFO"
+egrep -q "^(\s*)LogLevel\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)LogLevel\s+\S+(\s*#.*)?\s*$/\1LogLevel INFO\2/" /etc/ssh/sshd_config || echo "LogLevel INFO" >> /etc/ssh/sshd_config
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure SSH LogLevel is set to INFO"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure SSH LogLevel is set to INFO"
+  fail=$((fail + 1))
+fi
+
+
+#Ensure SSH MaxAuthTries is set to 4 or less
+echo
+echo -e "${RED}5.2.5${NC} Ensure SSH MaxAuthTries is set to 4 or less"
+egrep -q "^(\s*)MaxAuthTries\s+\S+(\s*#.*)?\s*$" /etc/ssh/sshd_config && sed -ri "s/^(\s*)MaxAuthTries\s+\S+(\s*#.*)?\s*$/\1MaxAuthTries 4\2/" /etc/ssh/sshd_config || echo "MaxAuthTries 4" >> /etc/ssh/sshd_config
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure SSH MaxAuthTries is set to 4 or less"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure SSH MaxAuthTries is set to 4 or less"
+  fail=$((fail + 1))
+fi
+
 #Ensure SSH IgnoreRhosts is enabled
 echo
 echo -e "${RED}5.2.6${NC} Ensure SSH IgnoreRhosts is enabled"
@@ -389,6 +668,67 @@ if [[ "$policystatus" -eq 0 ]]; then
   success=$((success + 1))
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure SSH PermitUserEnvironment is disabled"
+  fail=$((fail + 1))
+fi
+
+############################################################################################################################
+
+##Category 5.3 Access, Authentication and Authorization - Configure PAM
+echo
+echo -e "${BLUE}5.3 Access, Authentication and Authorization - Configure PAM${NC}"
+
+#Ensure password hashing algorithm is SHA-512
+echo
+echo -e "${RED}5.3.4${NC} Ensure password hashing algorithm is SHA-512"
+egrep -q "^\s*password\s+sufficient\s+pam_unix.so\s+" /etc/pam.d/password-auth && sed -ri '/^\s*password\s+sufficient\s+pam_unix.so\s+/ { /^\s*password\s+sufficient\s+pam_unix.so(\s+\S+)*(\s+sha512)(\s+.*)?$/! s/^(\s*password\s+sufficient\s+pam_unix.so\s+)(.*)$/\1sha512 \2/ }' /etc/pam.d/password-auth || echo "password sufficient pam_unix.so sha512" >> /etc/pam.d/password-auth
+egrep -q "^\s*password\s+sufficient\s+pam_unix.so\s+" /etc/pam.d/system-auth && sed -ri '/^\s*password\s+sufficient\s+pam_unix.so\s+/ { /^\s*password\s+sufficient\s+pam_unix.so(\s+\S+)*(\s+sha512)(\s+.*)?$/! s/^(\s*password\s+sufficient\s+pam_unix.so\s+)(.*)$/\1sha512 \2/ }' /etc/pam.d/system-auth || echo "password sufficient pam_unix.so sha512" >> /etc/pam.d/system-auth
+echo -e "${GREEN}Remediated:${NC} Ensure password hashing algorithm is SHA-512"
+success=$((success + 1))
+
+############################################################################################################################
+
+##Category 5.4 Access, Authentication and Authorization - User Accounts and Environment
+echo
+echo -e "${BLUE}5.4 Access, Authentication and Authorization - User Accounts and Environment${NC}"
+
+#Ensure minimum days between password changes is 7 or more
+echo
+echo -e "${RED}5.4.1.2${NC} Ensure minimum days between password changes is 7 or more"
+egrep -q "^(\s*)PASS_MIN_DAYS\s+\S+(\s*#.*)?\s*$" /etc/login.defs && sed -ri "s/^(\s*)PASS_MIN_DAYS\s+\S+(\s*#.*)?\s*$/\PASS_MIN_DAYS 7\2/" /etc/login.defs || echo "PASS_MIN_DAYS 7" >> /etc/login.defs
+getent passwd | cut -f1 -d ":" | xargs -n1 chage --mindays 7
+echo -e "${GREEN}Remediated:${NC} Ensure minimum days between password changes is 7 or more"
+success=$((success + 1))
+
+#Ensure system accounts are non-login
+echo
+echo -e "${RED}5.4.2${NC} Ensure system accounts are non-login"
+for user in `awk -F: '($3 < 1000) {print $1 }' /etc/passwd`; do
+  if [ $user != "root" ]; then
+    /usr/sbin/usermod -L $user
+    if [ $user != "sync" ] && [ $user != "shutdown" ] && [ $user != "halt" ]; then
+      /usr/sbin/usermod -s /sbin/nologin $user
+    fi
+  fi
+done
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure system accounts are non-login"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure system accounts are non-login"
+  fail=$((fail + 1))
+fi
+
+#Ensure default group for the root account is GID 0
+echo
+echo -e "${RED}5.4.3${NC} Ensure default group for the root account is GID 0"
+usermod -g 0 root
+policystatus=$?
+if [[ "$policystatus" -eq 0 ]]; then
+  echo -e "${GREEN}Remediated:${NC} Ensure default group for the root account is GID 0"
+  success=$((success + 1))
+else
+  echo -e "${RED}UnableToRemediate:${NC} Ensure default group for the root account is GID 0"
   fail=$((fail + 1))
 fi
 
