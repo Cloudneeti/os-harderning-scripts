@@ -56,7 +56,7 @@ Configuration CIS_WindowsServer2019 {
             # CceId: CCE-37432-2
             # DataSource: Security Policy
             # Ensure 'Accounts: Guest account status' is set to 'Disabled' 
-            Accounts_Guest_account_status = 'Disabled'
+            # Accounts_Guest_account_status = 'Disabled'
 
 
             # CceId: CCE-36534-6
