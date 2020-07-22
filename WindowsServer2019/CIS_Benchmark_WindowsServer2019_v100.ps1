@@ -23,12 +23,12 @@
             Install-Module -Name <ModuleName> -MinimumVersion <Version>
 .EXAMPLE
     
-    .\CSBP_WindowsServer2012_R2.ps1 [Script will generate MOF files in directory]
-    Start-DscConfiguration -Path .\CSBP_WindowsServer2012_R2  -Force -Verbose -Wait
+    .\CIS_Benchmark_WindowsServer2019_v100.ps1 [Script will generate MOF files in directory]
+    Start-DscConfiguration -Path .\CIS_Benchmark_WindowsServer2019_v100  -Force -Verbose -Wait
 #>
 
 # Configuration Definition
-Configuration CIS_WindowsServer2019 {
+Configuration CIS_Benchmark_WindowsServer2019_v100 {
     param (
         [string[]]$ComputerName = 'localhost'
     )
@@ -56,7 +56,7 @@ Configuration CIS_WindowsServer2019 {
             # CceId: CCE-37432-2
             # DataSource: Security Policy
             # Ensure 'Accounts: Guest account status' is set to 'Disabled' 
-            Accounts_Guest_account_status = 'Disabled'
+            #Accounts_Guest_account_status = 'Disabled'
 
 
             # CceId: CCE-36534-6
@@ -68,6 +68,11 @@ Configuration CIS_WindowsServer2019 {
             # DataSource: Security Policy
             # Ensure 'Minimum password age' is set to '1 or more day'
             Minimum_Password_Age                        = '2'
+
+            # CceId: CCE-37166-6
+            # DataSource: Security Policy
+            #  Ensure 'Enforce password history' is set to '24 or more password(s)'
+            Enforce_password_history                     = '24'
 
             # CceId: CCE-37167-4
             # DataSource: Security Policy
@@ -114,6 +119,14 @@ Configuration CIS_WindowsServer2019 {
             Policy   = 'Replace_a_process_level_token'
             Identity = 'LOCAL SERVICE, NETWORK SERVICE'
         }
+
+        # CceId:
+        # DataSource: Security Policy
+        <# Ensure 'Increase a process working set' is set to 'Administrators, Local Service'
+        UserRightsAssignment Increaseaprocessworkingset {
+            Policy   = 'Increase_a_process_working_set'
+            Identity = 'Administrators,  Local Service'
+        }#>
 
         # CceId: CCE-36052-9
         # DataSource: Security Policy
@@ -163,22 +176,21 @@ Configuration CIS_WindowsServer2019 {
             Identity = 'No One'
         }
 
+        # CceId: 
+        # DataSource: Security Policy
+        # Ensure 'Access  this computer from the network' is set to 'Administrators, Authenticated Users' (DC only)
+        UserRightsAssignment  Accessthiscomputerfromthenetwork {
+            Policy   = 'Access_this_computer_from_the_network'
+            Identity = 'Administrators, Authenticated Users'
+        }
+
         # CceId: CCE-36318-4
         # DataSource: Security Policy
         # Ensure 'Load and unload device drivers' is set to 'Administrators'
         UserRightsAssignment Loadandunloaddevicedrivers {
             Policy   = 'Load_and_unload_device_drivers'
             Identity = 'Administrators'
-        }
-
-        # CceId: CCE-38326-5
-        # DataSource: Security Policy
-        # Ensure 'Increase scheduling priority' is set to 'Administrators, Window Manager\Window Manager Group'
-        UserRightsAssignment Increaseschedulingpriority {
-            Policy   = 'Increase_scheduling_priority'
-            Identity = 'Administrators, Window Manager\Window Manager Group'
-        }
-    
+        }    
 
         # CceId: CCE-36867-0 
         # DataSource: Security Policy
@@ -235,6 +247,14 @@ Configuration CIS_WindowsServer2019 {
         UserRightsAssignment Createapagefile {
             Policy   = 'Create_a_pagefile'
             Identity = 'Administrators'
+        }
+
+        # CceId:
+        # DataSource: Security Policy
+        # Ensure 'Bypass traverse checking' is set to 'Administrators, Authenticated Users, Backup Operators, Local Service, Network Service'
+        UserRightsAssignment Bypasstraversechecking {
+            Policy   = 'Bypass_traverse_checking'
+            Identity = 'Administrators, Authenticated Users, Backup Operators, Local Service, Network Service'
         }
 
         # CceId: CCE-37700-2
@@ -317,12 +337,37 @@ Configuration CIS_WindowsServer2019 {
             Identity = 'Administrators'
         }
 
-        # CceId: 
+        # CceId: CCE-36860-5
         # DataSource: Security Policy
-        # Ensure 'Increase a process working' is set to 'Administrators, Local Service'
-        UserRightsAssignment  Increaseaprocessworking {
-            Policy   = 'Increase_a_process_working'
-            Identity = 'Administrators, Local Service'
+        # Ensure 'Enable computer and user accounts to be trusted for delegation' is set to 'Administrators' (DC only)
+        UserRightsAssignment  Enablecomputeranduseraccountstobetrustedfordelegation {
+            Policy   = 'Enable_computer_and_user_accounts_to_be_trusted_for_delegation'
+            Identity = 'Administrators'
+        }
+
+        # CceId: CCE-37954-5
+        # DataSource: Security Policy
+        # Ensure 'Deny access to this computer from the network' is set to 'Guests' (DC only)
+        UserRightsAssignment  Denyaccesstothiscomputerfromthenetwork {
+            Policy   = 'Deny_access_to_this_computer_from_the_network'
+            Identity = 'Guests'
+        }
+
+        # CceId: CCE-38326-5
+        # DataSource: Security Policy
+        # Ensure 'Increase scheduling priority' is set to 'Administrators, Window Manager\Window Manager Group'
+        UserRightsAssignment Increaseschedulingpriority {
+            Policy   = 'Increase_scheduling_priority'
+            Identity = 'Administrators'
+        }
+
+
+        # CceId: CCE-37072-6
+        # DataSource: Security Policy
+        # Ensure 'Allow log on through Remote Desktop Services' is set to 'Administrators' (DC only)
+        UserRightsAssignment  AllowlogonthroughRemoteDesktopServices {
+            Policy   = 'Allow_log_on_through_Remote_Desktop_Services'
+            Identity = 'Administrators'
         }
 
         # CceId: 
@@ -333,7 +378,6 @@ Configuration CIS_WindowsServer2019 {
             AuditFlag = 'Success'
             Ensure    = 'Present'
         }
-
         # CceId: CCE-38327-3
         # DataSource: Audit Policy
         # Ensure 'Audit Authentication Policy Change' is set to 'Success'
@@ -560,8 +604,13 @@ Configuration CIS_WindowsServer2019 {
 
         # CceId: CCE-36056-0
         # DataSource: Registry Policy
+        # Ensure 'Windows Search Service' is set to 'Disabled'
+        # Windows_Search_Service           =  'Disabled'    
+
+        # CceId: CCE-36056-0
+        # DataSource: Registry Policy
         # Ensure 'Interactive logon: Do not display last user name' is set to 'Enabled'
-        Interactive_logon_Do_not_display_last_user_name                                                                 = 'Enabled'
+        # Interactive_logon_Do_not_display_last_user_name                                                                 = 'Enabled'
         
         # CceId: CCE-37637-6
         # DataSource: Registry Policy
@@ -597,13 +646,13 @@ Configuration CIS_WindowsServer2019 {
         # DataSource: Registry Policy
         # Configure 'Network access: Remotely accessible registry paths and sub-paths' 
         # BUG - https://github.com/PowerShell/SecurityPolicyDsc/issues/83
-        Network_access_Remotely_accessible_registry_paths_and_subpaths                                                 = 'System\CurrentControlSet\Services\SysmonLog'
+        Network_access_Remotely_accessible_registry_paths_and_subpaths                                                 = 'System\CurrentControlSet\Control\Print\Printers|#|System\CurrentControlSet\Services\Eventlog|#|Software\Microsoft\OLAP Server|#|Software\Microsoft\Windows NT\CurrentVersion\Print|#|Software\Microsoft\Windows NT\CurrentVersion\Windows|#|System\CurrentControlSet\Control\ContentIndex|#|System\CurrentControlSet\Control\Terminal Server|#|System\CurrentControlSet\Control\Terminal Server\UserConfig|#|System\CurrentControlSet\Control\Terminal Server\DefaultUserConfiguration|#|Software\Microsoft\Windows NT\CurrentVersion\Perflib|#|System\CurrentControlSet\Services\SysmonLog'
 
         # CceId: CCE-37194-8
         # DataSource: Registry Policy
         # Configure 'Network access: Remotely accessible registry paths' 
         # BUG - https://github.com/PowerShell/SecurityPolicyDsc/issues/83
-        Network_access_Remotely_accessible_registry_paths                                                               = 'System\CurrentControlSet\Control\ProductOptions'
+        Network_access_Remotely_accessible_registry_paths                                                               = 'System\CurrentControlSet\Control\ProductOptions|#|System\CurrentControlSet\Control\Server Applications|#|Software\Microsoft\Windows NT\CurrentVersion'
 
 
         # CceId: CCE-36858-9
@@ -611,10 +660,14 @@ Configuration CIS_WindowsServer2019 {
         # Ensure 'Network security: LDAP client signing requirements' is set to 'Negotiate signing' or higher
         Network_security_LDAP_client_signing_requirements = 'Negotiate signing'
 
+        # CceId: 
+        # DataSource: Registry Policy
+        # Ensure 'System settings: Use Certificate Rules on Windows Executables for Software Restriction Policies' is set to 'Enabled'
+        # System_settings_Use_Certificate_Rules_on_Windows_Executables_for_Software_Restriction_Policies = 'Enabled'
 
         # CceId: CCE-37623-6  
         # DataSource: Registry Policy
-        #  Ensure 'Network access: Sharing and security model for local accounts' is set to 'Classic - local users authenticate as themselves'
+        # Ensure 'Network access: Sharing and security model for local accounts' is set to 'Classic - local users authenticate as themselves'
         Network_access_Sharing_and_security_model_for_local_accounts = 'Classic - local users authenticate as themselves'
 
         # CceId: CCE-35907-5
@@ -645,7 +698,7 @@ Configuration CIS_WindowsServer2019 {
         # CceId: CCE-37755-6
         # DataSource: Registry Policy
         # Ensure 'Network security: Configure encryption types allowed for Kerberos' is set to 'RC4_HMAC_MD5, AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types'
-        Network_security_Configure_encryption_types_allowed_for_Kerberos                = 'RC4_HMAC_MD5, AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types'
+        Network_security_Configure_encryption_types_allowed_for_Kerberos                = 'DES_CBC_CRC', 'DES_CBC_MD5', 'RC4_HMAC_MD5', 'AES128_HMAC_SHA1', 'AES256_HMAC_SHA1', 'FUTURE'
 
         # CceId: CCE-37701-0
         # DataSource: Registry Policy
@@ -686,31 +739,55 @@ Configuration CIS_WindowsServer2019 {
         # CceId: 
         # DataSource: Registry Policy
         # Ensure 'Devices: Allow undock without having to log on' is set to 'Enabled'
-        Devices_Allow_undock_without_having_to_log_on                                                = 'Enabled'
+        # Devices_Allow_undock_without_having_to_log_on                                                = 'Disabled'
 
         # CceId: CCE-37701-0
         # DataSource: Registry Policy
         # Ensure 'User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode' is set to 'Prompt for consent on the secure desktop'
         User_Account_Control_Behavior_of_the_elevation_prompt_for_administrators_in_Admin_Approval_Mode            = 'Prompt for consent on the secure desktop'
 
-        # CceId: CCE-38095-6
-        # DataSource: Registry Policy
-        # Ensure 'Network access: Shares that can be accessed anonymously' is set to 'None' 
-        Network_access_Shares_that_can_be_accessed_anonymously                                                          = 'None'
-
-        # CceId: 
-        # DataSource: Registry Policy
-        # Ensure 'Network access: Restrict clients allowed to make remote calls to SAM' is set to 'Administrators: Remote Access: Allow' (MS only)
-        # Network_access_Restrict_clients_allowed_to_make_remote_calls_to_SAM                  = 'Administrators: Remote Access: Allow'
         }
         
-        # CceId: 
+        # CceId: CCE-37864-6
         # DataSource: Registry Policy
-        # Ensure 'Allow Cortana above lock screen' is set to 'Disabled'
+        # Ensure 'Network security: Configure encryption types allowed for Kerberos' is set to 'RC4_HMAC_MD5, AES128_HMAC_SHA1, AES256_HMAC_SHA1, Future encryption types'
+        <#Registry 'SupportedEncryptionTypes' {
+            Ensure    = 'Present'
+            Key       = 'HKEY_LOCAL_MACHINE\Sofware\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters'
+            ValueName = 'SupportedEncryptionTypes'
+            ValueType = 'DWord'
+            ValueData = '2147483644'
+        }#>
+
+         # CceId: 
+        # DataSource: Registry Policy
+        <# Ensure 'Allow Cortana above lock screen' is set to 'Disabled'
         Registry 'AllowCortanaAboveLock' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
             ValueName = 'AllowCortanaAboveLock'
+            ValueType = 'DWord'
+            ValueData = '0'
+        }#>
+
+        # CceId: 
+        # DataSource: Registry Policy
+        # Ensure 'Network access: Restrict clients allowed to make remote calls to SAM' is set to 'Administrators: Remote Access: Allow' (MS only)
+        <#Registry 'RestrictRemoteSam' {
+            Ensure    = 'Present'
+            Key       = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa'
+            ValueName = 'RestrictRemoteSam'
+            ValueType = 'DWord'
+            ValueData = 'O:BAG:BAD:(A  RC   BA)'
+        }#>
+
+        # CceId: 
+        # DataSource: Registry Policy
+        # Ensure 'Network access: Shares that can be accessed anonymously' is set to 'None'
+        Registry 'NullSessionShares' {
+            Ensure    = 'Present'
+            Key       = 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanManServer\Parameters'
+            ValueName = 'NullSessionShares'
             ValueType = 'DWord'
             ValueData = '0'
         }
@@ -748,29 +825,27 @@ Configuration CIS_WindowsServer2019 {
             ValueData = '537395200'
         }
 
-
-
         # CceId: 
         # DataSource: Registry Policy
         # Ensure 'Windows Firewall: Domain: Settings: Apply local firewall rules' is set to 'Yes (default)'
-        Registry 'AllowLocalIPsecPolicyMerge' {
+        <#Registry 'AllowLocalIPsecPolicyMerge' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\DomainProfile'
             ValueName = 'AllowLocalIPsecPolicyMerge'
             ValueType = 'DWord'
             ValueData = '1'
-        }
+        }#>
 
         # CceId: CCE-36863-9 
         # DataSource: Registry Policy
-        # Ensure 'User Account Control: Allow UIAccess applications to prompt for elevation without using the secure desktop' is set to 'Disabled' 
+        <# Ensure 'User Account Control: Allow UIAccess applications to prompt for elevation without using the secure desktop' is set to 'Disabled' 
         Registry 'EnableUIADesktopToggle' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System'
             ValueName = 'EnableUIADesktopToggle'
             ValueType = 'DWord'
             ValueData = '0'
-        }
+        }#>
 
         # CceId: 
         # DataSource: Registry Policy
@@ -796,14 +871,14 @@ Configuration CIS_WindowsServer2019 {
 
         # CceId: 
         # DataSource: Registry Policy
-        # Enable 'Send file samples when further analysis is required' for 'Send Safe Samples'
+        <# Enable 'Send file samples when further analysis is required' for 'Send Safe Samples'
         Registry 'SubmitSamplesConsent' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Microsoft Antimalware\SpyNet'
             ValueName = 'SubmitSamplesConsent'
             ValueType = 'DWord'
             ValueData = '1'
-        }
+        }#>
 
         # CceId: 
         # DataSource: Registry Policy
@@ -818,69 +893,60 @@ Configuration CIS_WindowsServer2019 {
 
         # CceId: 
         # DataSource: Registry Policy
-        # Ensure 'Scan removable drives' is set to 'Enabled'
+        <# Ensure 'Detect change from default RDP port' is configured
         Registry 'PortNumber' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TerminalServer\WinStations\RDP-Tcp'
             ValueName = 'PortNumber'
             ValueType = 'DWord'
             ValueData = '3389'
-        }
+        }#>
 
         # CceId: 
         # DataSource: Registry Policy
-        # Ensure 'Allow search and Cortana to use location' is set to 'Disabled'
+        <# Ensure 'Allow search and Cortana to use location' is set to 'Disabled'
         Registry 'AllowSearchToUseLocation' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search'
             ValueName = 'AllowSearchToUseLocation'
             ValueType = 'DWord'
             ValueData = '0'
-        }
+        }#>
+
+       
 
         # CceId: 
         # DataSource: Registry Policy
-        # Ensure 'Configure Windows SmartScreen' is set to 'Enabled'
-        Registry 'EnableSmartScreen' {
-            Ensure    = 'Present'
-            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System'
-            ValueName = 'EnableSmartScreen'
-            ValueType = 'DWord'
-            ValueData = '1'
-        }
-
-        # CceId: 
-        # DataSource: Registry Policy
-        # Ensure 'Allow Input Personalization' is set to 'Disabled'
+        <# Ensure 'Allow Input Personalization' is set to 'Disabled'
         Registry 'AllowInputPersonalization' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\InputPersonalization'
             ValueName = 'AllowInputPersonalization'
             ValueType = 'DWord'
             ValueData = '0'
-        }
+        }#>
 
         # CceId: 
         # DataSource: Registry Policy
-        # Ensure 'Shutdown: Clear virtual memory pagefile' is set to 'Enabled'
+        <# Ensure 'Shutdown: Clear virtual memory pagefile' is set to 'Enabled'
         Registry 'ClearPageFileAtShutdown' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Memory Management'
             ValueName = 'ClearPageFileAtShutdown'
             ValueType = 'DWord'
             ValueData = '0'
-        }
+        }#>
 
         # CceId: 
         # DataSource: Registry Policy
-        # Ensure 'Recovery console: Allow floppy copy and access to all drives and all folders' is set to 'Disabled'
+        <# Ensure 'Recovery console: Allow floppy copy and access to all drives and all folders' is set to 'Disabled'
         Registry 'AllowAllPaths' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SetCommand'
             ValueName = 'AllowAllPaths'
             ValueType = 'DWord'
             ValueData = '0'
-        }
+        }#>
 
         # CceId: CCE-36864-7
         # DataSource: Registry Policy
@@ -895,14 +961,69 @@ Configuration CIS_WindowsServer2019 {
 
         # CceId: 
         # DataSource: Registry Policy
-        # Ensure 'Windows Firewall: Public: Settings: Apply local connection security rules' is set to 'Yes'
-        Registry 'AllowLocalIPsecPolicyMerge' {
+        # Ensure 'Windows Firewall: Domain: Settings: Apply local connection security rules' is set to 'Yes (default)'
+        <#Registry 'AllowLocalIPsecPolicyMerge' {
             Ensure    = 'Present'
-            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PublicProfile'
+            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\DomainProfile'
             ValueName = 'AllowLocalIPsecPolicyMerge'
             ValueType = 'DWord'
             ValueData = '1'
+        }#>
+
+        # CceId: 
+        # DataSource: Registry Policy
+        # Ensure 'Specify the interval to check for definition updates' is set to 'Enabled:1'
+        Registry 'SignatureUpdateInterval' {
+            Ensure    = 'Present'
+            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Microsoft Antimalware\Signature Updates'
+            ValueName = 'SignatureUpdateInterval'
+            ValueType = 'DWord'
+            ValueData = '8'
         }
+
+        # CceId: 
+        # DataSource: Registry Policy
+        # Ensure 'Windows Firewall: Private: Settings: Apply local connection security rules' is set to 'Yes'
+        <#Registry 'AllowLocalIPsecPolicyMerge' {
+            Ensure    = 'Present'
+            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PrivateProfile'
+            ValueName = 'AllowLocalIPsecPolicyMerge'
+            ValueType = 'DWord'
+            ValueData = '1'
+        }#>
+
+        # CceId: 
+        # DataSource: Registry Policy
+        <# Ensure 'Windows Firewall: Public: Allow unicast response' is set to 'No'
+        Registry 'DisableUnicastResponsesToMulticastBroadcast' {
+            Ensure    = 'Present'
+            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PublicProfile'
+            ValueName = 'DisableUnicastResponsesToMulticastBroadcast'
+            ValueType = 'DWord'
+            ValueData = '1'
+        }#>
+
+        # CceId: 
+        # DataSource: Registry Policy
+        # Ensure 'Windows Firewall: Private: Allow unicast response' is set to 'No'
+        <#Registry 'DisableUnicastResponsesToMulticastBroadcast' {
+            Ensure    = 'Present'
+            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\PrivateProfile'
+            ValueName = 'DisableUnicastResponsesToMulticastBroadcast'
+            ValueType = 'DWord'
+            ValueData = '1'
+        }#>
+
+        # CceId: 
+        # DataSource: Registry Policy
+        # Ensure 'Windows Firewall: Domain: Allow unicast response' is set to 'No'
+        <#Registry 'DisableUnicastResponsesToMulticastBroadcast' {
+            Ensure    = 'Present'
+            Key       = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\WindowsFirewall\DomainProfile'
+            ValueName = 'DisableUnicastResponsesToMulticastBroadcast'
+            ValueType = 'DWord'
+            ValueData = '0'
+        }#>
 
         # CceId: 
         # DataSource: Registry Policy
@@ -928,14 +1049,14 @@ Configuration CIS_WindowsServer2019 {
 
         # CceId: CCE-37843-0
         # DataSource: Registry Policy
-        # Ensure 'Enable Windows NTP Client' is set to 'Enabled'
+        <# Ensure 'Enable Windows NTP Client' is set to 'Enabled'
         Registry 'NTPClientEnabled' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\W32Time\TimeProviders\NtpClient'
             ValueName = 'Enabled'
             ValueType = 'DWord'
             ValueData = '1'
-        }
+        }#>
 
         # CceId: CCE-36512-2
         # DataSource: Registry Policy
@@ -1140,7 +1261,7 @@ Configuration CIS_WindowsServer2019 {
             Key       = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies\EarlyLaunch'
             ValueName = 'DriverLoadPolicy'
             ValueType = 'DWord'
-            ValueData = '1'
+            ValueData = '3'
         }
         
         
@@ -1292,7 +1413,7 @@ Configuration CIS_WindowsServer2019 {
             Key       = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
             ValueName = 'MinEncryptionLevel'
             ValueType = 'DWord'
-            ValueData = '1'
+            ValueData = '3'
         }
 
         
@@ -1467,13 +1588,13 @@ Configuration CIS_WindowsServer2019 {
         # CceId: CCE-37861-2
         # DataSource: Registry Policy
         # Ensure 'Windows Firewall: Public: Settings: Apply local firewall rules' is set to 'No'
-        Registry 'AllowLocalPolicyMerge' {
+        <#Registry 'AllowLocalPolicyMerge' {
             Ensure       = 'Present'
             Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
             ValueName    = 'AllowLocalPolicyMerge'
             ValueType    = 'DWord'
             ValueData    = '0'
-        }
+        }#>
 
         
 
@@ -1491,13 +1612,13 @@ Configuration CIS_WindowsServer2019 {
         # CceId: CCE-36268-1
         # DataSource: Registry Policy
         # Ensure 'Windows Firewall: Public: Settings: Apply local connection security rules' is set to 'No'
-        Registry 'AllowLocalIPsecPolicyMerge' {
+        <#Registry 'AllowLocalIPsecPolicyMerge' {
             Ensure       = 'Present'
             Key          = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
             ValueName    = 'AllowLocalIPsecPolicyMerge'
             ValueType    = 'DWord'
             ValueData    = '0'
-        }
+        }#>
 
         # CceId: CCE-37330-8
         # DataSource: Registry Policy
@@ -1518,7 +1639,7 @@ Configuration CIS_WindowsServer2019 {
             Key       = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
             ValueName = 'turuoffNotifications'
             ValueType = 'DWord'
-            ValueData = '0'
+            ValueData = '1'
         }
 
         # CceId: CCE-36875-3
@@ -1529,7 +1650,7 @@ Configuration CIS_WindowsServer2019 {
             Key       = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
             ValueName = 'NoDriveTypeAutoRun'
             ValueType = 'DWord'
-            ValueData = '1'
+            ValueData = '255'
         }
 
         # CceId: CCE-36146-9 
@@ -1706,7 +1827,7 @@ Configuration CIS_WindowsServer2019 {
             Key       = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile'
             ValueName = 'OutboundAction'
             ValueType = 'DWord'
-            ValueData = '1'
+            ValueData = '0'
         }
 
         # CceId: CCE-37434-8 
@@ -1744,14 +1865,14 @@ Configuration CIS_WindowsServer2019 {
 
         # CceId: CCE-37163-3 
         # DataSource: Registry Policy
-        # Ensure 'Turn off Internet Connection Wizard if URL connection is referring to Microsoft.com' is set to 'Enabled'
+        <# Ensure 'Turn off Internet Connection Wizard if URL connection is referring to Microsoft.com' is set to 'Enabled'
         Registry 'ExitOnMSICW' {
             Ensure    = 'Present'
             Key       = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Internet Connection Wizard'
             ValueName = 'ExitOnMSICW'
             ValueType = 'DWord'
             ValueData = '1'
-        }
+        }#>
 
         # CceId: 
         # DataSource: Registry Policy
@@ -1842,5 +1963,5 @@ Configuration CIS_WindowsServer2019 {
         }
     }
 }
-CIS_WindowsServer2019
+CIS_Benchmark_WindowsServer2019_v100
 
