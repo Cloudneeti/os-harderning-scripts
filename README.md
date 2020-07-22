@@ -2,9 +2,10 @@
 This repository contains a collection of scripts that will help to harden operating system baseline configuration supported by Cloudneeti.
 
 ## Supported Benchmark
+* CIS Microsoft Windows Server 2019 benchmark v1.0.0
 * CIS Microsoft Windows Server 2016 benchmark v1.0.0
 * CIS Microsoft Windows Server 2012 R2 benchmark v1.0.0
-* CIS RHEL 7 benchmark v2.1.0
+* CIS RHEL 7 benchmark v2.2.0
 * CIS CentOS 7 benchmark v2.2.0
 * CIS Ubuntu 18.04 benchmark v1.0.0
 
