@@ -23,12 +23,12 @@
             Install-Module -Name <ModuleName> -MinimumVersion <Version>
 .EXAMPLE
     
-    .\CIS_WindowsServer2019.ps1 [Script will generate MOF files in directory]
-    Start-DscConfiguration -Path .\CIS_WindowsServer2019  -Force -Verbose -Wait
+    .\CIS_Benchmark_WindowsServer2019_v100.ps1 [Script will generate MOF files in directory]
+    Start-DscConfiguration -Path .\CIS_Benchmark_WindowsServer2019_v100  -Force -Verbose -Wait
 #>
 
 # Configuration Definition
-Configuration CIS_WindowsServer2019 {
+Configuration CIS_Benchmark_WindowsServer2019_v100 {
     param (
         [string[]]$ComputerName = 'localhost'
     )
@@ -190,10 +190,7 @@ Configuration CIS_WindowsServer2019 {
         UserRightsAssignment Loadandunloaddevicedrivers {
             Policy   = 'Load_and_unload_device_drivers'
             Identity = 'Administrators'
-        }
-
-        
-    
+        }    
 
         # CceId: CCE-36867-0 
         # DataSource: Security Policy
@@ -827,8 +824,6 @@ Configuration CIS_WindowsServer2019 {
             ValueType = 'DWord'
             ValueData = '537395200'
         }
-
-
 
         # CceId: 
         # DataSource: Registry Policy
@@ -1968,5 +1963,5 @@ Configuration CIS_WindowsServer2019 {
         }
     }
 }
-CIS_WindowsServer2019
+CIS_Benchmark_WindowsServer2019_v100
 
