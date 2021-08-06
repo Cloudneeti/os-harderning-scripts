@@ -800,7 +800,7 @@ success=$((success + 1))
 #Ensure NIS Server is not enabled
 echo
 echo -e "${RED}2.2.16${NC} Ensure NIS Server is not enabled"
-systemctl disable ypserv
+systemctl disable nis
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure NIS Server is not enabled"
@@ -1229,7 +1229,7 @@ echo -e "${BLUE}3.6 Network Configuration - Firewall Configuration${NC}"
 #Ensure iptables is installed
 echo
 echo -e "${RED}3.6.1${NC} Ensure iptables is installed"
-yum install iptables && policystatus=$?
+yum install iptables
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure iptables is installed"

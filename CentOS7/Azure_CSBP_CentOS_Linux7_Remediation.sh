@@ -72,7 +72,7 @@ fi
 #Ensure auditd package is installed
 echo
 echo -e "${RED}CCE-4240-1${NC} Ensure auditd package is installed"
-systemctl disable avahi-daemon
+yum -y install autitd
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure auditd package is installed"
@@ -298,7 +298,7 @@ fi
 #Ensure NIS Server is not enabled
 echo
 echo -e "${RED}2.2.16${NC} Ensure NIS Server is not enabled"
-systemctl disable ypserv
+systemctl disable nis
 policystatus=$?
 if [[ "$policystatus" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure NIS Server is not enabled"
