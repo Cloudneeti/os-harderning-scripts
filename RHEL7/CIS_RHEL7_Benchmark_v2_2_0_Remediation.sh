@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+
 : '
 #SYNOPSIS
     Quick win script for remediation of RHEL 7 baseline misconfigurations.
@@ -84,7 +84,7 @@ else
 fi
 
 # Ensure mounting of hfs filesystems is disabled
-echo 
+echo
 echo -e "${RED}1.1.1.4${NC} Ensure mounting of hfs filesystems is disabled"
 rhel_1_1_1_4="$(modprobe -n -v hfs | grep "^install /bin/true$" || echo "install hfs /bin/true" >> /etc/modprobe.d/CIS.conf)"
 rhel_1_1_1_4=$?
@@ -145,7 +145,7 @@ echo -e "${RED}1.1.1.8${NC} Ensure mounting of FAT filesystems is disabled"
 rhel_1_1_1_8="$(modprobe -n -v vfat | grep "^install /bin/true$" || echo "install vfat /bin/true" >> /etc/modprobe.d/CIS.conf)"
 rhel_1_1_1_8=$?
 lsmod | egrep "^vfat\s" && rmmod vfat
-if [[ "$rhel_1_1_1_7" -eq 0 ]]; then
+if [[ "$rhel_1_1_1_8" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure mounting of FAT filesystems is disabled"
   success=$((success + 1))
 else
@@ -489,7 +489,7 @@ if [[ "$rhel_2_1_1" -eq 0 ]]; then
 else
   echo -e "${RED}UnableToRemediate:${NC} Ensure chargen services are not enabled"
   fail=$((fail + 1))
-fi 
+fi
 
 # Ensure daytime services are not enabled
 echo
@@ -1021,7 +1021,7 @@ rhel_3_2_1_temp_3="$(sysctl -w net.ipv4.conf.all.accept_source_route=0)"
 rhel_3_2_1_temp_3=$?
 rhel_3_2_1_temp_4="$(sysctl -w net.ipv4.conf.default.accept_source_route=0)"
 rhel_3_2_1_temp_4=$?
-rhel_3_2_1_temp_5="$sysctl -w net.ipv4.route.flush=1)"
+rhel_3_2_1_temp_5="$(sysctl -w net.ipv4.route.flush=1)"
 rhel_3_2_1_temp_5=$?
 if [[ "$rhel_3_2_1_temp_1" -eq 0 ]] && [[ "$rhel_3_2_1_temp_2" -eq 0 ]] && [[ "$rhel_3_2_1_temp_3" -eq 0 ]] && [[ "$rhel_3_2_1_temp_4" -eq 0 ]] && [[ "$rhel_3_2_1_temp_5" -eq 0 ]]; then
   echo -e "${GREEN}Remediated:${NC} Ensure source routed packets are not accepted"
@@ -2395,7 +2395,7 @@ echo
 echo -e "${GREEN}Remediation script for Red Hat Enterprise Linux 7 executed successfully!!${NC}"
 echo
 echo -e "${YELLOW}Summary:${NC}"
-echo -e "${YELLOW}Remediation Passed:${NC} $success" 
+echo -e "${YELLOW}Remediation Passed:${NC} $success"
 echo -e "${YELLOW}Remediation Failed:${NC} $fail"
 
 ###########################################################################################################################
